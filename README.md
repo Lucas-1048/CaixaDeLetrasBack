@@ -46,4 +46,4 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 
 * Express.js
 
-* MySQL
+* MongoDB
