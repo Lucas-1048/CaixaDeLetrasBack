@@ -47,3 +47,7 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 * Express.js
 
 * MongoDB
+
+## Frontend
+[Frontend Flutter](https://github.com/Lucas-1048/CaixaDeLetrasFront)
+
