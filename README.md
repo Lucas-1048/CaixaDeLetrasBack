@@ -20,6 +20,8 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 
 * Avalie e comente: Compartilhe sua opinião sobre os filmes que assistiu, escreva críticas completas e leia o que outros pensam.
 
+* Histórico de avaliações: Veja suas últimas avaliações em uma aba personalizada no aplicativo.
+
 * Conecte-se com a comunidade: Siga pessoas com gostos semelhantes, participe de debates e construa sua rede.
 
 * Fique por dentro: Acompanhe as últimas avaliações dos seus amigos, comentários e novas atividades no seu feed personalizado.
