@@ -1,7 +1,16 @@
 import { StatusCodes } from "http-status-codes";
-import { userValidation } from "../controllers/GetById";
 import { RequestHandler } from "express";
 import * as yup from "yup";
+
+export interface IUserLogin {
+    email: string;
+    password: string;
+}
+
+export const userValidation: yup.ObjectSchema<IUserLogin> = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().required().min(6).max(20),
+});
 
 export const BodyValidator: RequestHandler = async (req, res, next) => {
     try {
