@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, RequestHandler } from 'express';
 import { User } from '../models/User';
@@ -15,5 +14,5 @@ export const loginByEmailAndPassword = async (req: Request<{}, {}, IUserLogin>, 
         return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid email or password' });
     }
 
-    return res.status(StatusCodes.OK).json({ message: 'Login successful' });
+    return res.status(StatusCodes.CREATED).json({ message: 'Login successful' });
 };

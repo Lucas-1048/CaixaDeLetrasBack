@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, RequestHandler } from 'express';
 import { User, IUser } from '../models/User';
