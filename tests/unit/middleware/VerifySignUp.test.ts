@@ -22,13 +22,16 @@ describe('Duplicate checking', () => {
             body: {
                 user:'abcd1234',
                 email:'dce@gmail.com',
-                password:'567890'
+                password:'567890',
+                birthDate: new Date(),
+                gender: 'Male',
+                genres: ['Action', 'Drama']
             }
         })
         const response = httpMocks.createResponse()
         const next = jest.fn()
 
-        const user = new User({user: 'abcd1234', email:'abc@gmail.com', password:'123456'});
+        const user = new User({user: 'abcd1234', email:'abc@gmail.com', password:'123456', birthDate: new Date(), gender:'Female', genres:['Romance', 'Comedy']});
         await user.save();
 
         await SignUpMiddleware.checkDuplicateUsername(request, response, next)

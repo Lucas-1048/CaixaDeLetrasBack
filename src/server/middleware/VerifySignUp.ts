@@ -4,9 +4,12 @@ import { RequestHandler } from "express";
 import * as yup from "yup";
 
 const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
-    user: yup.string().required().min(4).max(20),
+    username: yup.string().required().min(4).max(20),
     email: yup.string().email().required(),
     password: yup.string().required().min(6).max(20),
+    birthDate: yup.date().required(),
+    gender: yup.string().required(),
+    genres: yup.array().of(yup.string().required()).required(),
 });
 
 export const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
