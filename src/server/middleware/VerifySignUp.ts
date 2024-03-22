@@ -3,7 +3,7 @@ import { IUser, User } from '../models/User'
 import { RequestHandler } from "express";
 import * as yup from "yup";
 
-export const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
+const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     username: yup.string().required().min(4).max(20),
     email: yup.string().email().required(),
     password: yup.string().required().min(6).max(20),
@@ -12,7 +12,7 @@ export const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     genres: yup.array().of(yup.string().required()).required(),
 });
 
-export const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
+const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
     try {
         const user = await User.findOne({email: req.body.email}).exec();
         if (user) return res.status(StatusCodes.BAD_REQUEST).json({ message: 'e-mail already registered' })
@@ -23,7 +23,7 @@ export const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
     return next();
 }
 
-export const checkDuplicateUsername : RequestHandler = async (req, res, next) => {
+const checkDuplicateUsername : RequestHandler = async (req, res, next) => {
     try {
         const user = await User.findOne({user: req.body.user}).exec();
         if (user) return res.status(StatusCodes.BAD_REQUEST).json({ message: 'username already registered' })
@@ -32,4 +32,10 @@ export const checkDuplicateUsername : RequestHandler = async (req, res, next) =>
     }
 
     return next();
+}
+
+export const VerifySignUp = {
+    signUpValidation,
+    checkDuplicateEmail,
+    checkDuplicateUsername,
 }

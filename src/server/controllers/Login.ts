@@ -1,8 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { Request, Response, RequestHandler } from 'express';
+import { Request, Response } from 'express';
 import { User } from '../models/User';
 import { IUserLogin } from '../middleware/LoginSchema';
 import bcrypt from "bcryptjs";
+import { JWTService } from '../services/JWTService';
 
 export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => {
     const user = await User.findOne({ email: req.body.email });
@@ -15,5 +16,14 @@ export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => 
         return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid email or password' });
     }
 
-    return res.status(StatusCodes.OK).json({ message: 'Login successful' });
+    try {
+        const accessToken = JWTService.sign({ uid: user._id });
+        if(accessToken === 'JWT_SECRET_NOT_FOUND') {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' });
+        }
+
+        return res.status(StatusCodes.OK).json({ message: 'Login successful' });
+    } catch (err) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
+    }
 };

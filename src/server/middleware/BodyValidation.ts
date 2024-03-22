@@ -4,7 +4,7 @@ import * as yup from 'yup';
 
 type TValidation = (schema: yup.ObjectSchema<any>) => RequestHandler;
 
-export const validation: TValidation = (schema) => async (req, res, next) => {
+export const bodyValidation: TValidation = (schema) => async (req, res, next) => {
     try {
         await schema.validate(req.body, { abortEarly: false });
         return next();
