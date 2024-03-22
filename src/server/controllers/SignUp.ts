@@ -6,9 +6,12 @@ import bcrypt from "bcryptjs";
 export const signUp = async (req: Request<{}, {}, IUser>, res: Response) => {
     try {
         const user = new User({
-            user: req.body.user,
+            username: req.body.username,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.password)
+            password: bcrypt.hashSync(req.body.password),
+            birthDate: req.body.birthDate,
+            genre: req.body.gender,
+            genres: req.body.genres,
         })
         await user.save()
         return res.status(StatusCodes.OK).json({ message: 'Signup successful' })
