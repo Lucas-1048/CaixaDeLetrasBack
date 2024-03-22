@@ -25,7 +25,7 @@ const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
 
 const checkDuplicateUsername : RequestHandler = async (req, res, next) => {
     try {
-        const user = await User.findOne({user: req.body.user}).exec();
+        const user = await User.findOne({username: req.body.username}).exec();
         if (user) return res.status(StatusCodes.BAD_REQUEST).json({ message: 'username already registered' })
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({err})
