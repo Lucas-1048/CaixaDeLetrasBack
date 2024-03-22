@@ -1,17 +1,6 @@
-import { StatusCodes } from 'http-status-codes';
 import { RequestHandler } from "express";
-import * as yup from "yup";
-import { JWTService } from '../services/JWTService';
-
-export interface IUserLogin {
-    email: string;
-    password: string;
-}
-
-const loginValidation: yup.ObjectSchema<IUserLogin> = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().required().min(6).max(20),
-});
+import { StatusCodes } from "http-status-codes";
+import { JWTService } from "../services/JWTService";
 
 const checkToken: RequestHandler = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -27,9 +16,4 @@ const checkToken: RequestHandler = async (req, res, next) => {
     } catch (err) {
         return res.status(StatusCodes.FORBIDDEN).json({ message: 'Access denied' });
     }
-}
-
-export const LoginSchema = {
-    loginValidation,
-    checkToken, 
 }

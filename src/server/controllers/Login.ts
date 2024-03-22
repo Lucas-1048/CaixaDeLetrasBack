@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { User } from '../models/User';
-import { IUserLogin } from '../middleware/LoginAuth';
+import { IUserLogin } from '../middleware/LoginSchema';
 import bcrypt from "bcryptjs";
 import { JWTService } from '../services/JWTService';
 
