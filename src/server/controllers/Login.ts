@@ -15,5 +15,5 @@ export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => 
         return res.status(StatusCodes.UNAUTHORIZED).json({ message: 'Invalid email or password' });
     }
 
-    return res.status(StatusCodes.CREATED).json({ message: 'Login successful' });
+    return res.status(StatusCodes.OK).json({ message: 'Login successful' });
 };
