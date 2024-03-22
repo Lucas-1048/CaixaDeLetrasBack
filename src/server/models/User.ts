@@ -1,13 +1,21 @@
 import mongoose from 'mongoose';
 
 export interface IUser {
-    user: string;
+    username: string;
     email: string;
     password: string;
+    birthDate: Date;
+    gender: string;
+    genres: string[];
 }
 
-export const User = mongoose.model<IUser>('User', new mongoose.Schema<IUser>({
-    user: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-}));
+const UserSchema = new mongoose.Schema({
+    user: {type: String, required: true},
+    email: {type: String, required: true, unique: true},
+    password: {type: String, required: true},
+    birthDate: {type: Date, required: true},
+    gender: {type: String, required: true},
+    genres: {type: [String], required: true},
+});
+
+export const User = mongoose.model<IUser>('User', UserSchema);
