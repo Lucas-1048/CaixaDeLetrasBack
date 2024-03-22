@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { LoginSchema } from '../middleware/LoginSchema';
+import { LoginSchema } from '../middleware/LoginAuth';
 import { bodyValidation } from '../middleware/BodyValidation';
 import { VerifySignUp } from '../middleware/VerifySignUp';
 import { signUp } from '../controllers/SignUp'
@@ -9,5 +9,5 @@ export const router = Router();
 
 router.post('/login', bodyValidation(LoginSchema.loginValidation), login);
 
-router.post('/signup', [bodyValidation(VerifySignUp.signUpValidation), 
-    VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername], signUp)
+router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
+    VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp)

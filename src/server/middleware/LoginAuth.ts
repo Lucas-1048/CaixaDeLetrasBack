@@ -20,7 +20,7 @@ const checkToken: RequestHandler = async (req, res, next) => {
     if(!token) return res.status(StatusCodes.FORBIDDEN).json({ message: 'Access denied' });
 
     try {
-        const jwtData = JWTService.verify(token.toString());
+        const jwtData = JWTService.verify(token);
         req.headers.idUser = jwtData.toString();   
 
         return next();

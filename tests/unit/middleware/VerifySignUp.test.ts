@@ -34,7 +34,7 @@ describe('Duplicate checking', () => {
         const user = new User({user: 'abcd1234', email:'abc@gmail.com', password:'123456', birthDate: new Date(), gender:'Female', genres:['Romance', 'Comedy']});
         await user.save();
 
-        await SignUpMiddleware.checkDuplicateUsername(request, response, next)
+        await SignUpMiddleware.VerifySignUp.checkDuplicateUsername(request, response, next)
         const data = response._getJSONData()
 
         expect(data.message).toEqual('username already registered')
