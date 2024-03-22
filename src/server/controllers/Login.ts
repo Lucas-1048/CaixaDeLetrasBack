@@ -1,10 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response, RequestHandler } from 'express';
 import { User } from '../models/User';
-import { IUserLogin } from '../middleware/LoginValidation';
+import { IUserLogin } from '../middleware/LoginSchema';
 import bcrypt from "bcryptjs";
 
-export const loginByEmailAndPassword = async (req: Request<{}, {}, IUserLogin>, res: Response) => {
+export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => {
     const user = await User.findOne({ email: req.body.email });
 
     if (!user) {

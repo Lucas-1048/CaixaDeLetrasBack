@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { BodyValidator } from '../middleware/LoginValidation';
-import { signUpBodyValidator, checkDuplicateEmail, checkDuplicateUsername } from '../middleware/VerifySignUp';
+import { loginValidation} from '../middleware/LoginSchema';
+import { validation } from '../middleware/BodyValidation';
+import { signUpValidation, checkDuplicateEmail, checkDuplicateUsername } from '../middleware/VerifySignUp';
 import { signUp } from '../controllers/SignUp'
-import { loginByEmailAndPassword } from '../controllers/Login';
+import { login } from '../controllers/Login';
 
 export const router = Router();
 
-router.post('/login', BodyValidator, loginByEmailAndPassword);
+router.post('/login', validation(loginValidation), login);
 
-router.post('/signup', [signUpBodyValidator, checkDuplicateEmail, checkDuplicateUsername], signUp)
+router.post('/signup', [validation(signUpValidation), checkDuplicateEmail, checkDuplicateUsername], signUp)
