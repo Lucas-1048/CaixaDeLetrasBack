@@ -10,7 +10,7 @@ export const signUp = async (req: Request<{}, {}, IUser>, res: Response) => {
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password),
             birthDate: req.body.birthDate,
-            genre: req.body.gender,
+            gender: req.body.gender,
             genres: req.body.genres,
         })
         await user.save()

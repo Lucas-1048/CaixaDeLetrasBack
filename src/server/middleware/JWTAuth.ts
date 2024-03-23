@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import { JWTService } from "../services/JWTService";
 
-const checkToken: RequestHandler = async (req, res, next) => {
+export const checkJwtToken: RequestHandler = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
 

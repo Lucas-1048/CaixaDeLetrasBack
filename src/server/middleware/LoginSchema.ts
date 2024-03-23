@@ -6,6 +6,6 @@ export interface IUserLogin {
 }
 
 export const loginValidation: yup.ObjectSchema<IUserLogin> = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().required().min(6).max(20),
+    email: yup.string().trim().email().required(),
+    password: yup.string().trim().required(),
 });

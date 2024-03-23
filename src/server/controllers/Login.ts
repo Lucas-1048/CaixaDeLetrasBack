@@ -22,7 +22,7 @@ export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => 
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' });
         }
 
-        return res.status(StatusCodes.OK).json({ message: 'Login successful' });
+        return res.status(StatusCodes.OK).json({ message: 'Login successful', uid: user._id, accessToken });
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
     }
