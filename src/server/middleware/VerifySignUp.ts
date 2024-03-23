@@ -12,7 +12,7 @@ const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     genres: yup.array().of(yup.string().required()).required(),
 });
 
-export const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
+const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
     try {
         const user = await User.findOne({email: req.body.email}).exec();
         if (user) return res.status(StatusCodes.BAD_REQUEST).json({ message: 'e-mail already registered' })
@@ -23,9 +23,9 @@ export const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
     return next();
 }
 
-export const checkDuplicateUsername : RequestHandler = async (req, res, next) => {
+const checkDuplicateUsername : RequestHandler = async (req, res, next) => {
     try {
-        const user = await User.findOne({user: req.body.user}).exec();
+        const user = await User.findOne({username: req.body.username}).exec();
         if (user) return res.status(StatusCodes.BAD_REQUEST).json({ message: 'username already registered' })
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({err})
@@ -34,19 +34,8 @@ export const checkDuplicateUsername : RequestHandler = async (req, res, next) =>
     return next();
 }
 
-export const signUpBodyValidator : RequestHandler = async (req, res, next) => {
-    try {
-        await signUpValidation.validate(req.body, { abortEarly: false });
-        return next();
-    } catch (err) {
-        const yupError = err as yup.ValidationError;
-
-        const errors: Record<string, string> = {};
-        yupError.inner.forEach(error => {
-            if (!error.path) return;
-            errors[error.path] = error.message;
-        });
-        return res.status(StatusCodes.BAD_REQUEST).json({ errors });
-    }
+export const VerifySignUp = {
+    signUpValidation,
+    checkDuplicateEmail,
+    checkDuplicateUsername,
 }
-//Function above might be worth to refactor along with ./LoginValidation.ts/BodyValidator
