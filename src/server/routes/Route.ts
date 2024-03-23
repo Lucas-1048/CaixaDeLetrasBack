@@ -3,9 +3,12 @@ import { BodyValidator } from '../middleware/LoginSchema';
 import { signUpBodyValidator, checkDuplicateEmail, checkDuplicateUsername } from '../middleware/VerifySignUp';
 import { signUp } from '../controllers/SignUp'
 import { login } from '../controllers/Login';
+import { genres } from '../controllers/Genres';
 
 export const router = Router();
 
 router.post('/login', BodyValidator, login);
 
-router.post('/signup', [signUpBodyValidator, checkDuplicateEmail, checkDuplicateUsername], signUp)
+router.post('/signup', [signUpBodyValidator, checkDuplicateEmail, checkDuplicateUsername], signUp);
+
+router.get('/genres', genres);
