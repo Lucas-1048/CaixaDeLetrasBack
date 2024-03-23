@@ -1,5 +1,5 @@
-import { initializeDatabase } from '../dbHandler';
-import { Follow } from '../../src/server/models/Follow'
+import { initializeDatabase } from '../../dbHandler';
+import { Follow } from '../../../src/server/models/Follow'
 import mongoose from 'mongoose';
 
 let dbHandler : any

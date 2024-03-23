@@ -1,5 +1,5 @@
-import { User, IUser } from '../../src/server/models/User';
-import { initializeDatabase } from '../dbHandler';
+import { User, IUser } from '../../../src/server/models/User';
+import { initializeDatabase } from '../../dbHandler';
 
 let dbHandler: any;
 

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { Review, IReview } from '../../src/server/models/Review';
-import { initializeDatabase } from '../dbHandler';
+import { Review, IReview } from '../../../src/server/models/Review';
+import { initializeDatabase } from '../../dbHandler';
 
 let dbHandler: any;
 

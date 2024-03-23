@@ -1,5 +1,5 @@
-import { initializeDatabase } from '../dbHandler';
-import { Movie, IMovie } from '../../src/server/models/Movie'
+import { initializeDatabase } from '../../dbHandler';
+import { Movie, IMovie } from '../../../src/server/models/Movie'
 
 let dbHandler : any
 
