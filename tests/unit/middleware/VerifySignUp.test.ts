@@ -1,6 +1,7 @@
 import { initializeDatabase } from '../../dbHandler';
 import { User } from '../../../src/server/models/User'
-import * as SignUpMiddleware from '../../../src/server/middleware/VerifySignUp'
+import { VerifySignUp } from '../../../src/server/middleware/VerifySignUp'
+import { bodyValidation } from '../../../src/server/middleware/BodyValidation'
 import httpMocks from 'node-mocks-http'
 import { StatusCodes } from "http-status-codes";
 
@@ -17,10 +18,15 @@ afterEach(async () => await dbHandler.clearDatabase());
 afterAll(async () => await dbHandler.closeDatabase());
 
 const validUser = {
-    user: '1234',
+    username: '1234',
     email: 'a@gmail.com',
     password: '123456',
+    birthDate: new Date(),
+    gender: 'Male',
+    genres: ['Action', 'Drama'],
 }
+
+const bodyValidator = bodyValidation(VerifySignUp.signUpValidation)
 
 describe('Duplicate checking', () => {
     const next = jest.fn()
@@ -35,8 +41,9 @@ describe('Duplicate checking', () => {
             }
         })
         const response = httpMocks.createResponse()
+        const next = jest.fn()
 
-        await SignUpMiddleware.checkDuplicateUsername(request, response, next)
+        await VerifySignUp.checkDuplicateUsername(request, response, next)
         const data = response._getJSONData()
 
         expect(data.message).toEqual('username already registered')
@@ -56,7 +63,7 @@ describe('Duplicate checking', () => {
         const response = httpMocks.createResponse()
         const next = jest.fn()
 
-        await SignUpMiddleware.checkDuplicateEmail(request, response, next)
+        await VerifySignUp.checkDuplicateEmail(request, response, next)
         const data = response._getJSONData()
 
         expect(data.message).toEqual('e-mail already registered')
@@ -70,7 +77,7 @@ describe('Duplicate checking', () => {
         })
         const response = httpMocks.createResponse()
 
-        await SignUpMiddleware.checkDuplicateUsername(request, response, next)
+        await VerifySignUp.checkDuplicateUsername(request, response, next)
 
         expect(next).toHaveBeenCalled()
     })
@@ -88,7 +95,7 @@ describe('Correct input validation', () => {
         })
         const res = httpMocks.createResponse()
 
-        await SignUpMiddleware.signUpBodyValidator(req, res, next)
+        await bodyValidator(req, res, next)
         const data = res._getJSONData()
 
         expect(next).not.toHaveBeenCalled()        
@@ -100,34 +107,34 @@ describe('Correct input validation', () => {
         const req = httpMocks.createRequest({
             body: {
                 ...validUser,
-                user: '123'
+                username: '123'
             }
         })
         const res = httpMocks.createResponse()
 
-        await SignUpMiddleware.signUpBodyValidator(req, res, next)
+        await bodyValidator(req, res, next)
         const data = res._getJSONData()
 
         expect(next).not.toHaveBeenCalled()        
         expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST)
-        expect(data.errors.user).toEqual('user must be at least 4 characters')
+        expect(data.errors.username).toEqual('username must be at least 4 characters')
     })
 
     test('Long username', async () => {
         const req = httpMocks.createRequest({
             body: {
                 ...validUser,
-                user: '123456789012345678901'
+                username: '123456789012345678901'
             }
         })
         const res = httpMocks.createResponse()
 
-        await SignUpMiddleware.signUpBodyValidator(req, res, next)
+        await bodyValidator(req, res, next)
         const data = res._getJSONData()
 
         expect(next).not.toHaveBeenCalled()        
         expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST)
-        expect(data.errors.user).toEqual('user must be at most 20 characters')
+        expect(data.errors.username).toEqual('username must be at most 20 characters')
     })
 
     test('Short password', async () => {
@@ -139,7 +146,7 @@ describe('Correct input validation', () => {
         })
         const res = httpMocks.createResponse()
 
-        await SignUpMiddleware.signUpBodyValidator(req, res, next)
+        await bodyValidator(req, res, next)
         const data = res._getJSONData()
 
         expect(next).not.toHaveBeenCalled()        
@@ -153,7 +160,7 @@ describe('Correct input validation', () => {
         })
         const res = httpMocks.createResponse()
 
-        await SignUpMiddleware.signUpBodyValidator(req, res, next)
+        await bodyValidator(req, res, next)
 
         expect(next).toHaveBeenCalled()        
     })
