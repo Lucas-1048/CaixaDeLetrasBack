@@ -20,7 +20,7 @@ describe('Duplicate checking', () => {
     test('Trying to signup already existing username', async () => {
         const request = httpMocks.createRequest({
             body: {
-                user:'abcd1234',
+                username:'abcd1234',
                 email:'dce@gmail.com',
                 password:'567890',
                 birthDate: new Date(),
@@ -31,10 +31,10 @@ describe('Duplicate checking', () => {
         const response = httpMocks.createResponse()
         const next = jest.fn()
 
-        const user = new User({user: 'abcd1234', email:'abc@gmail.com', password:'123456', birthDate: new Date(), gender:'Female', genres:['Romance', 'Comedy']});
+        const user = new User({username: 'abcd1234', email:'abc@gmail.com', password:'123456', birthDate: new Date(), gender:'Female', genres:['Romance', 'Comedy']});
         await user.save();
 
-        await SignUpMiddleware.checkDuplicateUsername(request, response, next)
+        await SignUpMiddleware.VerifySignUp.checkDuplicateUsername(request, response, next)
         const data = response._getJSONData()
 
         expect(data.message).toEqual('username already registered')
