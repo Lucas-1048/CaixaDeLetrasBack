@@ -16,6 +16,6 @@ export const signUp = async (req: Request<{}, {}, IUser>, res: Response) => {
         await user.save()
         return res.status(StatusCodes.CREATED).json({ message: 'Signup successful' })
     } catch (err) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
     }
 }

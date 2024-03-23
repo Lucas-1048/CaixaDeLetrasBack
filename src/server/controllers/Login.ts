@@ -21,8 +21,9 @@ export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => 
         if(accessToken === 'JWT_SECRET_NOT_FOUND') {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Internal server error' });
         }
+        res.cookie('access_token', accessToken, { httpOnly: true });
 
-        return res.status(StatusCodes.OK).json({ message: 'Login successful', uid: user._id, accessToken });
+        return res.status(StatusCodes.OK).json({ message: 'Login successful', uid: user._id });
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
     }
