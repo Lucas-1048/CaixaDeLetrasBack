@@ -13,6 +13,20 @@ const storage = multer.diskStorage({
 export const upload = multer({
     storage: storage,
     limits: { fileSize: Number(process.env.PROFILE_MAXSIZE)},
+    fileFilter: function(req, file, cb){
+        const allowedFileExtensions = ['.jpg', '.jpeg'];
+        const extension = path.extname(file.originalname).toLowerCase();
+        if (!allowedFileExtensions.includes(extension)) {
+            return cb(new Error('Only .jpg and .jpeg files are allowed'));
+        }
+
+        const allowedMimeTypes = ['image/jpeg', 'image/jpg'];
+        if (!allowedMimeTypes.includes(file.mimetype)) {
+            return cb(new Error('Only JPEG and PNG image files are allowed'));
+        }
+
+        cb(null, true);
+    },
 });
 
 const uploadProfile = async (req: Request, res: Response) => {
