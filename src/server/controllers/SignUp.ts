@@ -12,6 +12,8 @@ export const signUp = async (req: Request<{}, {}, IUser>, res: Response) => {
             birthDate: req.body.birthDate,
             gender: req.body.gender,
             genres: req.body.genres,
+            biography: '',
+            profilePicturePath: '',
         })
         await user.save()
         return res.status(StatusCodes.CREATED).json({ message: 'Signup successful' })
