@@ -33,7 +33,12 @@ const uploadProfile = async (req: Request, res: Response) => {
 const getProfilePicture = async(req: Request, res: Response) => {
     const user = res.locals.user;
 
-    return res.status(StatusCodes.OK).sendFile(`${process.env.PROFILE_DEST}${user.profilePicturePath}`, { root: '.' });
+    const file = path.resolve(process.env.PROFILE_DEST!, user.profilePicturePath);
+    res.status(StatusCodes.OK).sendFile(file, err => {
+        if (err) {
+            return res.status(StatusCodes.NOT_FOUND).json({ error: 'User does not have profile' })
+        }
+    });
 }
 
 export const pictureHandler = {
