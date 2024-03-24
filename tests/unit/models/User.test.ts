@@ -21,6 +21,8 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
         };
 
         const createdUser = await User.create(userData);
@@ -31,6 +33,8 @@ describe('User', () => {
         expect(createdUser.birthDate).toEqual(userData.birthDate);
         expect(createdUser.gender).toBe(userData.gender);
         expect(createdUser.genres).toEqual(userData.genres);
+        expect(createdUser.profilePicturePath).toEqual(userData.profilePicturePath);
+        expect(createdUser.biography).toEqual(userData.biography);
     });
 
     test('should not create user with duplicate username', async () => {
@@ -41,6 +45,8 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
         };
 
         const duplicateUser: IUser = {
@@ -50,6 +56,8 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
         };
 
         const createdUser = await User.create(userData);
@@ -65,6 +73,8 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
         };
 
         const duplicateUser: IUser = {
@@ -74,6 +84,8 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
         };
 
         const createdUser = await User.create(userData);
