@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { Request, Response, RequestHandler } from 'express';
+import { Request, Response } from 'express';
 import { User, IUser } from '../models/User';
 import bcrypt from "bcryptjs";
 
