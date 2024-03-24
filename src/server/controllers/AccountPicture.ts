@@ -6,7 +6,8 @@ import path from 'path'
 const storage = multer.diskStorage({
     destination: process.env.PROFILE_DEST,
     filename: (req, file, cb) => {
-        cb(null,req.params.id + path.extname(file.originalname));
+        const extensionName = path.extname(file.originalname)        
+        cb(null,req.params.id + (extensionName == '.jpeg' ? '.jpg' : extensionName));
     } 
 });
 
