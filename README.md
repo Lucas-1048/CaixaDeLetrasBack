@@ -50,7 +50,7 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 
 * MongoDB
 
-## Backlog
+## Backlog do Produto
 
 1. Como usuário, quero ter a capacidade de criar e personalizar meu perfil para compartilhar minha identidade dentro da plataforma, incluindo a adição de uma foto, biografia e lista dos meus filmes favoritos.
 
@@ -73,6 +73,63 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 10. Como usuário, quero compartilhar minha paixão pelo cinema, expressar minhas opiniões e participar de debates animados com outros amantes de filmes na plataforma.
 
 11. Como usuário, quero poder construir minha reputação na comunidade, recebendo reconhecimento por minhas avaliações e contribuições, e tornar-me um membro influente dentro da plataforma de filmes.
+
+## Backlog da Sprint
+
+### História 1:
+
+Task: Criar endpoint para o perfil público.
+
+Task: Alterar usuário no BD para aceitar lista de 4 filmes favoritos, foto e biografia.
+
+Task: Criar tela de perfil.
+
+Task: Criar tela de login.
+
+Task: Criar tela de cadastro.
+
+Task: Criar endpoints para login.
+
+Task: Criar endpoints para cadastro.
+
+Task: Criar banco de dados.
+
+Task: Criar tabela de usuário.
+
+Task: Instalar e configurar dependências do backend.
+
+Task: Instalar e configurar dependências do frontend.
+
+### História 2:
+
+Task: Criar endpoint para a busca de filmes com possibilidade de filtros.
+
+Task: Criar tabela de filmes.
+
+Task: Popular tabela de filmes.
+
+Task: Criar tela de pesquisa de filmes.
+
+### História 3:
+
+Task: Criar tabela para avaliação de filme.
+
+Task: Criar endpoint para receber avaliação de filme.
+
+Task: Criar endpoint para retornar avaliações de um filme.
+
+Task: Criar endpoint para retornar prévia da avaliação de um filme.
+
+Task: Configurar tela de pesquisa de filmes para exibir prévia da avaliação dos filmes.
+
+Task: Criar tela para exibir avaliações e comentários de um filme.
+
+### História 4:
+
+Task: Criar tela de histórico de avaliações.
+
+Task: Criar endpoint para o histórico de avaliações do usuário.
+
 
 ## Frontend
 [Frontend Flutter](https://github.com/Lucas-1048/CaixaDeLetrasFront)
