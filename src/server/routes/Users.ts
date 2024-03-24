@@ -5,7 +5,7 @@ import { VerifySignUp } from '../middleware/VerifySignUp';
 import { signUp } from '../controllers/SignUp'
 import { login } from '../controllers/Login';
 import { checkJwtToken } from '../middleware/JWTAuth';
-import { account } from '../controllers/Account';
+import { accountHandler } from '../controllers/Account';
 import { accountChecks } from '../middleware/AccountChecks';
 import { pictureHandler } from '../controllers/AccountPicture';
 
@@ -16,8 +16,10 @@ router.post('/login', bodyValidation(loginValidation), login);
 router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
     VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp)
 
-router.get('/user/:id', checkJwtToken, account);
+router.get('/user/:id', checkJwtToken, accountHandler.getAccountInfo);
 
 router.post('/avatar/:id', [checkJwtToken, accountChecks.checkParamId, pictureHandler.upload.single('avatar')], pictureHandler.uploadProfile);
 
 router.get('/avatar/:username', accountChecks.checkParamUsername, pictureHandler.getProfilePicture);
+
+router.get('/profile/:username', accountChecks.checkParamUsername, accountHandler.getPublicAccount);
