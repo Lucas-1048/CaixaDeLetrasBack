@@ -25,6 +25,7 @@ describe('Credentials validation', () => {
         gender: 'Male',
         genres: ['Action', 'Drama']
     }
+    
     test('Trying to login with correct fields', async () => {
         process.env.JWT_SECRET = 'test';
 
