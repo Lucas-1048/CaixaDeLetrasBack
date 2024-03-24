@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node-dev ./src/index.ts",
     "test": "jest --runInBand",
-    "load_data": "ts-node-dev ./src/scripts/loadData.ts"
+    "load_data": "ts-node-dev ./src/scripts/loadMovieData.ts"
   },
   "author": "",
   "license": "ISC",

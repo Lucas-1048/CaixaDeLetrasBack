@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import mongoose from 'mongoose';
 import fs from 'fs';
 import { Movie } from '../server/models/Movie';
