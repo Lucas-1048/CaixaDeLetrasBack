@@ -1,37 +1,56 @@
+import { initializeDatabase } from '../../dbHandler';
 import { StatusCodes } from "http-status-codes";
 import { accountHandler } from "../../../src/server/controllers/Account";
+import { Checks } from '../../../src/server/middleware/Checks';
 import { User } from "../../../src/server/models/User";
 import httpMocks from "node-mocks-http";
 
-describe("Account Controller", () => {
-    it("should return user information if user exists", async () => {
-        User.findById = jest.fn().mockResolvedValueOnce({ name: "Test User" });
+let dbHandler : any;
+let next : any;
+let res : any;
 
-        const mockRequest = httpMocks.createRequest({
-        method: "GET",
-        params: { id: "123" },
+beforeAll(async () => {
+    dbHandler = await initializeDatabase();
+    dbHandler.connect();
+
+    res = httpMocks.createResponse();
+    next = jest.fn();
+});
+
+afterEach(async () => {
+    await dbHandler.clearDatabase();
+    res = httpMocks.createResponse();
+    next = jest.fn();
+});
+
+afterAll(async () => await dbHandler.closeDatabase());
+
+const validUser = {
+    username: '1234',
+    email: 'a@gmail.com',
+    password: '123456',
+    birthDate: new Date(),
+    gender: 'Male',
+    genres: ['Action', 'Drama'],
+    favorites: [],
+}
+
+describe("GET methods", () => {
+    test("Trying to retreive all acount info", async () => {
+        const user = new User(validUser);
+        await user.save();
+
+        const req = httpMocks.createRequest({
+            params: {
+                id: user._id,
+            }
         });
 
-        const mockResponse = httpMocks.createResponse();
+        res.locals.user = user; //Assume user is in locals with middleware
 
-        await accountHandler.getAccountInfo(mockRequest, mockResponse);
+        await accountHandler.getAccountInfo(req, res);        
 
-        expect(mockResponse.statusCode).toBe(StatusCodes.OK);
-        expect(mockResponse._getJSONData()).toEqual({ name: "Test User" });
-    });
-
-    it("should return 404 if user does not exist", async () => {
-        User.findById = jest.fn().mockResolvedValueOnce(null);
-        const mockRequest = httpMocks.createRequest({
-            method: "GET",
-            params: { id: "123" },
-        });
-    
-        const mockResponse = httpMocks.createResponse();
-
-        await accountHandler.getAccountInfo(mockRequest, mockResponse);
-
-        expect(mockResponse.statusCode).toBe(StatusCodes.NOT_FOUND);
-        expect(mockResponse._getJSONData()).toEqual({ "message": "User not found" });
+        expect(res.statusCode).toBe(StatusCodes.OK);
+        expect(res._getJSONData()._id).toBe(String(user._id));
     });
 });
