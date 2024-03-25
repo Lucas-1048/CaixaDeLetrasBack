@@ -42,7 +42,7 @@ const uploadProfile = async (req: Request, res: Response) => {
 
     await user.save();
 
-    return res.status(StatusCodes.CREATED).json({ message: 'File uploaded succesfully' });
+    return res.status(StatusCodes.NO_CONTENT).send();
 }
 
 const getProfilePicture = async(req: Request, res: Response) => {

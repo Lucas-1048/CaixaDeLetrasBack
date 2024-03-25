@@ -26,7 +26,19 @@ const getPublicAccount = async (req: Request, res: Response) => {
     });
 }
 
+const updateBio = async (req: Request, res: Response) => {
+    const user = res.locals.user;
+    
+    user.biography = req.body.biography;
+    user.markModified('biography');
+    
+    await user.save();
+    
+    return res.status(StatusCodes.NO_CONTENT).send();
+}
+
 export const accountHandler = {
     getAccountInfo,
     getPublicAccount,
+    updateBio,
 }
