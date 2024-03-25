@@ -1,9 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { User } from "../models/User";
-import { Movie } from "../models/Movie";
 import { Request, Response } from "express";
 
-export const getAccountInfo = async (req: Request, res: Response) => {
+const getAccountInfo = async (req: Request, res: Response) => {
     try {
         return res.json(res.locals.user);
     } catch (error) {
@@ -39,11 +37,8 @@ const updateFavorite = async (req: Request, res: Response) => {
     const user = res.locals.user;
     const movie = res.locals.movie;
     const pos = parseInt(req.params.pos);
-    
-    if (!movie) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: "Movie ID not found" });
-    }
-    if(pos >= 4) {
+
+    if(pos >= 4 || pos < 0) {
         return res.status(StatusCodes.BAD_REQUEST).json({ error: "Number must be an integer from 0 to 3" })
     }
 
