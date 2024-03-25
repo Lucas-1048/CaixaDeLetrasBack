@@ -26,4 +26,6 @@ router.get('/avatar/:username', Checks.checkParamUsername, pictureHandler.getAva
 
 router.get('/profile/:username', Checks.checkParamUsername, accountHandler.getPublicAccount);
 
-router.put('/bio/:id', [checkJwtToken, Checks.checkParamUserId], accountHandler.updateBio)
+router.put('/bio/:id', [checkJwtToken, Checks.checkParamUserId], accountHandler.updateBio);
+
+router.put('/favorites/:id/:pos', [checkJwtToken, Checks.checkParamUserId], accountHandler.updateFavorite);

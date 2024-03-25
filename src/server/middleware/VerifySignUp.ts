@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { IUser, User } from '../models/User'
 import { RequestHandler } from "express";
 import * as yup from "yup";
+import mongoose from 'mongoose';
 
 const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     username: yup.string().required().min(4).max(20),
@@ -10,9 +11,9 @@ const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     birthDate: yup.date().required(),
     gender: yup.string().required(),
     genres: yup.array().of(yup.string().required()).required(),
-    profilePicturePath: yup.string().notRequired(),
-    biography: yup.string().notRequired(),
-    favorites: yup.array().of(yup.string().notRequired()).required().length(4),
+    profilePicturePath: yup.string().notRequired().defined(),
+    biography: yup.string().notRequired().defined(),
+    favorites: yup.array().of(yup.mixed<mongoose.Types.ObjectId>().defined()).defined().length(4),
 });
 
 const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
