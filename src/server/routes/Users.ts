@@ -16,7 +16,7 @@ router.post('/login', bodyValidation(loginValidation), login);
 router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
     VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp)
 
-router.get('/user/:id', checkJwtToken, accountHandler.getAccountInfo);
+router.get('/user/:id', [checkJwtToken, Checks.checkParamUserId], accountHandler.getAccountInfo);
 
 router.put('/avatar/:id', [checkJwtToken, Checks.checkParamUserId, pictureHandler.upload.single('avatar')], pictureHandler.uploadAvatar);
 
