@@ -97,4 +97,20 @@ describe('User', () => {
 
         await expect(User.create(duplicateUser)).rejects.toThrow();
     });
+
+    test("Should not create user with more than 4 favorites", async () => {
+        const user: IUser = {
+            username: 'john_doe',
+            email: 'john@example.com',
+            password: 'password123',
+            birthDate: new Date('1990-01-01'),
+            gender: 'male',
+            genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
+            favorites: [null,null,null,null,null],
+        };
+
+        await expect(User.create(user)).rejects.toThrow();
+    })
 });
