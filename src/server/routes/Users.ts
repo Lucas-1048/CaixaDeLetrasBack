@@ -28,4 +28,4 @@ router.get('/profile/:username', Checks.checkParamUsername, accountHandler.getPu
 
 router.put('/bio/:id', [checkJwtToken, Checks.checkParamUserId], accountHandler.updateBio);
 
-router.put('/favorites/:id/:pos', [checkJwtToken, Checks.checkParamUserId], accountHandler.updateFavorite);
+router.put('/favorites/:id/:pos', [checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId], accountHandler.updateFavorite);

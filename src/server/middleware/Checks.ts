@@ -49,11 +49,30 @@ const checkParamMovieId : RequestHandler = async (req, res, next) => {
 
     res.locals.movie = movie;
 
-    next;
+    next();
+}
+
+const checkBodyMovieId : RequestHandler = async(req, res, next) => {
+    const id = req.body.movieId;
+    
+    if (!mongoose.isValidObjectId(id)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid object ID format for movieId' })
+    }
+
+    const movie = await Movie.findById(id);
+
+    if(!movie) {
+        return res.status(StatusCodes.NOT_FOUND).json({ error: 'Movie not found'});
+    }
+
+    res.locals.movie = movie;
+
+    next();
 }
 
 export const Checks = {
     checkParamUserId,
     checkParamUsername,
     checkParamMovieId,
+    checkBodyMovieId,
 }

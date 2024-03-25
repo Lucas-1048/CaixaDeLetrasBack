@@ -2,7 +2,6 @@ import { StatusCodes } from "http-status-codes";
 import { User } from "../models/User";
 import { Movie } from "../models/Movie";
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 export const getAccountInfo = async (req: Request, res: Response) => {
     try {
@@ -44,12 +43,7 @@ const updateBio = async (req: Request, res: Response) => {
 
 const updateFavorite = async (req: Request, res: Response) => {
     const user = res.locals.user;
-
-    if (!mongoose.isValidObjectId(req.body.id)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid ID format for movie in body' });
-    }
-
-    const movie = await Movie.findById(req.body.id);
+    const movie = res.locals.movie;
     const pos = parseInt(req.params.pos);
     
     if (!movie) {
