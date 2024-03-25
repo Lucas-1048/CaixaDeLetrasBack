@@ -23,6 +23,7 @@ describe('User', () => {
             genres: ['rock', 'pop'],
             profilePicturePath: '',
             biography: '',
+            favorites: ['','','',''],
         };
 
         const createdUser = await User.create(userData);
@@ -47,6 +48,7 @@ describe('User', () => {
             genres: ['rock', 'pop'],
             profilePicturePath: '',
             biography: '',
+            favorites: ['','','',''],
         };
 
         const duplicateUser: IUser = {
@@ -58,6 +60,7 @@ describe('User', () => {
             genres: ['rock', 'pop'],
             profilePicturePath: '',
             biography: '',
+            favorites: ['','','',''],
         };
 
         const createdUser = await User.create(userData);
@@ -75,6 +78,7 @@ describe('User', () => {
             genres: ['rock', 'pop'],
             profilePicturePath: '',
             biography: '',
+            favorites: ['','','',''],
         };
 
         const duplicateUser: IUser = {
@@ -86,6 +90,7 @@ describe('User', () => {
             genres: ['rock', 'pop'],
             profilePicturePath: '',
             biography: '',
+            favorites: ['','','',''],
         };
 
         const createdUser = await User.create(userData);

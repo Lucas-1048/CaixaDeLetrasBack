@@ -9,6 +9,7 @@ export interface IUser {
     genres: string[];
     profilePicturePath: string | null | undefined;
     biography: string | null | undefined;
+    favorites: (string | null | undefined)[];
 }
 
 const UserSchema = new mongoose.Schema({
@@ -20,6 +21,7 @@ const UserSchema = new mongoose.Schema({
     genres: {type: [String], required: true},
     profilePicturePath: {type: String, default: '', required: false},
     biography: {type: String, default: '', required: false},
+    favorites: {type: [String], required: true}
 });
 
 export const User = mongoose.model<IUser>('User', UserSchema);

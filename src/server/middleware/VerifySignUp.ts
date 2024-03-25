@@ -12,6 +12,7 @@ const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     genres: yup.array().of(yup.string().required()).required(),
     profilePicturePath: yup.string().notRequired(),
     biography: yup.string().notRequired(),
+    favorites: yup.array().of(yup.string().notRequired()).required().length(4),
 });
 
 const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
