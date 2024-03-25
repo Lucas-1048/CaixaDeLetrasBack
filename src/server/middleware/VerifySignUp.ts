@@ -11,9 +11,9 @@ const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     birthDate: yup.date().required(),
     gender: yup.string().required(),
     genres: yup.array().of(yup.string().required()).required(),
-    profilePicturePath: yup.string().notRequired().defined(),
-    biography: yup.string().notRequired().defined(),
-    favorites: yup.array().of(yup.mixed<mongoose.Types.ObjectId>().defined()).defined().length(4),
+    profilePicturePath: yup.string().notRequired(),
+    biography: yup.string().notRequired().notRequired(),
+    favorites: yup.array().required().max(4),
 });
 
 const checkDuplicateEmail : RequestHandler = async (req, res, next) => {

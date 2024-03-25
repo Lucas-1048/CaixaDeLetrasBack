@@ -24,7 +24,7 @@ const validUser = {
     birthDate: new Date(),
     gender: 'Male',
     genres: ['Action', 'Drama'],
-    favorites: ['','','',''],
+    favorites: [],
 }
 
 const bodyValidator = bodyValidation(VerifySignUp.signUpValidation)
