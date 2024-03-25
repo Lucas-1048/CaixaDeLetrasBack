@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { RequestHandler } from "express";
 import { User } from "../models/User";
 
-const checkParamId: RequestHandler = async (req, res ,next) => {
+const checkParamUserId: RequestHandler = async (req, res ,next) => {
     const id = req.params.id;
     const user = await User.findById(id);
 
@@ -28,6 +28,6 @@ const checkParamUsername : RequestHandler = async (req, res, next) => {
 }
 
 export const Checks = {
-    checkParamId,
+    checkParamUserId,
     checkParamUsername,
 }

@@ -18,12 +18,12 @@ router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation),
 
 router.get('/user/:id', checkJwtToken, accountHandler.getAccountInfo);
 
-router.put('/avatar/:id', [checkJwtToken, Checks.checkParamId, pictureHandler.upload.single('avatar')], pictureHandler.uploadAvatar);
+router.put('/avatar/:id', [checkJwtToken, Checks.checkParamUserId, pictureHandler.upload.single('avatar')], pictureHandler.uploadAvatar);
 
-router.delete('/avatar/:id', [checkJwtToken, Checks.checkParamId], pictureHandler.removeAvatar);
+router.delete('/avatar/:id', [checkJwtToken, Checks.checkParamUserId], pictureHandler.removeAvatar);
 
 router.get('/avatar/:username', Checks.checkParamUsername, pictureHandler.getAvatar);
 
 router.get('/profile/:username', Checks.checkParamUsername, accountHandler.getPublicAccount);
 
-router.put('/bio/:id', [checkJwtToken, Checks.checkParamId], accountHandler.updateBio)
+router.put('/bio/:id', [checkJwtToken, Checks.checkParamUserId], accountHandler.updateBio)
