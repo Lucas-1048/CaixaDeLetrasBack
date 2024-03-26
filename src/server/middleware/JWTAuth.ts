@@ -1,4 +1,4 @@
-import { RequestHandler, Request } from "express";
+import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import { JWTService } from "../services/JWTService";
 

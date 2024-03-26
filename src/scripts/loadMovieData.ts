@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import mongoose from 'mongoose';
 import fs from 'fs';
 import { Movie } from '../server/models/Movie';
@@ -17,7 +18,7 @@ fs.readFile('./src/data/movies-2020s.json', 'utf8', (err, data) => {
     });
 
     mongoose.connect(process.env.MONGODB_URI as string)
-        .then(res => {
+        .then(() => {
             console.log("Connected to MongoDB");
             return Movie.insertMany(updatedMovies);
         })

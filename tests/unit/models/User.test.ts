@@ -21,6 +21,9 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
+            favorites: [],
         };
 
         const createdUser = await User.create(userData);
@@ -31,6 +34,8 @@ describe('User', () => {
         expect(createdUser.birthDate).toEqual(userData.birthDate);
         expect(createdUser.gender).toBe(userData.gender);
         expect(createdUser.genres).toEqual(userData.genres);
+        expect(createdUser.profilePicturePath).toEqual(userData.profilePicturePath);
+        expect(createdUser.biography).toEqual(userData.biography);
     });
 
     test('should not create user with duplicate username', async () => {
@@ -41,6 +46,9 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
+            favorites: [],
         };
 
         const duplicateUser: IUser = {
@@ -50,6 +58,9 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
+            favorites: [],
         };
 
         const createdUser = await User.create(userData);
@@ -65,6 +76,9 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
+            favorites: [],
         };
 
         const duplicateUser: IUser = {
@@ -74,10 +88,29 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
+            favorites: [],
         };
 
         const createdUser = await User.create(userData);
 
         await expect(User.create(duplicateUser)).rejects.toThrow();
     });
+
+    test("Should not create user with more than 4 favorites", async () => {
+        const user: IUser = {
+            username: 'john_doe',
+            email: 'john@example.com',
+            password: 'password123',
+            birthDate: new Date('1990-01-01'),
+            gender: 'male',
+            genres: ['rock', 'pop'],
+            profilePicturePath: '',
+            biography: '',
+            favorites: [null,null,null,null,null],
+        };
+
+        await expect(User.create(user)).rejects.toThrow();
+    })
 });

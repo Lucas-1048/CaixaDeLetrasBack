@@ -5,10 +5,10 @@ import mongoose from 'mongoose';
 const uri : string = process.env.MONGODB_URI as string
 
 mongoose.connect(uri)
-  .then(res => {
+  .then(() => {
     console.log("Connected to MongoDB");
   })
-  .catch(err => {
+  .catch(() => {
     console.log("Error connecting to MongoDB");
   })
 
