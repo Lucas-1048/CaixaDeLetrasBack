@@ -87,29 +87,29 @@
                                         }
                                     }
                                 }
-                            }
-                        },
-                        "examples" : {
-                            "signup": {
-                                "value": {
-                                    "username": "fulano",
-                                    "email": "fulano@example.com",
-                                    "password": "senha123",
-                                    "birthDate": "2002-08-17",
-                                    "gender": "Male",
-                                    "genres": ["Action", "Drama"]
+                            },
+                            "examples" : {
+                                "signup": {
+                                    "value": {
+                                        "username": "fulano",
+                                        "email": "fulano@example.com",
+                                        "password": "senha123",
+                                        "birthDate": "2002-08-17",
+                                        "gender": "Male",
+                                        "genres": ["Action", "Drama"]
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            },
-            "responses":{
-                "201": {
-                    "description": "User created successfully"
                 },
-                "500": {
-                    "description": "Internal server error"
+                "responses":{
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
                 }
             }
         },
@@ -123,44 +123,7 @@
                         "description": "ID of the user (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "username": {
-                                    "type": "string"
-                                },
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "birthDate": {
-                                    "type": "string",
-                                    "format": "date"
-                                },
-                                "gender": {
-                                    "type": "string"
-                                },
-                                "genres": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "profilePicturePath": {
-                                    "type": ["string", "null", "undefined"]
-                                },
-                                "biography": {
-                                    "type": ["string", "null", "undefined"]
-                                },
-                                "favorites": {
-                                    "type": ["array", "null"],
-                                    "items": {
-                                        "type": ["string", "null"],
-                                        "format": "ObjectId"
-                                    }
-                                }
-                            }
+                            "type": "string"
                         }
                     }
                 ],
@@ -170,7 +133,55 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/IUser"
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "password": {
+                                            "type": "string"
+                                        },
+                                        "birthDate": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "gender": {
+                                            "type": "string"
+                                        },
+                                        "genres": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "profilePicturePath": {
+                                            "type": ["string", "null", "undefined"]
+                                        },
+                                        "biography": {
+                                            "type": ["string", "null", "undefined"]
+                                        },
+                                        "favorites": {
+                                            "type": ["array", "null"],
+                                            "items": {
+                                                "type": ["string", "null"],
+                                                "format": "ObjectId"
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "value": {
+                                        "username": "fulano",
+                                        "email": "fulano@example.com",
+                                        "password": "senha123",
+                                        "birthDate": "2002-08-17",
+                                        "gender":"Male",
+                                        "genres": ["Action", "Drama"],
+                                        "favorites": ["5f9b3b3b3b3b3b3b3b3b3b3b"]
+                                    }
                                 }
                             }
                         }
@@ -341,6 +352,16 @@
                                             "items": {
                                                 "type": "string"
                                             }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "profile": {
+                                        "value": {
+                                            "username": "fulano",
+                                            "gender": "Male",
+                                            "biography": "I'm a cool guy",
+                                            "favorites": ["5f9b3b3b3b3b3b3b3b3b3b3b"]
                                         }
                                     }
                                 }
