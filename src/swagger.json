@@ -295,14 +295,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation. Returns the user's avatar image.",
-                        "content": {
-                            "image/*": {
-                                "schema": {
-                                    "type": "file"
-                                }
-                            }
-                        }
+                        "description": "Returns the user's avatar image"
                     },
                     "403": {
                         "description": "User not authorized"
@@ -318,7 +311,7 @@
         },
         "/profile/:username": {
             "get": {
-                "summary": "Gets a user's profile by username",
+                "summary": "Get a user's profile by username",
                 "parameters": [
                     {
                         "name": "username",
@@ -417,7 +410,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "204": {
                         "description": "Bio updated successfully"
                     },
                     "400": {
@@ -482,7 +475,7 @@
                     }
                 },
                 "responses": {
-                    "200": {
+                    "204": {
                         "description": "Movie added to favorites successfully"
                     },
                     "400": {
