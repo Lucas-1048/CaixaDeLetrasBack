@@ -51,7 +51,7 @@ const validMovie = {
 }
 
 describe("Parameter checks", () => {
-    test("Check non-existing user ID", async () => {
+    test("Should reject non-existing user ID", async () => {
         const req = httpMocks.createRequest({
             params: {
                 id: '65ff690c34e350de1d4acf02',
@@ -64,7 +64,7 @@ describe("Parameter checks", () => {
         expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
     });
 
-    test("Check non-existing movie ID", async () => {
+    test("Should reject non-existing movie ID", async () => {
         const req = httpMocks.createRequest({
             params: {
                 id: '6601e3284be11204fb527866',
@@ -77,7 +77,7 @@ describe("Parameter checks", () => {
         expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
     });
 
-    test("Check non-existing username", async () => {
+    test("Should reject non-existing username", async () => {
         const req = httpMocks.createRequest({
             params: {
                 username: 'aaaa',
@@ -90,7 +90,7 @@ describe("Parameter checks", () => {
         expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
     })
 
-    test("Check invalid user ID format", async () => {
+    test("Should reject invalid user ID format", async () => {
         const req = httpMocks.createRequest({
             params: {
                 id: 'dasda',
@@ -103,7 +103,7 @@ describe("Parameter checks", () => {
         expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
     });
 
-    test("Check invalid movie ID format", async() => {
+    test("Should reject invalid movie ID format", async() => {
         const req = httpMocks.createRequest({
             params: {
                 id: 'dasda',
@@ -116,7 +116,7 @@ describe("Parameter checks", () => {
         expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
     });
 
-    test("Check existing user ID", async() => {
+    test("Should accept existing user ID", async() => {
         const user = new User(validUser);
         await user.save();
 
@@ -132,7 +132,7 @@ describe("Parameter checks", () => {
         expect(res.locals.user._id).toStrictEqual(user._id);
     });
 
-    test('Check existing movie ID', async() => {
+    test('Should accept existing movie ID', async() => {
         const movie = new Movie(validMovie);
         await movie.save();
 
@@ -148,7 +148,7 @@ describe("Parameter checks", () => {
         expect(res.locals.movie._id).toStrictEqual(movie._id);
     })
 
-    test('Check existing username', async () => {
+    test('Should accept existing username', async () => {
         const user = new User(validUser);
         await user.save();
         
@@ -166,7 +166,7 @@ describe("Parameter checks", () => {
 });
 
 describe("Body checks", () => {
-    test("Check for non-existing movie ID", async () => {
+    test("Should reject for non-existing movie ID", async () => {
         const req = httpMocks.createRequest({
             body: {
                 movieId: '65ff690c34e350de1d4acf02',
@@ -179,7 +179,7 @@ describe("Body checks", () => {
         expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
     });
 
-    test("Check for invalid movie ID format", async () => {
+    test("Should reject invalid movie ID format", async () => {
         const req = httpMocks.createRequest({
             body: {
                 movieId: 'dasda',
@@ -192,7 +192,7 @@ describe("Body checks", () => {
         expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
     });
 
-    test("Check valid movie ID", async () => {
+    test("Should accept valid movie ID", async () => {
         const movie = new Movie(validMovie);
         await movie.save();
 

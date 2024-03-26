@@ -50,7 +50,7 @@ const validMovie = {
 }
 
 describe("Get methods", () => {
-    test("Trying to retrieve all acount info", async () => {
+    test("Should retrieve all acount info", async () => {
         const user = new User(validUser);
         await user.save();
 
@@ -68,7 +68,7 @@ describe("Get methods", () => {
         expect(res._getJSONData()._id).toBe(String(user._id));
     });
 
-    test("Trying to retrieve public profile", async () => {
+    test("Should retrieve public profile", async () => {
         const user = new User(validUser);
         await user.save();
 
@@ -92,7 +92,7 @@ describe("Get methods", () => {
 });
 
 describe("Update methods", () => {
-    test("Update biography", async () => {
+    test("Should update biography", async () => {
         const user = new User(validUser);
         await user.save();
 
@@ -115,7 +115,7 @@ describe("Update methods", () => {
         expect(data.biography).toEqual(req.body.biography);
     });
 
-    test("Update favorite", async () => {
+    test("Should update favorite", async () => {
         const user = new User(validUser);
         await user.save();
         const movie = new Movie(validMovie);
@@ -150,7 +150,7 @@ describe("Update methods", () => {
         expect(data.favorites[0]._id).toEqual(String(movie._id));
     });
 
-    test("Update favorites on position >= 4", async () => {
+    test("Should reject updating favorites on position >= 4", async () => {
         const user = new User(validUser);
         await user.save();
         const movie = new Movie(validMovie);
@@ -169,7 +169,7 @@ describe("Update methods", () => {
         expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
     });
 
-    test("Update favorites on position < 0", async () => {
+    test("Should reject updating favorites on position < 0", async () => {
         const user = new User(validUser);
         await user.save();
         const movie = new Movie(validMovie);
