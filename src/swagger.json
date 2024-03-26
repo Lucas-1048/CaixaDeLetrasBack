@@ -14,7 +14,7 @@
     "paths": {
         "/login": {
             "post" : {
-                "summary": "Logs a user in",
+                "summary": "Logs an user in",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -115,7 +115,7 @@
         },
         "/user/:id": {
             "get": {
-                "summary": "Gets a user by id",
+                "summary": "Gets an user by id",
                 "parameters": [
                     {
                         "name": "id",
@@ -203,7 +203,7 @@
         },
         "/avatar/:id": {
             "put": {
-                "summary": "Updates a user's avatar",
+                "summary": "Updates an user's avatar",
                 "parameters": [
                     {
                         "name": "id",
@@ -250,7 +250,7 @@
                 }
             },
             "delete": {
-                "summary": "Deletes a user's avatar",
+                "summary": "Deletes an user's avatar",
                 "parameters": [
                     {
                         "name": "id",
@@ -311,7 +311,7 @@
         },
         "/profile/:username": {
             "get": {
-                "summary": "Get a user's profile by username",
+                "summary": "Gets an user's profile by username",
                 "parameters": [
                     {
                         "name": "username",
@@ -375,7 +375,7 @@
         },
         "bio/:id" : {
             "put": {
-                "summary": "Updates a user's bio",
+                "summary": "Updates an user's bio",
                 "parameters": [
                     {
                         "name": "id",
