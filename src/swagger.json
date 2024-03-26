@@ -85,47 +85,31 @@
                                         "items": {
                                             "type": "string"
                                         }
-                                    },
-                                    "profilePicturePath": {
-                                        "type": "string",
-                                        "required": false
-                                    },
-                                    "biography": {
-                                        "type": "string",
-                                        "required": false
-                                    },
-                                    "favorites": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string",
-                                            "format": "ObjectId"
-                                        },
-                                        "required": false
                                     }
                                 }
-                            },
-                            "examples" : {
-                                "signup": {
-                                    "value": {
-                                        "username": "fulano",
-                                        "email": "fulano@example.com",
-                                        "password": "senha123",
-                                        "birthDate": "2002-08-17",
-                                        "gender": "Male",
-                                        "genres": ["Action", "Drama"]
-                                    }
+                            }
+                        },
+                        "examples" : {
+                            "signup": {
+                                "value": {
+                                    "username": "fulano",
+                                    "email": "fulano@example.com",
+                                    "password": "senha123",
+                                    "birthDate": "2002-08-17",
+                                    "gender": "Male",
+                                    "genres": ["Action", "Drama"]
                                 }
                             }
                         }
                     }
+                }
+            },
+            "responses":{
+                "201": {
+                    "description": "User created successfully"
                 },
-                "responses":{
-                    "201": {
-                        "description": "User created successfully"
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
+                "500": {
+                    "description": "Internal server error"
                 }
             }
         }
