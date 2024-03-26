@@ -281,7 +281,7 @@
                 }
             },
             "get": {
-                "summary": "Gets a user's avatar",
+                "summary": "Gets an user's avatar",
                 "parameters": [
                     {
                         "name": "username",
