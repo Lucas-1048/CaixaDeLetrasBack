@@ -9,7 +9,7 @@ export interface IUser {
     genres: string[];
     profilePicturePath: string | null | undefined;
     biography: string | null | undefined;
-    favorites: (mongoose.Types.ObjectId[] | null)[] | null;
+    favorites: (mongoose.Types.ObjectId | null)[] | null;
 }
 
 const UserSchema = new mongoose.Schema<IUser>({

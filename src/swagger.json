@@ -19,7 +19,7 @@
                     "required": true,
                     "content": {
                         "application/json": {
-                            "schema":  {
+                            "schema": {
                                 "type": "object",
                                 "properties":  {
                                     "email": {
@@ -110,6 +110,372 @@
                 },
                 "500": {
                     "description": "Internal server error"
+                }
+            }
+        },
+        "/user/:id": {
+            "get": {
+                "summary": "Gets a user by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "birthDate": {
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "gender": {
+                                    "type": "string"
+                                },
+                                "genres": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "profilePicturePath": {
+                                    "type": ["string", "null", "undefined"]
+                                },
+                                "biography": {
+                                    "type": ["string", "null", "undefined"]
+                                },
+                                "favorites": {
+                                    "type": ["array", "null"],
+                                    "items": {
+                                        "type": ["string", "null"],
+                                        "format": "ObjectId"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. Returns user details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IUser"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid id"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/avatar/:id": {
+            "put": {
+                "summary": "Updates a user's avatar",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "avatar": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Avatar updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid id"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes a user's avatar",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Avatar deleted successfully"
+                    },
+                    "400": {
+                        "description": "Invalid id"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Gets a user's avatar",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "User's name in the app",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. Returns the user's avatar image.",
+                        "content": {
+                            "image/*": {
+                                "schema": {
+                                    "type": "file"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "Username not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/profile/:username": {
+            "get": {
+                "summary": "Gets a user's profile by username",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "path",
+                        "description": "User's name in the app",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. Returns the user details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "gender": {
+                                            "type": "string"
+                                        },
+                                        "biography": {
+                                            "type": "string"
+                                        },
+                                        "favorites": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "Profile not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "bio/:id" : {
+            "put": {
+                "summary": "Updates a user's bio",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "biography": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples" : {
+                                "bio": {
+                                    "value": {
+                                        "biography": "I'm a cool guy"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Bio updated successfully"
+                    },
+                    "400": {
+                        "description": "Invalid id"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/favorites/:id/:pos": {
+            "put": {
+                "summary": "Adds a movie to a user's favorites",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "pos",
+                        "in": "path",
+                        "description": "Position of the movie in the user's favorites array: Must be >= 0 and <= 4",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "movieId": {
+                                        "type": "string",
+                                        "format": "ObjectId"
+                                    }
+                                }
+                            },
+                            "examples" : {
+                                "fav": {
+                                    "value": {
+                                        "movieId": "5f9b3b3b3b3b3b3b3b3b3b3b"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Movie added to favorites successfully"
+                    },
+                    "400": {
+                        "description": "Invalid id or position"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
                 }
             }
         }
