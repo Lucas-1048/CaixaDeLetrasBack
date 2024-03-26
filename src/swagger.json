@@ -430,7 +430,7 @@
         },
         "/favorites/:id/:pos": {
             "put": {
-                "summary": "Adds a movie to a user's favorites",
+                "summary": "Adds a movie to an user's favorites",
                 "parameters": [
                     {
                         "name": "id",
