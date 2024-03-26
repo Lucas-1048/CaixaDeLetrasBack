@@ -12,7 +12,7 @@ const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     gender: yup.string().required(),
     genres: yup.array().of(yup.string().required()).required(),
     profilePicturePath: yup.string().notRequired(),
-    biography: yup.string().notRequired().notRequired(),
+    biography: yup.string().notRequired(),
     favorites: yup.array().required().max(4),
 });
 
