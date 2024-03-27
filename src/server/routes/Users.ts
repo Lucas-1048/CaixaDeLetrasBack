@@ -22,9 +22,9 @@ router.put('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId, pictureHandl
 
 router.delete('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
 
-router.get('/avatar/:username', Checks.checkParamUsername, pictureHandler.getAvatar);
+router.get('/avatar/:username', [ checkJwtToken, Checks.checkParamUsername] , pictureHandler.getAvatar);
 
-router.get('/profile/:username', Checks.checkParamUsername, accountHandler.getPublicAccount);
+router.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], accountHandler.getPublicAccount);
 
 router.put('/bio/:id', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.updateBio);
 

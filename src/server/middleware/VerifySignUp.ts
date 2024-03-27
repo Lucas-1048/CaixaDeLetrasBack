@@ -2,7 +2,6 @@ import { StatusCodes } from "http-status-codes";
 import { IUser, User } from '../models/User'
 import { RequestHandler } from "express";
 import * as yup from "yup";
-import mongoose from 'mongoose';
 
 const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
     username: yup.string().required().min(4).max(20),
