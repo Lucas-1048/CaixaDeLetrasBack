@@ -6,6 +6,7 @@ import { login } from '../controllers/Login';
 import { checkJwtToken } from '../middleware/JWTAuth';
 import { accountHandler } from '../controllers/Account';
 import { Checks } from '../middleware/Checks';
+import { upload } from '../middleware/MulterConfigs';
 import { pictureHandler } from '../controllers/AccountPicture';
 
 export const router = Router();
@@ -17,7 +18,7 @@ router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation),
 
 router.get('/user/:id', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getAccountInfo);
 
-router.put('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId, pictureHandler.upload.single('avatar') ],
+router.put('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
     pictureHandler.uploadAvatar);
 
 router.delete('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
