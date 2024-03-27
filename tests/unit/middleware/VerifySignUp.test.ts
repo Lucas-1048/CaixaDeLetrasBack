@@ -24,13 +24,14 @@ const validUser = {
     birthDate: new Date(),
     gender: 'Male',
     genres: ['Action', 'Drama'],
+    favorites: [],
 }
 
 const bodyValidator = bodyValidation(VerifySignUp.signUpValidation)
 
 describe('Duplicate checking', () => {
     const next = jest.fn()
-    test('Try to signup already existing username', async () => {
+    test('Should not signup already existing username', async () => {
         const user = new User(validUser);
         await user.save()
 
@@ -51,7 +52,7 @@ describe('Duplicate checking', () => {
         expect(response.statusCode).toBe(StatusCodes.BAD_REQUEST)
     })
 
-    test('Try to signup already existing email', async () => {
+    test('Should not signup already existing email', async () => {
         const user = new User(validUser);
         await user.save()
         const request = httpMocks.createRequest({
@@ -71,7 +72,7 @@ describe('Duplicate checking', () => {
         expect(response.statusCode).toBe(StatusCodes.BAD_REQUEST)
     })
 
-    test('Try to signup non-existing username and email', async () => {
+    test('Should signup non-existing username and email', async () => {
         const request = httpMocks.createRequest({
             body: validUser
         })
@@ -86,7 +87,7 @@ describe('Duplicate checking', () => {
 describe('Correct input validation', () => {
     const next = jest.fn()
 
-    test('Invalid e-mail', async () => {
+    test('Should not accept invalid e-mail', async () => {
         const req = httpMocks.createRequest({
             body: {
                 ...validUser,
@@ -103,7 +104,7 @@ describe('Correct input validation', () => {
         expect(data.errors.email).toEqual('email must be a valid email')
     }) 
 
-    test('Short username', async () => {
+    test('Should not accept short username', async () => {
         const req = httpMocks.createRequest({
             body: {
                 ...validUser,
@@ -120,7 +121,7 @@ describe('Correct input validation', () => {
         expect(data.errors.username).toEqual('username must be at least 4 characters')
     })
 
-    test('Long username', async () => {
+    test('Should not accept long username', async () => {
         const req = httpMocks.createRequest({
             body: {
                 ...validUser,
@@ -137,7 +138,7 @@ describe('Correct input validation', () => {
         expect(data.errors.username).toEqual('username must be at most 20 characters')
     })
 
-    test('Short password', async () => {
+    test('Should not accept short password', async () => {
         const req = httpMocks.createRequest({
             body: {
                 ...validUser,
@@ -154,7 +155,7 @@ describe('Correct input validation', () => {
         expect(data.errors.password).toEqual('password must be at least 6 characters')
     })
 
-    test('Valid user', async () => {
+    test('Should accept valid user', async () => {
         const req = httpMocks.createRequest({
             body: validUser
         })

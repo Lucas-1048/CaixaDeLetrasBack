@@ -5,7 +5,9 @@ import { VerifySignUp } from '../middleware/VerifySignUp';
 import { signUp } from '../controllers/SignUp'
 import { login } from '../controllers/Login';
 import { checkJwtToken } from '../middleware/JWTAuth';
-import { account } from '../controllers/Account';
+import { accountHandler } from '../controllers/Account';
+import { Checks } from '../middleware/Checks';
+import { pictureHandler } from '../controllers/AccountPicture';
 
 export const router = Router();
 
@@ -14,4 +16,16 @@ router.post('/login', bodyValidation(loginValidation), login);
 router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
     VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp)
 
-router.get('/user/:id', checkJwtToken, account);
+router.get('/user/:id', [checkJwtToken, Checks.checkParamUserId], accountHandler.getAccountInfo);
+
+router.put('/avatar/:id', [checkJwtToken, Checks.checkParamUserId, pictureHandler.upload.single('avatar')], pictureHandler.uploadAvatar);
+
+router.delete('/avatar/:id', [checkJwtToken, Checks.checkParamUserId], pictureHandler.removeAvatar);
+
+router.get('/avatar/:username', Checks.checkParamUsername, pictureHandler.getAvatar);
+
+router.get('/profile/:username', Checks.checkParamUsername, accountHandler.getPublicAccount);
+
+router.put('/bio/:id', [checkJwtToken, Checks.checkParamUserId], accountHandler.updateBio);
+
+router.put('/favorites/:id/:pos', [checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId], accountHandler.updateFavorite);
