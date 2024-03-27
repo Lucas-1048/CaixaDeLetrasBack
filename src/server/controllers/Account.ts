@@ -39,7 +39,9 @@ const updateFavorite = async (req: Request, res: Response) => {
     const pos = parseInt(req.params.pos);
 
     if(pos >= 4 || pos < 0) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: "Number must be an integer from 0 to 3" })
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: "Number must be an integer from 0 to 3" 
+        })
     }
 
     user.favorites[pos] = movie._id;

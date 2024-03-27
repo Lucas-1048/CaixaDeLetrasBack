@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 export const upload = multer({
     storage: storage,
     limits: { fileSize: Number(process.env.PROFILE_MAXSIZE)},
-    fileFilter: function(req, file, cb){
+    fileFilter: function(_req, file, cb){
         const allowedFileExtensions = ['.jpg', '.jpeg'];
         const extension = path.extname(file.originalname).toLowerCase();
         if (!allowedFileExtensions.includes(extension)) {
@@ -33,7 +33,9 @@ export const upload = multer({
 
 const uploadAvatar = async (req: Request, res: Response) => {
     if (!req.file) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'No file uploaded' });
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: 'No file uploaded' 
+        });
     }
 
     const user = res.locals.user;
@@ -46,11 +48,13 @@ const uploadAvatar = async (req: Request, res: Response) => {
     return res.status(StatusCodes.NO_CONTENT).send();
 }
 
-const removeAvatar = async (req: Request, res: Response) => {
+const removeAvatar = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
     if (!user.profilePicturePath) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'User does not have an avatar' });
+        return res.status(StatusCodes.NOT_FOUND).json({ 
+            error: 'User does not have an avatar' 
+        });
     }
 
     fs.unlink(process.env.PROFILE_DEST + user.profilePicturePath, err => {
@@ -67,13 +71,15 @@ const removeAvatar = async (req: Request, res: Response) => {
     return res.status(StatusCodes.NO_CONTENT).send();
 }
 
-const getAvatar = async(req: Request, res: Response) => {
+const getAvatar = async(_req: Request, res: Response) => {
     const user = res.locals.user;
 
     const file = path.resolve(process.env.PROFILE_DEST!, user.profilePicturePath);
     res.status(StatusCodes.OK).sendFile(file, err => {
         if (err) {
-            return res.status(StatusCodes.NOT_FOUND).json({ error: 'User does not have an avatar' })
+            return res.status(StatusCodes.NOT_FOUND).json({ 
+                error: 'User does not have an avatar' 
+            })
         }
     });
 }
