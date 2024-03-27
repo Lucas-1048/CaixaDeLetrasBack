@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
-const getAccountInfo = async (req: Request, res: Response) => {
+const getAccountInfo = async (_req: Request, res: Response) => {
     try {
         return res.json(res.locals.user);
     } catch (error) {
@@ -9,7 +9,7 @@ const getAccountInfo = async (req: Request, res: Response) => {
     }
 };
 
-const getPublicAccount = async (req: Request, res: Response) => {
+const getPublicAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
     await user.populate('favorites');    
