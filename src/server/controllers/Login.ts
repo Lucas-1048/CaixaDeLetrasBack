@@ -1,9 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { User } from '../models/User';
-import { IUserLogin } from '../middleware/LoginSchema';
 import bcrypt from "bcryptjs";
 import { JWTService } from '../services/JWTService';
+
+interface IUserLogin {
+    email: string;
+    password: string;
+}
 
 export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => {
     const user = await User.findOne({ email: req.body.email });
