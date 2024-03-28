@@ -1,15 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
-const getAccountInfo = async (req: Request, res: Response) => {
-    try {
-        return res.json(res.locals.user);
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
-    }
-};
-
-const getPublicAccount = async (req: Request, res: Response) => {
+const getPublicAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
     await user.populate('favorites');    
@@ -39,7 +31,9 @@ const updateFavorite = async (req: Request, res: Response) => {
     const pos = parseInt(req.params.pos);
 
     if(pos >= 4 || pos < 0) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: "Number must be an integer from 0 to 3" })
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: "Number must be an integer from 0 to 3" 
+        })
     }
 
     user.favorites[pos] = movie._id;
@@ -51,7 +45,6 @@ const updateFavorite = async (req: Request, res: Response) => {
 }
 
 export const accountHandler = {
-    getAccountInfo,
     getPublicAccount,
     updateBio,
     updateFavorite,

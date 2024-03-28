@@ -47,7 +47,7 @@ describe('Duplicate checking', () => {
         await VerifySignUp.checkDuplicateUsername(request, response, next)
         const data = response._getJSONData()
 
-        expect(data.message).toEqual('username already registered')
+        expect(data.error).toEqual('Username already registered')
         expect(next).not.toHaveBeenCalled()
         expect(response.statusCode).toBe(StatusCodes.BAD_REQUEST)
     })
@@ -67,7 +67,7 @@ describe('Duplicate checking', () => {
         await VerifySignUp.checkDuplicateEmail(request, response, next)
         const data = response._getJSONData()
 
-        expect(data.message).toEqual('e-mail already registered')
+        expect(data.error).toEqual('E-mail already registered')
         expect(next).not.toHaveBeenCalled()
         expect(response.statusCode).toBe(StatusCodes.BAD_REQUEST)
     })

@@ -1,0 +1,23 @@
+name: Automated tests
+
+on:
+  push:
+    branches: [ "developer", "main" ]
+  pull_request:
+    branches: [ "developer", "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Running tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      - name: Runs install
+        run: npm install
+      - name: Runs automated tests
+        run: npm test
