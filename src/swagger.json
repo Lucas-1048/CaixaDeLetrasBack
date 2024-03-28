@@ -85,6 +85,12 @@
                                         "items": {
                                             "type": "string"
                                         }
+                                    },
+                                    "favorites": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "objectId"
+                                        }
                                     }
                                 }
                             },
@@ -96,7 +102,8 @@
                                         "password": "senha123",
                                         "birthDate": "2002-08-17",
                                         "gender": "Male",
-                                        "genres": ["Action", "Drama"]
+                                        "genres": ["Action", "Drama"],
+                                        "favorites": []
                                     }
                                 }
                             }
@@ -106,94 +113,6 @@
                 "responses":{
                     "201": {
                         "description": "User created successfully"
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
-                }
-            }
-        },
-        "/user/:id": {
-            "get": {
-                "summary": "Gets an user by id",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID of the user (must be a Types.ObjectId)",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation. Returns user details.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "username": {
-                                            "type": "string"
-                                        },
-                                        "email": {
-                                            "type": "string"
-                                        },
-                                        "password": {
-                                            "type": "string"
-                                        },
-                                        "birthDate": {
-                                            "type": "string",
-                                            "format": "date"
-                                        },
-                                        "gender": {
-                                            "type": "string"
-                                        },
-                                        "genres": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        "profilePicturePath": {
-                                            "type": ["string", "null", "undefined"]
-                                        },
-                                        "biography": {
-                                            "type": ["string", "null", "undefined"]
-                                        },
-                                        "favorites": {
-                                            "type": ["array", "null"],
-                                            "items": {
-                                                "type": ["string", "null"],
-                                                "format": "ObjectId"
-                                            }
-                                        }
-                                    }
-                                },
-                                "example": {
-                                    "value": {
-                                        "username": "fulano",
-                                        "email": "fulano@example.com",
-                                        "password": "senha123",
-                                        "birthDate": "2002-08-17",
-                                        "gender":"Male",
-                                        "genres": ["Action", "Drama"],
-                                        "favorites": ["5f9b3b3b3b3b3b3b3b3b3b3b"]
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid id"
-                    },
-                    "403": {
-                        "description": "User not authorized"
-                    },
-                    "404": {
-                        "description": "User not found"
                     },
                     "500": {
                         "description": "Internal server error"
@@ -288,9 +207,6 @@
                     "200": {
                         "description": "Returns the user's avatar image"
                     },
-                    "403": {
-                        "description": "User not authorized"
-                    },
                     "404": {
                         "description": "Username not found"
                     },
@@ -351,9 +267,6 @@
                                 }
                             }
                         }
-                    },
-                    "403": {
-                        "description": "User not authorized"
                     },
                     "404": {
                         "description": "Profile not found"
