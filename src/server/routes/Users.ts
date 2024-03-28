@@ -6,7 +6,7 @@ import { login } from '../controllers/Login';
 import { checkJwtToken } from '../middleware/JWTAuth';
 import { accountHandler } from '../controllers/Account';
 import { Checks } from '../middleware/Checks';
-import { upload } from '../middleware/MulterConfigs';
+import { upload } from '../middleware/FileExtension';
 import { pictureHandler } from '../controllers/Avatar';
 
 export const router = Router();
