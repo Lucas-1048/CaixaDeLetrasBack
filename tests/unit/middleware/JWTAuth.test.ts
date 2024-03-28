@@ -39,7 +39,7 @@ describe('checkJwtToken middleware', () => {
         await checkJwtToken(req as any, res as any, next);
 
         expect(res.status).toHaveBeenCalledWith(StatusCodes.FORBIDDEN);
-        expect(res.json).toHaveBeenCalledWith({ message: 'Access denied' });
+        expect(res.json).toHaveBeenCalledWith({ error: 'Access denied' });
     });
 
     it('should return "Acess denied" when user id does not match token uid', async () => {
@@ -54,7 +54,7 @@ describe('checkJwtToken middleware', () => {
         await checkJwtToken(req as any, res as any, next);
 
         expect(res.status).toHaveBeenCalledWith(StatusCodes.FORBIDDEN);
-        expect(res.json).toHaveBeenCalledWith({ message: 'Access denied' });
+        expect(res.json).toHaveBeenCalledWith({ error: 'Access denied' });
     });
 
     it('should call next when UID of token matches the admin ID', async () => {
