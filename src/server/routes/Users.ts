@@ -14,18 +14,16 @@ export const router = Router();
 router.post('/login', login);
 
 router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
-    VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp)
-
-router.get('/user/:id', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getAccountInfo);
+    VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp);
 
 router.put('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
     pictureHandler.uploadAvatar);
 
 router.delete('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
 
-router.get('/avatar/:username', [ checkJwtToken, Checks.checkParamUsername] , pictureHandler.getAvatar);
+router.get('/avatar/:username', Checks.checkParamUsername, pictureHandler.getAvatar);
 
-router.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], accountHandler.getPublicAccount);
+router.get('/profile/:username', Checks.checkParamUsername, accountHandler.getPublicAccount);
 
 router.put('/bio/:id', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.updateBio);
 

@@ -1,14 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
-const getAccountInfo = async (_req: Request, res: Response) => {
-    try {
-        return res.json(res.locals.user);
-    } catch (error) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
-    }
-};
-
 const getPublicAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
@@ -53,7 +45,6 @@ const updateFavorite = async (req: Request, res: Response) => {
 }
 
 export const accountHandler = {
-    getAccountInfo,
     getPublicAccount,
     updateBio,
     updateFavorite,
