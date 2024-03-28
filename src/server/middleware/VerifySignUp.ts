@@ -17,7 +17,7 @@ const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
 
 const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
     try {
-        const user = await User.findOne({email: req.body.email}).exec();
+        const user = await User.findOne({ email: req.body.email }).exec();
         if (user) return res.status(StatusCodes.BAD_REQUEST).json({ 
             error: 'E-mail already registered' 
         });
@@ -30,12 +30,12 @@ const checkDuplicateEmail : RequestHandler = async (req, res, next) => {
 
 const checkDuplicateUsername : RequestHandler = async (req, res, next) => {
     try {
-        const user = await User.findOne({username: req.body.username}).exec();
+        const user = await User.findOne({ username: req.body.username }).exec();
         if (user) return res.status(StatusCodes.BAD_REQUEST).json({ 
             error: 'Username already registered' 
         });
     } catch (err) {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({err});
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
     }
 
     return next();
