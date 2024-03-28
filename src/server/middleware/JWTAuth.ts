@@ -9,15 +9,21 @@ export const checkJwtToken: RequestHandler = async (req, res, next) => {
         message: 'Access denied' 
     });
 
-    try {
-        const jwtData = JWTService.verify(token);
+    const jwtData = JWTService.verify(token);
 
-        req.headers.idUser = jwtData.toString();
-
-        return next();
-    } catch (err) {
-        return res.status(StatusCodes.FORBIDDEN).json({ 
-            message: 'Access denied' 
+    if (jwtData === "JWT_SECRET_NOT_FOUND") {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: 'The JWT_SECRET was not defined'
         });
+    } else if (jwtData === "INVALID_TOKEN") {
+        return res.status(StatusCodes.FORBIDDEN).json({
+            message: 'Token verification failed'
+        });
+    } else if (req.params.id !== String(jwtData.uid) && 
+        String(jwtData.uid) !== process.env.ADMIN) {
+            return res.status(StatusCodes.FORBIDDEN).json({ 
+                message: 'Access denied' 
+            });
     }
+    return next();
 };
