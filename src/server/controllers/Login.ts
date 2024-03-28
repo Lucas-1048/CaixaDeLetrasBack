@@ -28,7 +28,7 @@ export const login = async (req: Request<{}, {}, IUserLogin>, res: Response) => 
         const accessToken = JWTService.sign({ uid: user._id });
         if(accessToken === 'JWT_SECRET_NOT_FOUND') {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ 
-                message: 'Internal server error' 
+                error: 'Internal server error' 
             });
         }
         res.cookie('access_token', accessToken, { httpOnly: true });
