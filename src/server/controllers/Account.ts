@@ -30,7 +30,7 @@ const setFavorite = async (_req: Request, res: Response) => {
     const movie = res.locals.movie;
 
     for(let i = 0; i < 4; i++) {
-        if(user.favorites[i] === null) {
+        if(user.favorites[i] === undefined) {
             user.favorites[i] = movie._id;
             user.markModified('favorites');
         }
@@ -59,7 +59,7 @@ const updateFavorite = async (req: Request, res: Response) => {
         })
     }
 
-    if(user.favorites[pos] === null) {
+    if(user.favorites[pos] === undefined) {
         return res.status(StatusCodes.BAD_REQUEST).json({
             error: "Favorite does not exist"
         });

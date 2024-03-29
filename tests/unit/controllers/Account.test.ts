@@ -73,34 +73,93 @@ describe("Update methods", () => {
         expect(data.biography).toEqual(req.body.biography);
     });
 
+    test("Should set favorite", async () => {
+        const user = new User(validUser);
+        await user.save();
+        const movie = new Movie(validMovie);
+        await movie.save();
+
+        const req = httpMocks.createRequest();
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.OK);
+
+        res = httpMocks.createResponse();
+        res.locals.user = user;
+        await accountHandler.getPublicAccount(req, res);
+        const data = res._getJSONData();
+
+        expect(String(data.favorites[0]._id)).toEqual(String(movie._id));
+    });
+
+    test("Should reject setting favorite if user already has 4 favorites", async () => {
+        const user = new User(validUser);
+        await user.save();
+        const movie = new Movie(validMovie);
+        await movie.save();
+
+        const req = httpMocks.createRequest();
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
+    });
+
     test("Should update favorite", async () => {
         const user = new User(validUser);
         await user.save();
         const movie = new Movie(validMovie);
         await movie.save();
 
-        const req = httpMocks.createRequest({
+        const req1 = httpMocks.createRequest();
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req1, res);
+
+        const req2 = httpMocks.createRequest({
             params: {
-                pos: '1',
+                pos: '0',
             }
         });
 
         res.locals.user = user;
         res.locals.movie = movie;
-        await accountHandler.updateFavorite(req, res);
+        await accountHandler.updateFavorite(req2, res);
 
         expect(res.statusCode).toBe(StatusCodes.NO_CONTENT);
 
         res = httpMocks.createResponse();
         res.locals.user = user;
-        await accountHandler.getPublicAccount(req, res);
+        await accountHandler.getPublicAccount(req2, res);
         let data = res._getJSONData();
 
-        expect(data.favorites[Number(req.params.pos)]).toBe(String(movie._id));
+        expect(data.favorites[Number(req2.params.pos)]._id).toBe(String(movie._id));
 
         res = httpMocks.createResponse();
         res.locals.user = user;
-        await accountHandler.getPublicAccount(req, res);
+        await accountHandler.getPublicAccount(req2, res);
         data = res._getJSONData();
     
         expect(data.favorites[0]._id).toEqual(String(movie._id));
