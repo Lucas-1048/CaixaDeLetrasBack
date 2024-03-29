@@ -25,6 +25,29 @@ const updateBio = async (req: Request, res: Response) => {
     return res.status(StatusCodes.NO_CONTENT).send();
 }
 
+const setFavorite = async (_req: Request, res: Response) => {
+    const user = res.locals.user;
+    const movie = res.locals.movie;
+
+    for(let i = 0; i < 4; i++) {
+        if(user.favorites[i] === null) {
+            user.favorites[i] = movie._id;
+            user.markModified('favorites');
+        }
+        else if(i === 3) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ 
+                error: "User already has 4 favorites" 
+            });
+        }
+    }
+    await user.save();
+
+    return res.status(StatusCodes.OK).json({ 
+        message: "Favorite added successfully"
+    });
+
+}
+
 const updateFavorite = async (req: Request, res: Response) => {
     const user = res.locals.user;
     const movie = res.locals.movie;
@@ -34,6 +57,12 @@ const updateFavorite = async (req: Request, res: Response) => {
         return res.status(StatusCodes.BAD_REQUEST).json({ 
             error: "Number must be an integer from 0 to 3" 
         })
+    }
+
+    if(user.favorites[pos] === null) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            error: "Favorite does not exist"
+        });
     }
 
     user.favorites[pos] = movie._id;
@@ -47,5 +76,6 @@ const updateFavorite = async (req: Request, res: Response) => {
 export const accountHandler = {
     getPublicAccount,
     updateBio,
+    setFavorite,
     updateFavorite,
 }

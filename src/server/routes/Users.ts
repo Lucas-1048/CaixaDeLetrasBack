@@ -21,11 +21,14 @@ router.put('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId, upload.singl
 
 router.delete('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
 
-router.get('/avatar/:username', Checks.checkParamUsername, pictureHandler.getAvatar);
+router.get('/avatar/:username', [ checkJwtToken, Checks.checkParamUsername ], pictureHandler.getAvatar);
 
-router.get('/profile/:username', Checks.checkParamUsername, accountHandler.getPublicAccount);
+router.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], accountHandler.getPublicAccount);
 
 router.put('/bio/:id', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.updateBio);
+
+router.post('/favorites/:id', [ checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId ],
+    accountHandler.setFavorite);
 
 router.put('/favorites/:id/:pos', [ checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId ], 
     accountHandler.updateFavorite);

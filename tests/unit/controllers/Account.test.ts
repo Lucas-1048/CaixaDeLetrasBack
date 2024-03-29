@@ -49,48 +49,6 @@ const validMovie = {
     thumbnail: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Timmy_Failure_Mistakes_Were_Made_Poster.jpeg',
 }
 
-describe("Get methods", () => {
-    test("Should retrieve all acount info", async () => {
-        const user = new User(validUser);
-        await user.save();
-
-        const req = httpMocks.createRequest({
-            params: {
-                id: user._id,
-            }
-        });
-
-        res.locals.user = user; //Assume user is in locals with middleware
-
-        await accountHandler.getAccountInfo(req, res);        
-
-        expect(res.statusCode).toBe(StatusCodes.OK);
-        expect(res._getJSONData()._id).toBe(String(user._id));
-    });
-
-    test("Should retrieve public profile", async () => {
-        const user = new User(validUser);
-        await user.save();
-
-        const req = httpMocks.createRequest({
-            params: {
-                id: user._id,
-            }
-        });
-
-        res.locals.user = user;
-
-        await accountHandler.getAccountInfo(req, res);
-        const data = res._getJSONData();
-
-        expect(res.statusCode).toBe(StatusCodes.OK);
-        expect(data.username).toBe(user.username);
-        expect(data.gender).toBe(user.gender);
-        expect(data.biography).toBe(user.biography);
-        expect(data.favorites).toStrictEqual(user.favorites);
-    });
-});
-
 describe("Update methods", () => {
     test("Should update biography", async () => {
         const user = new User(validUser);
@@ -109,7 +67,7 @@ describe("Update methods", () => {
 
         res = httpMocks.createResponse();
         res.locals.user = user;
-        await accountHandler.getAccountInfo(req, res);
+        await accountHandler.getPublicAccount(req, res);
         const data = res._getJSONData();
 
         expect(data.biography).toEqual(req.body.biography);
@@ -133,15 +91,13 @@ describe("Update methods", () => {
 
         expect(res.statusCode).toBe(StatusCodes.NO_CONTENT);
 
-        //Saves "Position" correctly on DB
         res = httpMocks.createResponse();
         res.locals.user = user;
-        await accountHandler.getAccountInfo(req, res);
+        await accountHandler.getPublicAccount(req, res);
         let data = res._getJSONData();
 
         expect(data.favorites[Number(req.params.pos)]).toBe(String(movie._id));
 
-        //Populates correctly
         res = httpMocks.createResponse();
         res.locals.user = user;
         await accountHandler.getPublicAccount(req, res);
