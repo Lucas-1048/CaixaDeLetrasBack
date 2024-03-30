@@ -27,10 +27,11 @@ router.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], a
 
 router.get('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getPrivateAccount);
 
-router.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.updateBio);
+router.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.bioValidation) ], 
+    accountHandler.updateBio);
 
-router.post('/favorites/:idUser', [ checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId ],
+router.post('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.setFavorite);
 
-router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId ], 
+router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ], 
     accountHandler.updateFavorite);

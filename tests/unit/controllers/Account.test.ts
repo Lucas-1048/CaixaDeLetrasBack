@@ -139,13 +139,10 @@ describe("Update methods", () => {
         await accountHandler.setFavorite(req1, res);
 
         const req2 = httpMocks.createRequest({
-            params: {
+            query: {
                 pos: '0',
             }
         });
-
-        res.locals.user = user;
-        res.locals.movie = movie;
         await accountHandler.updateFavorite(req2, res);
 
         expect(res.statusCode).toBe(StatusCodes.NO_CONTENT);
@@ -155,13 +152,6 @@ describe("Update methods", () => {
         await accountHandler.getPublicAccount(req2, res);
         let data = res._getJSONData();
 
-        expect(data.favorites[Number(req2.params.pos)]._id).toBe(String(movie._id));
-
-        res = httpMocks.createResponse();
-        res.locals.user = user;
-        await accountHandler.getPublicAccount(req2, res);
-        data = res._getJSONData();
-    
         expect(data.favorites[0]._id).toEqual(String(movie._id));
     });
 

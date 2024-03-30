@@ -5,7 +5,7 @@ const storage = multer.diskStorage({
     destination: process.env.PROFILE_DEST,
     filename: (req, file, cb) => {
         const extensionName = path.extname(file.originalname)        
-        cb(null,req.params.id + (extensionName == '.jpeg' ? '.jpg' : extensionName));
+        cb(null,req.params.idUser + (extensionName == '.jpeg' ? '.jpg' : extensionName));
     } 
 });
 
