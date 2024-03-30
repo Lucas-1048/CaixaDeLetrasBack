@@ -23,9 +23,10 @@ router.delete('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId ], pic
 
 router.get('/avatar/:username', [ checkJwtToken, Checks.checkParamUsername ], pictureHandler.getAvatar);
 
-router.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], accountHandler.getPublicAccount);
+router.get('/profile/username/:username', [ checkJwtToken, Checks.checkParamUsername ], 
+    accountHandler.getPublicAccount);
 
-router.get('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getPrivateAccount);
+router.get('/profile/id/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getPrivateAccount);
 
 router.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.bioValidation) ], 
     accountHandler.updateBio);

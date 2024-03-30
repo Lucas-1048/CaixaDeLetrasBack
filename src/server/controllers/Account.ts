@@ -5,12 +5,7 @@ import { Request, Response } from "express";
 const getPrivateAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
-    try {
-        const avatar = await pictureHandler.getAvatar(_req, res);
-        user.profilePicturePath = avatar;
-    } catch (error) {
-        user.profilePicturePath = process.env.PROFILE_DEST + 'default.png';
-    }
+    await pictureHandler.getAvatar(_req, res);
 
     return res.status(StatusCodes.OK).json({
         username: user.username,

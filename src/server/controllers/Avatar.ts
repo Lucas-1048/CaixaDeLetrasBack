@@ -35,7 +35,7 @@ const removeAvatar = async (_req: Request, res: Response) => {
         }
     })
 
-    user.profilePicturePath = '';
+    user.profilePicturePath = process.env.PROFILE_DEST + 'default.png';
     user.markModified('profilePicturePath');
 
     await user.save();
@@ -47,11 +47,13 @@ const getAvatar = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
     const file = path.resolve(process.env.PROFILE_DEST!, user.profilePicturePath);
-    try {
-        res.status(StatusCodes.OK).sendFile(file);
-    } catch (error) {
-        throw new Error('User does not have an avatar');
-    }
+    res.sendFile(file, err => {
+        if (err) {
+            user.profilePicturePath = process.env.PROFILE_DEST + 'default.png';
+            user.markModified('profilePicturePath');
+        }
+    });
+    await user.save();
 }
 
 export const pictureHandler = {
