@@ -43,17 +43,15 @@ const removeAvatar = async (_req: Request, res: Response) => {
     return res.status(StatusCodes.NO_CONTENT).send();
 }
 
-const getAvatar = async(_req: Request, res: Response) => {
+const getAvatar = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
     const file = path.resolve(process.env.PROFILE_DEST!, user.profilePicturePath);
-    res.status(StatusCodes.OK).sendFile(file, err => {
-        if (err) {
-            return res.status(StatusCodes.NOT_FOUND).json({ 
-                error: 'User does not have an avatar' 
-            })
-        }
-    });
+    try {
+        res.status(StatusCodes.OK).sendFile(file);
+    } catch (error) {
+        throw new Error('User does not have an avatar');
+    }
 }
 
 export const pictureHandler = {

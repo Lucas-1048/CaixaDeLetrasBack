@@ -1,5 +1,28 @@
+import { pictureHandler } from './Avatar';
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
+
+const getPrivateAccount = async (_req: Request, res: Response) => {
+    const user = res.locals.user;
+
+    try {
+        const avatar = await pictureHandler.getAvatar(_req, res);
+        user.profilePicturePath = avatar;
+    } catch (error) {
+        user.profilePicturePath = process.env.PROFILE_DEST + 'default.png';
+    }
+
+    return res.status(StatusCodes.OK).json({
+        username: user.username,
+        email: user.email,
+        birthDate: user.birthDate,
+        gender: user.gender,
+        genres: user.genres,
+        profilePicturePath: user.profilePicturePath,
+        biography: user.biography,
+        favorites: user.favorites,
+    });
+}
 
 const getPublicAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
@@ -75,6 +98,7 @@ const updateFavorite = async (req: Request, res: Response) => {
 }
 
 export const accountHandler = {
+    getPrivateAccount,
     getPublicAccount,
     updateBio,
     setFavorite,
