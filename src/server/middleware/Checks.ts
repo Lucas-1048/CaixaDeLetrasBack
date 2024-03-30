@@ -8,13 +8,17 @@ const checkParamUserId: RequestHandler = async (req, res ,next) => {
     const id = req.params.id;
 
     if (!mongoose.isValidObjectId(id)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid object ID format in parameters' })
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: 'Invalid object ID format in parameters' 
+        })
     }
 
     const user = await User.findById(id);
 
     if (!user) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'User ID not found' });
+        return res.status(StatusCodes.NOT_FOUND).json({ 
+            error: 'User ID not found' 
+        });
     }
     
     res.locals.user = user;
@@ -26,7 +30,9 @@ const checkParamUsername : RequestHandler = async (req, res, next) => {
     const user = await User.findOne({ username: req.params.username });
     
     if (!user) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'Username not found' });
+        return res.status(StatusCodes.NOT_FOUND).json({ 
+            error: 'Username not found' 
+        });
     }
 
     res.locals.user = user;
@@ -38,13 +44,17 @@ const checkParamMovieId : RequestHandler = async (req, res, next) => {
     const id = req.params.id;
     
     if (!mongoose.isValidObjectId(id)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid object ID format in parameters' })
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: 'Invalid object ID format in parameters' 
+        })
     }
 
     const movie = await Movie.findById(id);
 
     if(!movie) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'Movie not found'});
+        return res.status(StatusCodes.NOT_FOUND).json({ 
+            error: 'Movie not found'
+        });
     }
 
     res.locals.movie = movie;
@@ -56,13 +66,17 @@ const checkBodyMovieId : RequestHandler = async(req, res, next) => {
     const id = req.body.movieId;
     
     if (!mongoose.isValidObjectId(id)) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Invalid object ID format for movieId' })
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: 'Invalid object ID format for movieId' 
+        })
     }
 
     const movie = await Movie.findById(id);
 
     if(!movie) {
-        return res.status(StatusCodes.NOT_FOUND).json({ error: 'Movie not found'});
+        return res.status(StatusCodes.NOT_FOUND).json({ 
+            error: 'Movie not found'
+        });
     }
 
     res.locals.movie = movie;

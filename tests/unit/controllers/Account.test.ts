@@ -49,48 +49,6 @@ const validMovie = {
     thumbnail: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Timmy_Failure_Mistakes_Were_Made_Poster.jpeg',
 }
 
-describe("Get methods", () => {
-    test("Should retrieve all acount info", async () => {
-        const user = new User(validUser);
-        await user.save();
-
-        const req = httpMocks.createRequest({
-            params: {
-                id: user._id,
-            }
-        });
-
-        res.locals.user = user; //Assume user is in locals with middleware
-
-        await accountHandler.getAccountInfo(req, res);        
-
-        expect(res.statusCode).toBe(StatusCodes.OK);
-        expect(res._getJSONData()._id).toBe(String(user._id));
-    });
-
-    test("Should retrieve public profile", async () => {
-        const user = new User(validUser);
-        await user.save();
-
-        const req = httpMocks.createRequest({
-            params: {
-                id: user._id,
-            }
-        });
-
-        res.locals.user = user;
-
-        await accountHandler.getAccountInfo(req, res);
-        const data = res._getJSONData();
-
-        expect(res.statusCode).toBe(StatusCodes.OK);
-        expect(data.username).toBe(user.username);
-        expect(data.gender).toBe(user.gender);
-        expect(data.biography).toBe(user.biography);
-        expect(data.favorites).toStrictEqual(user.favorites);
-    });
-});
-
 describe("Update methods", () => {
     test("Should update biography", async () => {
         const user = new User(validUser);
@@ -109,10 +67,63 @@ describe("Update methods", () => {
 
         res = httpMocks.createResponse();
         res.locals.user = user;
-        await accountHandler.getAccountInfo(req, res);
+        await accountHandler.getPublicAccount(req, res);
         const data = res._getJSONData();
 
         expect(data.biography).toEqual(req.body.biography);
+    });
+
+    test("Should set favorite", async () => {
+        const user = new User(validUser);
+        await user.save();
+        const movie = new Movie(validMovie);
+        await movie.save();
+
+        const req = httpMocks.createRequest();
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.OK);
+
+        res = httpMocks.createResponse();
+        res.locals.user = user;
+        await accountHandler.getPublicAccount(req, res);
+        const data = res._getJSONData();
+
+        expect(String(data.favorites[0]._id)).toEqual(String(movie._id));
+    });
+
+    test("Should reject setting favorite if user already has 4 favorites", async () => {
+        const user = new User(validUser);
+        await user.save();
+        const movie = new Movie(validMovie);
+        await movie.save();
+
+        const req = httpMocks.createRequest();
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
     });
 
     test("Should update favorite", async () => {
@@ -121,30 +132,34 @@ describe("Update methods", () => {
         const movie = new Movie(validMovie);
         await movie.save();
 
-        const req = httpMocks.createRequest({
+        const req1 = httpMocks.createRequest();
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req1, res);
+
+        const req2 = httpMocks.createRequest({
             params: {
-                pos: '1',
+                pos: '0',
             }
         });
 
         res.locals.user = user;
         res.locals.movie = movie;
-        await accountHandler.updateFavorite(req, res);
+        await accountHandler.updateFavorite(req2, res);
 
         expect(res.statusCode).toBe(StatusCodes.NO_CONTENT);
 
-        //Saves "Position" correctly on DB
         res = httpMocks.createResponse();
         res.locals.user = user;
-        await accountHandler.getAccountInfo(req, res);
+        await accountHandler.getPublicAccount(req2, res);
         let data = res._getJSONData();
 
-        expect(data.favorites[Number(req.params.pos)]).toBe(String(movie._id));
+        expect(data.favorites[Number(req2.params.pos)]._id).toBe(String(movie._id));
 
-        //Populates correctly
         res = httpMocks.createResponse();
         res.locals.user = user;
-        await accountHandler.getPublicAccount(req, res);
+        await accountHandler.getPublicAccount(req2, res);
         data = res._getJSONData();
     
         expect(data.favorites[0]._id).toEqual(String(movie._id));
