@@ -333,6 +333,20 @@
                                             }
                                         }
                                     }
+                                },
+                                "examples": {
+                                    "profile": {
+                                        "value": {
+                                            "username": "fulano",
+                                            "email": "fulano@example.com",
+                                            "birthDate": "2002-08-17",
+                                            "gender": "Male",
+                                            "genres": ["Action", "Drama"],
+                                            "biography": "I'm a cool guy",
+                                            "profilePicturePath": "./uploads/fulano.jpg",
+                                            "favorites": ["5f9b3b3b3b3b3b3b3b3b3b3b"]
+                                        }
+                                    }
                                 }
                             }
                         }
