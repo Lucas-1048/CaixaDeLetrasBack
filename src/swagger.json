@@ -218,9 +218,9 @@
                 }
             }
         },
-        "/profile/:username": {
+        "/profile/username/:username": {
             "get": {
-                "summary": "Gets an user's profile by username",
+                "summary": "Gets an user's profile by username (public perspective)",
                 "parameters": [
                     {
                         "name": "username",
@@ -264,6 +264,73 @@
                                             "gender": "Male",
                                             "biography": "I'm a cool guy",
                                             "favorites": ["5f9b3b3b3b3b3b3b3b3b3b3b"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Profile not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/profile/id/:idUser": {
+            "get": {
+                "summary": "Gets an user's profile by ID (private perspective)",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "param",
+                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "objectId"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. Returns the user details.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {
+                                            "type": "String"
+                                        },
+                                        "email": {
+                                            "type": "String"
+                                        },
+                                        "birthDate": {
+                                            "type": "String",
+                                            "format": "date"
+                                        },
+                                        "gender": {
+                                            "type": "String"
+                                        },
+                                        "genres": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "String"
+                                            }
+                                        },
+                                        "biography": {
+                                            "type": "String"
+                                        },
+                                        "profilePicturePath": {
+                                            "type": "String"
+                                        },
+                                        "favorites": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "objectId"
+                                            }
                                         }
                                     }
                                 }
