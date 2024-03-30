@@ -33,6 +33,7 @@ const setFavorite = async (_req: Request, res: Response) => {
         if(user.favorites[i] === undefined) {
             user.favorites[i] = movie._id;
             user.markModified('favorites');
+            break;
         }
         else if(i === 3) {
             return res.status(StatusCodes.BAD_REQUEST).json({ 
