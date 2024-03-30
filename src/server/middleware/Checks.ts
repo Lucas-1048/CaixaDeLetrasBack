@@ -14,7 +14,7 @@ const bioValidation: yup.ObjectSchema<IBio> = yup.object().shape({
 });
 
 const checkParamUserId: RequestHandler = async (req, res ,next) => {
-    const id = req.params.id;
+    const id = req.params.idUser;
 
     if (!mongoose.isValidObjectId(id)) {
         return res.status(StatusCodes.BAD_REQUEST).json({ 
@@ -50,7 +50,7 @@ const checkParamUsername : RequestHandler = async (req, res, next) => {
 }
 
 const checkParamMovieId : RequestHandler = async (req, res, next) => {
-    const id = req.params.id;
+    const id = req.params.idMovie;
     
     if (!mongoose.isValidObjectId(id)) {
         return res.status(StatusCodes.BAD_REQUEST).json({ 

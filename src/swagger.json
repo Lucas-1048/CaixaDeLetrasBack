@@ -336,7 +336,7 @@
         },
         "/favorites/:idUser/:idMovie": {
             "post": {
-                "summary": "Inserts a movie in an user's favorites",
+                "summary": "Adds a movie to an user's favorites",
                 "parameters": [
                     {
                         "name": "idUser",
@@ -376,7 +376,7 @@
                 }
             },
             "put": {
-                "summary": "Adds a movie to an user's favorites",
+                "summary": "Changes a movie in user's favorites",
                 "parameters": [
                     {
                         "name": "idUser",
