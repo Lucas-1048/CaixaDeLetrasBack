@@ -52,7 +52,7 @@ const setFavorite = async (_req: Request, res: Response) => {
 const updateFavorite = async (req: Request, res: Response) => {
     const user = res.locals.user;
     const movie = res.locals.movie;
-    const pos = parseInt(req.params.pos);
+    const pos = parseInt(req.query.pos as string);
 
     if(pos >= 4 || pos < 0) {
         return res.status(StatusCodes.BAD_REQUEST).json({ 

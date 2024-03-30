@@ -3,6 +3,15 @@ import { RequestHandler } from "express";
 import { User } from "../models/User";
 import { Movie } from "../models/Movie";
 import mongoose from "mongoose";
+import * as yup from 'yup';
+
+interface IBio {
+    biography: string;
+}
+
+const bioValidation: yup.ObjectSchema<IBio> = yup.object().shape({
+    biography: yup.string().required(),
+});
 
 const checkParamUserId: RequestHandler = async (req, res ,next) => {
     const id = req.params.id;
@@ -85,6 +94,7 @@ const checkBodyMovieId : RequestHandler = async(req, res, next) => {
 }
 
 export const Checks = {
+    bioValidation,
     checkParamUserId,
     checkParamUsername,
     checkParamMovieId,

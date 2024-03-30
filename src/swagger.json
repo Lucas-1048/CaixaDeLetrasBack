@@ -23,10 +23,10 @@
                                 "type": "object",
                                 "properties":  {
                                     "email": {
-                                        "type": "string"
+                                        "type": "String"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "String"
                                     }
                                 }
                             },
@@ -65,25 +65,25 @@
                                 "type": "object",
                                 "properties":  {
                                     "username": {
-                                        "type": "string"
+                                        "type": "String"
                                     },
                                     "email": {
-                                        "type": "string"
+                                        "type": "String"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "String"
                                     },
                                     "birthDate": {
-                                        "type": "string",
+                                        "type": "String",
                                         "format": "date"
                                     },
                                     "gender": {
-                                        "type": "string"
+                                        "type": "String"
                                     },
                                     "genres": {
                                         "type": "array",
                                         "items": {
-                                            "type": "string"
+                                            "type": "String"
                                         }
                                     },
                                     "favorites": {
@@ -120,17 +120,17 @@
                 }
             }
         },
-        "/avatar/:id": {
+        "/avatar/:idUser": {
             "put": {
                 "summary": "Updates an user's avatar",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
+                        "name": "idUser",
+                        "in": "param",
                         "description": "ID of the user (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "objectId"
                         }
                     }
                 ],
@@ -163,12 +163,12 @@
                 "summary": "Deletes an user's avatar",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
+                        "name": "idUser",
+                        "in": "param",
                         "description": "ID of the user (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "objectId"
                         }
                     }
                 ],
@@ -189,17 +189,19 @@
                         "description": "Internal server error"
                     }
                 }
-            },
+            }
+        },
+        "/avatar/:username": {
             "get": {
                 "summary": "Gets an user's avatar",
                 "parameters": [
                     {
                         "name": "username",
-                        "in": "path",
+                        "in": "param",
                         "description": "User's name in the app",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "String"
                         }
                     }
                 ],
@@ -222,11 +224,11 @@
                 "parameters": [
                     {
                         "name": "username",
-                        "in": "path",
+                        "in": "param",
                         "description": "User's name in the app",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "String"
                         }
                     }
                 ],
@@ -239,18 +241,18 @@
                                     "type": "object",
                                     "properties": {
                                         "username": {
-                                            "type": "string"
+                                            "type": "String"
                                         },
                                         "gender": {
-                                            "type": "string"
+                                            "type": "String"
                                         },
                                         "biography": {
-                                            "type": "string"
+                                            "type": "String"
                                         },
                                         "favorites": {
                                             "type": "array",
                                             "items": {
-                                                "type": "string"
+                                                "type": "objectId"
                                             }
                                         }
                                     }
@@ -277,17 +279,17 @@
                 }
             }
         },
-        "bio/:id" : {
+        "/bio/:idUser" : {
             "put": {
                 "summary": "Updates an user's bio",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
+                        "name": "idUser",
+                        "in": "param",
                         "description": "ID of the user (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "objectId"
                         }
                     }
                 ],
@@ -299,7 +301,7 @@
                                 "type": "object",
                                 "properties": {
                                     "biography": {
-                                        "type": "string"
+                                        "type": "String"
                                     }
                                 }
                             },
@@ -332,52 +334,78 @@
                 }
             }
         },
-        "/favorites/:id/:pos": {
+        "/favorites/:idUser/:idMovie": {
+            "post": {
+                "summary": "Inserts a movie in an user's favorites",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "param",
+                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "objectId"
+                        }
+                    },
+                    {
+                        "name": "idMovie",
+                        "in": "param",
+                        "description": "ID of the movie (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "objectId"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie inserted in favorites successfully"
+                    },
+                    "400": {
+                        "description": "Invalid id"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
             "put": {
                 "summary": "Adds a movie to an user's favorites",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
+                        "name": "idUser",
+                        "in": "param",
                         "description": "ID of the user (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "objectId"
+                        }
+                    },
+                    {
+                        "name": "idMovie",
+                        "in": "param",
+                        "description": "ID of the movie (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "objectId"
                         }
                     },
                     {
                         "name": "pos",
-                        "in": "path",
-                        "description": "Position of the movie in the user's favorites array: Must be >= 0 and <= 4",
+                        "in": "query",
                         "required": true,
+                        "description": "Position to insert the movie in the favorites list (0 >= pos < 4)",
                         "schema": {
-                            "type": "number"
+                            "type": "Number"
                         }
                     }
                 ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "movieId": {
-                                        "type": "string",
-                                        "format": "ObjectId"
-                                    }
-                                }
-                            },
-                            "examples" : {
-                                "fav": {
-                                    "value": {
-                                        "movieId": "5f9b3b3b3b3b3b3b3b3b3b3b"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "204": {
                         "description": "Movie added to favorites successfully"

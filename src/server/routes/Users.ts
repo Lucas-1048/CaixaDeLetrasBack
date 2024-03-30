@@ -16,19 +16,20 @@ router.post('/login', login);
 router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
     VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp);
 
-router.put('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
+router.put('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
     pictureHandler.uploadAvatar);
 
-router.delete('/avatar/:id', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
+router.delete('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
 
 router.get('/avatar/:username', [ checkJwtToken, Checks.checkParamUsername ], pictureHandler.getAvatar);
 
 router.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], accountHandler.getPublicAccount);
 
-router.put('/bio/:id', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.updateBio);
+router.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.bioValidation) ], 
+    accountHandler.updateBio);
 
-router.post('/favorites/:id', [ checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId ],
+router.post('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.setFavorite);
 
-router.put('/favorites/:id/:pos', [ checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId ], 
+router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ], 
     accountHandler.updateFavorite);
