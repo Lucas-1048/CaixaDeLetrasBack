@@ -1,7 +1,7 @@
 import { initializeDatabase } from '../../dbHandler';
 import { StatusCodes } from "http-status-codes";
 import { accountHandler } from "../../../src/server/controllers/Account";
-import { User } from "../../../src/server/models/User";
+import { IUser, User } from "../../../src/server/models/User";
 import { Movie } from '../../../src/server/models/Movie';
 import httpMocks from "node-mocks-http";
 import { pictureHandler } from '../../../src/server/controllers/Avatar';
@@ -36,10 +36,11 @@ const validUser = {
     username: '1234',
     email: 'a@gmail.com',
     password: '123456',
-    birthDate: new Date().toISOString(),
+    birthDate: new Date(),
     gender: 'Male',
     genres: ['Action', 'Drama'],
     favorites: [],
+    biography: 'Test',
 }
 
 const validMovie = {
@@ -52,7 +53,10 @@ const validMovie = {
       'Wallace Shawn'
     ],
     genres: [ 'Adventure', 'Comedy', 'Drama', 'Family', 'Fantasy' ],
-    extract: 'Timmy Failure: Mistakes Were Made is a 2020 American adventure fantasy comedy-drama family film based on the book series of the same name by Stephan Pastis that debuted on Disney+ on February 7, 2020. The film is directed by Tom McCarthy, produced by Alexander Dostal, McCarthy and Jim Whitaker from a screenplay written by McCarthy and Pastis and stars Winslow Fegley, Ophelia Lovibond, Craig Robinson and Wallace Shawn.',
+    extract: `Timmy Failure: Mistakes Were Made is a 2020 American adventure fantasy comedy-drama family film
+     based on the book series of the same name by Stephan Pastis that debuted on Disney+ on February 7, 2020. 
+     The film is directed by Tom McCarthy, produced by Alexander Dostal, McCarthy and Jim Whitaker from a screenplay
+     written by McCarthy and Pastis and stars Winslow Fegley, Ophelia Lovibond, Craig Robinson and Wallace Shawn.`,
     thumbnail: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Timmy_Failure_Mistakes_Were_Made_Poster.jpeg',
 }
 
@@ -61,15 +65,12 @@ describe ("Get methods", () => {
         const req = httpMocks.createRequest();
         const res = httpMocks.createResponse();
 
-        const user = {
-            ...validUser,
-            profilePicturePath: '/caminho/do/avatar.jpg',
-            biography: 'Biografia do usuário',
-        };
+        const user = new User (validUser);
+        await user.save();
+
+        await User.findById(user._id).populate('favorites').exec();
 
         res.locals.user = user;
-        
-        (pictureHandler.getAvatar as jest.Mock).mockReturnValue("/caminho/do/avatar.jpg");
 
         await accountHandler.getPrivateAccount(req, res);
 
@@ -77,7 +78,7 @@ describe ("Get methods", () => {
         expect(responseData).toEqual({
             username: user.username,
             email: user.email,
-            birthDate: user.birthDate,
+            birthDate: user.birthDate.toISOString(),
             gender: user.gender,
             genres: user.genres,
             profilePicturePath: user.profilePicturePath,
@@ -106,6 +107,56 @@ describe ("Get methods", () => {
             biography: user.biography,
             favorites: user.favorites
         })
+    });
+});
+
+describe("Delete methods", () => {
+    test("Should delete user", async () => {
+        const user = new User(validUser);
+        await user.save();
+
+        const req = httpMocks.createRequest();
+
+        res.locals.user = user;
+        await accountHandler.deleteAccount(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.NO_CONTENT);
+
+        const deletedUser = await User.findById(user._id);
+        expect(deletedUser).toBe(null);
+    });
+    
+    test("Should delete a favorite movie", async () => {
+        const user = new User(validUser);
+        await user.save();
+        const movie = new Movie(validMovie);
+        await movie.save();
+
+        const req = httpMocks.createRequest();
+
+        res.locals.user = user;
+        res.locals.movie = movie;
+        await accountHandler.setFavorite(req, res);
+
+        res = httpMocks.createResponse();
+        res.locals.user = user;
+
+        const req2 = httpMocks.createRequest({
+            query: {
+                pos: '0',
+            }
+        });
+        
+        await accountHandler.removeFavorite(req2, res);
+
+        expect(res.statusCode).toBe(StatusCodes.NO_CONTENT);
+
+        res = httpMocks.createResponse();
+        res.locals.user = user;
+        await accountHandler.getPublicAccount(req, res);
+        const data = res._getJSONData();
+
+        expect(data.favorites.length).toBe(0);
     });
 });
 
