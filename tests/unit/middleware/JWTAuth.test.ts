@@ -14,7 +14,7 @@ describe('checkJwtToken middleware', () => {
     });
 
     it('should call next when req.params.id matches user ID', async () => {
-        const req = { cookies: { access_token: 'validToken' }, params: { id: 'mockId' } };
+        const req = { cookies: { access_token: 'validToken' }, params: { idUser: 'mockId' } };
         const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
         const next = jest.fn();
 
@@ -28,7 +28,7 @@ describe('checkJwtToken middleware', () => {
     });
 
     it('should return "Acess denied" message when token is missing', async () => {
-        const req = { cookies: { access_token : undefined }, params: { id: 'mockId' } };
+        const req = { cookies: { access_token : undefined }, params: { idUser: 'mockId' } };
         const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
         const next = jest.fn();
 
@@ -43,7 +43,7 @@ describe('checkJwtToken middleware', () => {
     });
 
     it('should return "Acess denied" when user id does not match token uid', async () => {
-        const req = { cookies: { access_token: 'validToken' }, params: { id: 'test' } };
+        const req = { cookies: { access_token: 'validToken' }, params: { idUser: 'test' } };
         const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
         const next = jest.fn();
 
@@ -60,7 +60,7 @@ describe('checkJwtToken middleware', () => {
     it('should call next when UID of token matches the admin ID', async () => {
         process.env.ADMIN = 'adminId';
         
-        const req = { cookies: { access_token: 'validToken' }, params: { id: 'test' } };
+        const req = { cookies: { access_token: 'validToken' }, params: { idUser: 'test' } };
         const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
         const next = jest.fn();
 
