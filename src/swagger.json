@@ -85,12 +85,6 @@
                                         "items": {
                                             "type": "String"
                                         }
-                                    },
-                                    "favorites": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "objectId"
-                                        }
                                     }
                                 }
                             },
@@ -102,8 +96,7 @@
                                         "password": "senha123",
                                         "birthDate": "2002-08-17",
                                         "gender": "Male",
-                                        "genres": ["Action", "Drama"],
-                                        "favorites": []
+                                        "genres": ["Action", "Drama"]
                                     }
                                 }
                             }
@@ -127,7 +120,7 @@
                     {
                         "name": "idUser",
                         "in": "param",
-                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "description": "User's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -165,7 +158,7 @@
                     {
                         "name": "idUser",
                         "in": "param",
-                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "description": "User's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -191,13 +184,13 @@
                 }
             }
         },
-        "/avatar/:username": {
+        "/avatar/": {
             "get": {
                 "summary": "Gets an user's avatar",
                 "parameters": [
                     {
                         "name": "username",
-                        "in": "param",
+                        "in": "query",
                         "description": "User's name in the app",
                         "required": true,
                         "schema": {
@@ -218,13 +211,13 @@
                 }
             }
         },
-        "/profile/username/:username": {
+        "/profile/": {
             "get": {
                 "summary": "Gets an user's profile by username (public perspective)",
                 "parameters": [
                     {
                         "name": "username",
-                        "in": "param",
+                        "in": "query",
                         "description": "User's name in the app",
                         "required": true,
                         "schema": {
@@ -279,14 +272,14 @@
                 }
             }
         },
-        "/profile/id/:idUser": {
+        "/profile/:idUser": {
             "get": {
                 "summary": "Gets an user's profile by ID (private perspective)",
                 "parameters": [
                     {
                         "name": "idUser",
                         "in": "param",
-                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "description": "User's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -358,6 +351,37 @@
                         "description": "Internal server error"
                     }
                 }
+            },
+            "delete": {
+                "summary": "Deletes an user's profile",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "param",
+                        "description": "User's ID (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "objectId"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Profile deleted successfully"
+                    },
+                    "400": {
+                        "description": "Invalid id"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
             }
         },
         "/bio/:idUser" : {
@@ -367,7 +391,7 @@
                     {
                         "name": "idUser",
                         "in": "param",
-                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "description": "User's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -422,7 +446,7 @@
                     {
                         "name": "idUser",
                         "in": "param",
-                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "description": "User's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -431,7 +455,7 @@
                     {
                         "name": "idMovie",
                         "in": "param",
-                        "description": "ID of the movie (must be a Types.ObjectId)",
+                        "description": "Movie's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -462,7 +486,7 @@
                     {
                         "name": "idUser",
                         "in": "param",
-                        "description": "ID of the user (must be a Types.ObjectId)",
+                        "description": "User's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -471,7 +495,7 @@
                     {
                         "name": "idMovie",
                         "in": "param",
-                        "description": "ID of the movie (must be a Types.ObjectId)",
+                        "description": "Movie's ID (must be a Types.ObjectId)",
                         "required": true,
                         "schema": {
                             "type": "objectId"
@@ -481,7 +505,7 @@
                         "name": "pos",
                         "in": "query",
                         "required": true,
-                        "description": "Position to insert the movie in the favorites list (0 >= pos < 4)",
+                        "description": "Favorite's position to be updated in the favorites list (0 >= pos < 4)",
                         "schema": {
                             "type": "Number"
                         }
@@ -493,6 +517,55 @@
                     },
                     "400": {
                         "description": "Invalid id or position"
+                    },
+                    "403": {
+                        "description": "User not authorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Deletes a movie from an user's favorites",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "param",
+                        "description": "User's ID (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "objectId"
+                        }
+                    },
+                    {
+                        "name": "idMovie",
+                        "in": "param",
+                        "description": "Movie's ID (must be a Types.ObjectId)",
+                        "required": true,
+                        "schema": {
+                            "type": "objectId"
+                        }
+                    },
+                    {
+                        "name": "pos",
+                        "in": "query",
+                        "required": true,
+                        "description": "Favorite's position to be removed in the favorites list (0 >= pos < 4)",
+                        "schema": {
+                            "type": "Number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Movie deleted from favorites successfully"
+                    },
+                    "400": {
+                        "description": "Invalid id"
                     },
                     "403": {
                         "description": "User not authorized"
