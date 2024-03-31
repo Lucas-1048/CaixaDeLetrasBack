@@ -54,7 +54,7 @@ describe("Parameter checks", () => {
     test("Should reject non-existing user ID", async () => {
         const req = httpMocks.createRequest({
             params: {
-                id: '65ff690c34e350de1d4acf02',
+                idUser: '65ff690c34e350de1d4acf02',
             }
         });
 
@@ -67,11 +67,11 @@ describe("Parameter checks", () => {
     test("Should reject non-existing movie ID", async () => {
         const req = httpMocks.createRequest({
             params: {
-                id: '6601e3284be11204fb527866',
+                idMovie: '6601e3284be11204fb527866',
             }
         });
 
-        await Checks.checkParamUserId(req, res, next);
+        await Checks.checkParamMovieId(req, res, next);
 
         expect(next).not.toHaveBeenCalled();
         expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
@@ -93,7 +93,7 @@ describe("Parameter checks", () => {
     test("Should reject invalid user ID format", async () => {
         const req = httpMocks.createRequest({
             params: {
-                id: 'dasda',
+                idUser: 'dasda',
             }
         });
 
@@ -106,7 +106,7 @@ describe("Parameter checks", () => {
     test("Should reject invalid movie ID format", async() => {
         const req = httpMocks.createRequest({
             params: {
-                id: 'dasda',
+                idUser: 'dasda',
             }
         });
 
@@ -122,11 +122,12 @@ describe("Parameter checks", () => {
 
         const req = httpMocks.createRequest({
             params: {
-                id: user._id,
+                idUser: user._id,
             }
         });
 
         await Checks.checkParamUserId(req, res, next);
+
 
         expect(next).toHaveBeenCalled();
         expect(res.locals.user._id).toStrictEqual(user._id);
@@ -138,7 +139,7 @@ describe("Parameter checks", () => {
 
         const req = httpMocks.createRequest({
             params: {
-                id: movie._id,
+                idMovie: movie._id,
             }
         });
 
