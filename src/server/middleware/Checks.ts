@@ -73,7 +73,7 @@ const checkParamMovieId : RequestHandler = async (req, res, next) => {
 
 const checkBodyMovieId : RequestHandler = async(req, res, next) => {
     const id = req.body.movieId;
-    
+
     if (!mongoose.isValidObjectId(id)) {
         return res.status(StatusCodes.BAD_REQUEST).json({ 
             error: 'Invalid object ID format for movieId' 
