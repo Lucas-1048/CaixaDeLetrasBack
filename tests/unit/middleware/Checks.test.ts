@@ -128,6 +128,7 @@ describe("Parameter checks", () => {
 
         await Checks.checkParamUserId(req, res, next);
 
+
         expect(next).toHaveBeenCalled();
         expect(res.locals.user._id).toStrictEqual(user._id);
     });
