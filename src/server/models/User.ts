@@ -7,7 +7,7 @@ export interface IUser {
     birthDate: Date;
     gender: string;
     genres: string[];
-    profilePicturePath: string | null | undefined;
+    profilePicturePath: string;
     biography: string | null | undefined;
     favorites: (mongoose.Types.ObjectId | null)[] | null;
 }
@@ -19,9 +19,9 @@ const UserSchema = new mongoose.Schema<IUser>({
     birthDate: {type: Date, required: true},
     gender: {type: String, required: true},
     genres: {type: [String], required: true},
-    profilePicturePath: {type: String, default: '', required: false},
+    profilePicturePath: {type: String, default: 'default.jpg', required: true},
     biography: {type: String, default: '', required: false},
-    favorites: {type: [{type: mongoose.Types.ObjectId, ref: 'Movie'}], default: [], required: false,
+    favorites: {type: [{type: mongoose.Types.ObjectId, ref: 'Movie'}], default: [], required: true,
         validate: [(val : any) => val.length <= 4,'Favorites array is larger than 4']},
 });
 

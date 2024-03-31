@@ -1,18 +1,25 @@
+import { genres } from './../controllers/Genres';
 import { StatusCodes } from "http-status-codes";
 import { IUser, User } from '../models/User'
 import { RequestHandler } from "express";
 import * as yup from "yup";
 
-const signUpValidation: yup.ObjectSchema<IUser> = yup.object().shape({
+export interface SignUpRequest {
+    username: string;
+    email: string;
+    password: string;
+    birthDate: Date;
+    gender: string;
+    genres: string[];
+}
+
+const signUpValidation: yup.ObjectSchema<SignUpRequest> = yup.object().shape({
     username: yup.string().required().min(4).max(20),
     email: yup.string().email().required(),
     password: yup.string().required().min(6).max(20),
     birthDate: yup.date().required(),
     gender: yup.string().required(),
     genres: yup.array().of(yup.string().required()).required(),
-    profilePicturePath: yup.string().notRequired(),
-    biography: yup.string().notRequired(),
-    favorites: yup.array().required().max(4),
 });
 
 const checkDuplicateEmail : RequestHandler = async (req, res, next) => {

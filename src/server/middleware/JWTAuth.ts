@@ -19,7 +19,7 @@ export const checkJwtToken: RequestHandler = async (req, res, next) => {
         return res.status(StatusCodes.FORBIDDEN).json({
             error: 'Token verification failed'
         });
-    } else if (req.params.id !== String(jwtData.uid) && 
+    } else if (req.params.idUser !== String(jwtData.uid) && 
         String(jwtData.uid) !== process.env.ADMIN) {
             return res.status(StatusCodes.FORBIDDEN).json({ 
                 error: 'Access denied' 
