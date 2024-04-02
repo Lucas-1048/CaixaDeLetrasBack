@@ -35,7 +35,7 @@ const removeAvatar = async (_req: Request, res: Response) => {
         }
     })
 
-    user.profilePicturePath = '';
+    user.profilePicturePath = 'default.png';
     user.markModified('profilePicturePath');
 
     await user.save();

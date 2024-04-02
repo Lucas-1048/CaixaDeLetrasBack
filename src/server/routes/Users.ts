@@ -21,9 +21,13 @@ userRouter.put('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId, uplo
 
 userRouter.delete('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
 
-userRouter.get('/avatar/:username', [ checkJwtToken, Checks.checkParamUsername ], pictureHandler.getAvatar);
+userRouter.get('/avatar/', Checks.checkQueryUsername, pictureHandler.getAvatar);
 
-userRouter.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], accountHandler.getPublicAccount);
+userRouter.get('/profile/', Checks.checkQueryUsername, accountHandler.getPublicAccount);
+
+userRouter.get('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getPrivateAccount);
+
+userRouter.delete('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.deleteAccount);
 
 userRouter.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.bioValidation) ], 
     accountHandler.updateBio);
@@ -33,3 +37,6 @@ userRouter.post('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkPara
 
 userRouter.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ], 
     accountHandler.updateFavorite);
+
+userRouter.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
+    accountHandler.removeFavorite);

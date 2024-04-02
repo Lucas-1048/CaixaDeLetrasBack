@@ -84,7 +84,7 @@ describe("Parameter checks", () => {
             }
         });
 
-        await Checks.checkParamUsername(req, res, next);
+        await Checks.checkQueryUsername(req, res, next);
 
         expect(next).not.toHaveBeenCalled();
         expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
@@ -106,7 +106,7 @@ describe("Parameter checks", () => {
     test("Should reject invalid movie ID format", async() => {
         const req = httpMocks.createRequest({
             params: {
-                idUser: 'dasda',
+                idMovie: 'dasda',
             }
         });
 
@@ -154,12 +154,12 @@ describe("Parameter checks", () => {
         await user.save();
         
         const req = httpMocks.createRequest({
-            params: {
+            query: {
                 username: user.username,
             }
         });
 
-        await Checks.checkParamUsername(req, res, next);
+        await Checks.checkQueryUsername(req, res, next);
 
         expect(next).toHaveBeenCalled();
         expect(res.locals.user._id).toStrictEqual(user._id);

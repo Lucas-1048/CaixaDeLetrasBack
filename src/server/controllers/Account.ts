@@ -1,6 +1,23 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 
+const getPrivateAccount = async (_req: Request, res: Response) => {
+    const user = res.locals.user;
+
+    await user.populate('favorites');
+
+    return res.status(StatusCodes.OK).json({
+        username: user.username,
+        email: user.email,
+        birthDate: user.birthDate,
+        gender: user.gender,
+        genres: user.genres,
+        profilePicturePath: user.profilePicturePath,
+        biography: user.biography,
+        favorites: user.favorites,
+    });
+}
+
 const getPublicAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
 
@@ -12,6 +29,14 @@ const getPublicAccount = async (_req: Request, res: Response) => {
         biography: user.biography,
         favorites: user.favorites,
     });
+}
+
+const deleteAccount = async (_req: Request, res: Response) => {
+    const user = res.locals.user;
+
+    await user.deleteOne();
+
+    return res.status(StatusCodes.NO_CONTENT).send();
 }
 
 const updateBio = async (req: Request, res: Response) => {
@@ -74,9 +99,45 @@ const updateFavorite = async (req: Request, res: Response) => {
     return res.status(StatusCodes.NO_CONTENT).send();
 }
 
+const removeFavorite = async (req: Request, res: Response) => {
+    const user = res.locals.user;
+    const pos = parseInt(req.query.pos as string);
+
+    if(pos >= 4 || pos < 0) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: "Number must be an integer from 0 to 3" 
+        })
+    }
+
+    if(user.favorites[pos] === undefined) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            error: "Favorite does not exist"
+        });
+    }
+
+    user.favorites[pos] = undefined;
+
+    for(let i = 0; i < 3; i++) {
+        if(user.favorites[i] === undefined) {
+            user.favorites[i] = user.favorites[i+1];
+            user.favorites[i+1] = undefined;
+        }
+    }
+
+    user.markModified('favorites');
+
+    await user.save();
+
+    return res.status(StatusCodes.NO_CONTENT).send();
+
+}
+
 export const accountHandler = {
+    getPrivateAccount,
     getPublicAccount,
+    deleteAccount,
     updateBio,
     setFavorite,
     updateFavorite,
+    removeFavorite,
 }

@@ -33,10 +33,10 @@ const checkParamUserId: RequestHandler = async (req, res ,next) => {
     res.locals.user = user;
 
     next();
-}
+} 
 
-const checkParamUsername : RequestHandler = async (req, res, next) => {
-    const user = await User.findOne({ username: req.params.username });
+const checkQueryUsername : RequestHandler = async (req, res, next) => {
+    const user = await User.findOne({ username: req.query.username as string });
     
     if (!user) {
         return res.status(StatusCodes.NOT_FOUND).json({ 
@@ -96,7 +96,7 @@ const checkBodyMovieId : RequestHandler = async(req, res, next) => {
 export const Checks = {
     bioValidation,
     checkParamUserId,
-    checkParamUsername,
+    checkQueryUsername,
     checkParamMovieId,
     checkBodyMovieId,
 }
