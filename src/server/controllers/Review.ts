@@ -21,13 +21,52 @@ const createReview = async (req: Request, res: Response, next: NextFunction) => 
         await review.save();
 
         return res.status(StatusCodes.CREATED).json({ review });
-
-    } catch (err : any) {
+    } catch (err) {
         next(err)
     }
 }
 
+const removeReview = async (req: Request, res: Response, next: NextFunction) => {
+    const user = res.locals.user;
+    const movie = res.locals.movie;
+
+    await Review.findOneAndDelete({ user: user._id, movie: movie._id });
+
+    return res.status(StatusCodes.NO_CONTENT).send()
+}
+
+const putReview = async (req: Request, res: Response, next: NextFunction) => {
+    const user = res.locals.user;
+    const movie = res.locals.movie;
+
+    let review = await Review.findOne({ user: user._id, movie: movie._id });
+    
+    try {
+        if (!review) {
+            review = new Review({
+                user: user._id,
+                movie: movie._id,
+                review: req.body.review,
+                rating: req.body.rating,
+            });
+        }
+        else {
+            review.review = req.body.review;
+            review.rating = req.body.rating
+            review.markModified('review');
+            review.markModified('rating');
+        }
+
+        await review.save();
+
+        return res.status(StatusCodes.CREATED).json({ review });
+    } catch (err) {
+        next(err)
+    }
+}
 
 export const reviewHandler = {
     createReview,
+    removeReview,
+    putReview,
 }
