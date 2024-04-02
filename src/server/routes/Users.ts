@@ -11,9 +11,9 @@ import { pictureHandler } from '../controllers/Avatar';
 
 export const router = Router();
 
-router.post('/login', login);
+router.post('/login/', login);
 
-router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
+router.post('/signup/', [ bodyValidation(VerifySignUp.signUpValidation), 
     VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp);
 
 router.put('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
@@ -21,9 +21,13 @@ router.put('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId, upload.s
 
 router.delete('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
 
-router.get('/avatar/:username', [ checkJwtToken, Checks.checkParamUsername ], pictureHandler.getAvatar);
+router.get('/avatar/', Checks.checkQueryUsername, pictureHandler.getAvatar);
 
-router.get('/profile/:username', [ checkJwtToken, Checks.checkParamUsername ], accountHandler.getPublicAccount);
+router.get('/profile/', Checks.checkQueryUsername, accountHandler.getPublicAccount);
+
+router.get('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getPrivateAccount);
+
+router.delete('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.deleteAccount);
 
 router.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.bioValidation) ], 
     accountHandler.updateBio);
@@ -33,3 +37,6 @@ router.post('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUse
 
 router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ], 
     accountHandler.updateFavorite);
+
+router.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
+    accountHandler.removeFavorite);

@@ -1,9 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import { User, IUser } from '../models/User';
+import { User } from '../models/User';
 import bcrypt from "bcryptjs";
+import { SignUpRequest } from '../middleware/VerifySignUp'; 
 
-export const signUp = async (req: Request<{}, {}, IUser>, res: Response) => {
+export const signUp = async (req: Request<{}, {}, SignUpRequest>, res: Response) => {
     try {
         const user = new User({
             username: req.body.username,

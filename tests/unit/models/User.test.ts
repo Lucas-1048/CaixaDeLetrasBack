@@ -21,7 +21,7 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
-            profilePicturePath: '',
+            profilePicturePath: 'default.jpg',
             biography: '',
             favorites: [],
         };
@@ -46,7 +46,7 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
-            profilePicturePath: '',
+            profilePicturePath: 'default.jpg',
             biography: '',
             favorites: [],
         };
@@ -58,7 +58,7 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
-            profilePicturePath: '',
+            profilePicturePath: 'default.jpg',
             biography: '',
             favorites: [],
         };
@@ -76,7 +76,7 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
-            profilePicturePath: '',
+            profilePicturePath: 'default.jpg',
             biography: '',
             favorites: [],
         };
@@ -88,7 +88,7 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
-            profilePicturePath: '',
+            profilePicturePath: 'default.jpg',
             biography: '',
             favorites: [],
         };
@@ -106,7 +106,7 @@ describe('User', () => {
             birthDate: new Date('1990-01-01'),
             gender: 'male',
             genres: ['rock', 'pop'],
-            profilePicturePath: '',
+            profilePicturePath: 'default.jpg',
             biography: '',
             favorites: [null,null,null,null,null],
         };
