@@ -78,35 +78,35 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 
 ### História 1:
 
-Task: Criar endpoint para o perfil público.
+Task: Criar endpoint para o perfil público. (Vinicius)
 
-Task: Alterar usuário no BD para aceitar lista de 4 filmes favoritos, foto e biografia.
+Task: Alterar usuário no BD para aceitar lista de 4 filmes favoritos, foto e biografia. (Vinicius)
 
 Task: Criar tela de perfil.
 
-Task: Criar tela de login.
+Task: Criar tela de login. (Ramiro)
 
-Task: Criar tela de cadastro.
+Task: Criar tela de cadastro. (Ramiro)
 
-Task: Criar endpoints para login.
+Task: Criar endpoints para login. (Lucas)
 
-Task: Criar endpoints para cadastro.
+Task: Criar endpoints para cadastro. (Vinicius)
 
-Task: Criar banco de dados.
+Task: Criar banco de dados. (Vinicius)
 
-Task: Criar tabela de usuário.
+Task: Criar tabela de usuário. (Luiz)
 
-Task: Instalar e configurar dependências do backend.
+Task: Instalar e configurar dependências do backend. (Lucas)
 
-Task: Instalar e configurar dependências do frontend.
+Task: Instalar e configurar dependências do frontend. (Ramiro)
 
 ### História 2:
 
-Task: Criar endpoint para a busca de filmes com possibilidade de filtros.
+Task: Criar endpoint para a busca de filmes com possibilidade de filtros. (Luiz)
 
-Task: Criar tabela de filmes.
+Task: Criar tabela de filmes. (Luiz)
 
-Task: Popular tabela de filmes.
+Task: Popular tabela de filmes. (Luiz)
 
 Task: Criar tela de pesquisa de filmes.
 
@@ -114,7 +114,7 @@ Task: Criar tela de pesquisa de filmes.
 
 Task: Criar tabela para avaliação de filme.
 
-Task: Criar endpoint para receber avaliação de filme.
+Task: Criar endpoint para receber avaliação de filme. (Vinicius)
 
 Task: Criar endpoint para retornar avaliações de um filme.
 
