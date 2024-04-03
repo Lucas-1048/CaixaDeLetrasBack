@@ -10,3 +10,5 @@ reviewRouter.post('/review/:idUser', [checkJwtToken, Checks.checkParamUserId, Ch
 reviewRouter.delete('/review/:idUser', [checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId], reviewHandler.removeReview);
 
 reviewRouter.put('/review/:idUser', [checkJwtToken, Checks.checkParamUserId, Checks.checkBodyMovieId], reviewHandler.putReview);
+
+reviewRouter.get('/review/:reviewId', [Checks.checkParamReviewId], reviewHandler.getReview);
