@@ -82,7 +82,7 @@ Task: Criar endpoint para o perfil público. (Vinicius)
 
 Task: Alterar usuário no BD para aceitar lista de 4 filmes favoritos, foto e biografia. (Vinicius)
 
-Task: Criar tela de perfil.
+Task: Criar tela de perfil. (Lucas)
 
 Task: Criar tela de login. (Ramiro)
 
@@ -108,7 +108,7 @@ Task: Criar tabela de filmes. (Luiz)
 
 Task: Popular tabela de filmes. (Luiz)
 
-Task: Criar tela de pesquisa de filmes.
+Task: Criar tela de pesquisa de filmes. (Ramiro)
 
 ### História 3:
 
@@ -120,13 +120,13 @@ Task: Criar endpoint para retornar avaliações de um filme. (Luiz)
 
 Task: Criar endpoint para retornar prévia da avaliação de um filme. (Luiz)
 
-Task: Configurar tela de pesquisa de filmes para exibir prévia da avaliação dos filmes.
+Task: Configurar tela de pesquisa de filmes para exibir prévia da avaliação dos filmes. (Lucas)
 
-Task: Criar tela para exibir avaliações e comentários de um filme.
+Task: Criar tela para exibir avaliações e comentários de um filme. (Ramiro)
 
 ### História 4:
 
-Task: Criar tela de histórico de avaliações.
+Task: Criar tela de histórico de avaliações. (Lucas)
 
 Task: Criar endpoint para o histórico de avaliações do usuário. (Luiz)
 
