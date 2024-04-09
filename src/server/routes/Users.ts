@@ -9,7 +9,7 @@ import { Checks } from '../middleware/Checks';
 import { upload } from '../middleware/FileExtension';
 import { pictureHandler } from '../controllers/Avatar';
 
-export const router = Router();
+const router = Router();
 
 router.post('/login/', login);
 
@@ -40,3 +40,5 @@ router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUser
 
 router.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.removeFavorite);
+
+export { router as usersRouter };

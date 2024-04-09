@@ -1,5 +1,6 @@
 import express from 'express';
-import { router } from './routes/Users';
+import { usersRouter } from './routes/Users';
+import { moviesRouter } from './routes/Movies';
 import { fileErrorHandler } from './middleware/FileErrorHandler';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
@@ -10,7 +11,8 @@ const server = express();
 server
   .use(cookieParser())
   .use(express.json())
-  .use(router)
+  .use(usersRouter)
+  .use(moviesRouter)
   .use(fileErrorHandler)
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
