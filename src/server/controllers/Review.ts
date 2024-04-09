@@ -65,8 +65,24 @@ const putReview = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const getReview = async (req: Request, res: Response, next: NextFunction) => {
+    const review = res.locals.review;
+    await review.populate('user');
+    const username = review.user.username;
+
+    const result = {
+        user: username,
+        movieId: review.movie,
+        review: review.review,
+        rating: review.rating,
+    }
+
+    return res.status(StatusCodes.OK).send(result);
+}
+
 export const reviewHandler = {
     createReview,
     removeReview,
     putReview,
+    getReview,
 }
