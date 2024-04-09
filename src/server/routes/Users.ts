@@ -11,9 +11,9 @@ import { pictureHandler } from '../controllers/Avatar';
 
 const router = Router();
 
-router.post('/login/', login);
+router.post('/login', login);
 
-router.post('/signup/', [ bodyValidation(VerifySignUp.signUpValidation), 
+router.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
     VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp);
 
 router.put('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
