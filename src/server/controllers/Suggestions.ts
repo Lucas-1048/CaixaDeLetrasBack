@@ -9,9 +9,15 @@ export const suggestions = async (req: Request, res: Response) => {
 
         const suggestions = [];
 
-        if (userGenres != null) for (let genre of userGenres.genres) {
-            const movies = await Movie.find({ genres: genre }).limit(10).select('_id title thumbnail');
-            suggestions.push({ genreName: genre, movies });
+        if (userGenres != null) {
+            for (let genre of userGenres.genres) {
+                const movies = await Movie.find({ genres: genre }).limit(10).select('_id title thumbnail');
+                const moviesWithScores = await Promise.all(movies.map(async movie => {
+                    const score = await movie.getScore();
+                    return { ...movie.toObject(), score };
+                }));
+                suggestions.push({ genreName: genre, movies: moviesWithScores });
+            }
         }
 
         res.status(StatusCodes.OK).json({ suggestions });
