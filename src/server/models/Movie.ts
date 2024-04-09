@@ -34,4 +34,4 @@ MovieSchema.method('getScore', function getScore() {
     });
 });
 
-export const Movie = mongoose.model<IMovie>('Movie', MovieSchema);
+export const Movie = mongoose.model<IMovie, MovieModel>('Movie', MovieSchema);
