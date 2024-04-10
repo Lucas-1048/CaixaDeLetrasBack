@@ -1,6 +1,7 @@
 import express from 'express';
-import { userRouter } from './routes/Users';
-import { reviewRouter } from './routes/Reviews';
+import { usersRouter } from './routes/Users';
+import { moviesRouter } from './routes/Movies';
+import { reviewsRouter } from './routes/Reviews';
 import { fileErrorHandler } from './middleware/FileErrorHandler';
 import { dataBaseErrorHandler } from './middleware/DatabaseErrorHandler';
 import cookieParser from 'cookie-parser';
@@ -12,8 +13,9 @@ const server = express();
 server
   .use(cookieParser())
   .use(express.json())
-  .use(userRouter)
-  .use(reviewRouter)
+  .use(usersRouter)
+  .use(moviesRouter)
+  .use(reviewsRouter)
   .use(dataBaseErrorHandler)
   .use(fileErrorHandler)
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
