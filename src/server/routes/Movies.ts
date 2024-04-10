@@ -6,4 +6,4 @@ export const router = Router();
 
 router.get('/genres', genres);
 
-router.get('/searchMovie:query', searchMovie);
+router.get('/searchMovie/:query', searchMovie);
