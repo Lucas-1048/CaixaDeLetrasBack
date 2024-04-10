@@ -4,6 +4,7 @@ import { Movie } from '../../../src/server/models/Movie';
 import { Checks } from '../../../src/server/middleware/Checks';
 import httpMocks from 'node-mocks-http';
 import { StatusCodes } from "http-status-codes";
+import { Review } from '../../../src/server/models/Review';
 
 
 let dbHandler : any;
@@ -48,6 +49,11 @@ const validMovie = {
     genres: [ 'Adventure', 'Comedy', 'Drama', 'Family', 'Fantasy' ],
     extract: 'Timmy Failure: Mistakes Were Made is a 2020 American adventure fantasy comedy-drama family film based on the book series of the same name by Stephan Pastis that debuted on Disney+ on February 7, 2020. The film is directed by Tom McCarthy, produced by Alexander Dostal, McCarthy and Jim Whitaker from a screenplay written by McCarthy and Pastis and stars Winslow Fegley, Ophelia Lovibond, Craig Robinson and Wallace Shawn.',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/en/c/c8/Timmy_Failure_Mistakes_Were_Made_Poster.jpeg',
+}
+
+const validReview = {
+    review: "mto legal",
+    rating: 4,
 }
 
 describe("Parameter checks", () => {
@@ -147,7 +153,7 @@ describe("Parameter checks", () => {
 
         expect(next).toHaveBeenCalled();
         expect(res.locals.movie._id).toStrictEqual(movie._id);
-    })
+    });
 
     test('Should accept existing username', async () => {
         const user = new User(validUser);
@@ -163,7 +169,58 @@ describe("Parameter checks", () => {
 
         expect(next).toHaveBeenCalled();
         expect(res.locals.user._id).toStrictEqual(user._id);
-    })
+    });
+
+    test('Should reject invalid review ID format', async () => {
+        const req = httpMocks.createRequest({
+            params: {
+                idReview: 'dasda',
+            }
+        });
+
+        await Checks.checkParamReviewId(req, res, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.statusCode).toBe(StatusCodes.BAD_REQUEST);
+    });
+
+    test('Should reject non-existing review', async () => {
+        const req = httpMocks.createRequest({
+            params: {
+                reviewId: '6601e3284be11204fb527866',
+            }
+        });
+
+        await Checks.checkParamReviewId(req, res, next);
+
+        expect(next).not.toHaveBeenCalled();
+        expect(res.statusCode).toBe(StatusCodes.NOT_FOUND);
+    });
+
+    test('Should accept valid review ID', async () => {
+        const user = new User(validUser);
+        const movie = new Movie(validMovie);
+        await user.save();
+        await movie.save();
+
+        const review = new Review({
+            ...validReview,
+            user: user._id,
+            movie: movie._id,
+        });
+
+        await review.save();
+
+        const req = httpMocks.createRequest({
+            params: {
+                reviewId: review._id,
+            }
+        });
+
+        await Checks.checkParamReviewId(req, res, next);
+
+        expect(next).toHaveBeenCalled();
+    });
 });
 
 describe("Body checks", () => {

@@ -9,34 +9,34 @@ import { Checks } from '../middleware/Checks';
 import { upload } from '../middleware/FileExtension';
 import { pictureHandler } from '../controllers/Avatar';
 
-export const router = Router();
+export const userRouter = Router();
 
-router.post('/login/', login);
+userRouter.post('/login', login);
 
-router.post('/signup/', [ bodyValidation(VerifySignUp.signUpValidation), 
+userRouter.post('/signup', [ bodyValidation(VerifySignUp.signUpValidation), 
     VerifySignUp.checkDuplicateEmail, VerifySignUp.checkDuplicateUsername ], signUp);
 
-router.put('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
+userRouter.put('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId, upload.single('avatar') ],
     pictureHandler.uploadAvatar);
 
-router.delete('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
+userRouter.delete('/avatar/:idUser', [ checkJwtToken, Checks.checkParamUserId ], pictureHandler.removeAvatar);
 
-router.get('/avatar/', Checks.checkQueryUsername, pictureHandler.getAvatar);
+userRouter.get('/avatar/', Checks.checkQueryUsername, pictureHandler.getAvatar);
 
-router.get('/profile/', Checks.checkQueryUsername, accountHandler.getPublicAccount);
+userRouter.get('/profile/', Checks.checkQueryUsername, accountHandler.getPublicAccount);
 
-router.get('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getPrivateAccount);
+userRouter.get('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.getPrivateAccount);
 
-router.delete('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.deleteAccount);
+userRouter.delete('/profile/:idUser', [ checkJwtToken, Checks.checkParamUserId ], accountHandler.deleteAccount);
 
-router.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.bioValidation) ], 
+userRouter.put('/bio/:idUser', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.bioValidation) ], 
     accountHandler.updateBio);
 
-router.post('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
+userRouter.post('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.setFavorite);
 
-router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ], 
+userRouter.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ], 
     accountHandler.updateFavorite);
 
-router.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
+userRouter.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.removeFavorite);

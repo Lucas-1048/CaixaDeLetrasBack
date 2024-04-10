@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { RequestHandler } from "express";
 import { User } from "../models/User";
 import { Movie } from "../models/Movie";
+import { Review } from "../models/Review";
 import mongoose from "mongoose";
 import * as yup from 'yup';
 
@@ -93,10 +94,34 @@ const checkBodyMovieId : RequestHandler = async(req, res, next) => {
     next();
 }
 
+const checkParamReviewId: RequestHandler = async (req, res, next) => {
+    const id = req.params.reviewId;
+
+    if (!mongoose.isValidObjectId(id)) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ 
+            error: 'Invalid object ID format in parameters' 
+        })
+    }
+
+    const review = await Review.findById(id);
+
+    if (!review) {
+        return res.status(StatusCodes.NOT_FOUND).json({ 
+            error: 'Review ID not found' 
+        });
+    }
+    
+    res.locals.review = review;
+
+    next();
+
+}
+
 export const Checks = {
     bioValidation,
     checkParamUserId,
     checkQueryUsername,
     checkParamMovieId,
     checkBodyMovieId,
+    checkParamReviewId,
 }
