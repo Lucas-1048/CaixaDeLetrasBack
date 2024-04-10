@@ -25,7 +25,7 @@ const MovieSchema = new mongoose.Schema<IMovie, MovieModel, IMovieMethods>({
     score: {type: Number, default: 0},	
     extract: {type: String},
     thumbnail: {type: String},
-}, {timestamps: true});
+});
 
 MovieSchema.method('updateScore', async function updateScore() {
     return Review.find({movie: this._id}).then((reviews) => {
