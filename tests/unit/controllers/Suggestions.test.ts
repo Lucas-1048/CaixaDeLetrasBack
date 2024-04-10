@@ -6,17 +6,14 @@ import { StatusCodes } from "http-status-codes";
 import { suggestions } from '../../../src/server/controllers/Suggestions';
 
 let dbHandler : any;
-let next : any;
 let res : any;
 let user : any;
-let movies : any;
 
 beforeAll(async () => {
     dbHandler = await initializeDatabase();
     dbHandler.connect();
 
     res = httpMocks.createResponse();
-    next = jest.fn();
 
     user = new User(validUser);
     await user.save();
