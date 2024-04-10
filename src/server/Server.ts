@@ -6,8 +6,9 @@ import { fileErrorHandler } from './middleware/FileErrorHandler';
 import { dataBaseErrorHandler } from './middleware/DatabaseErrorHandler';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocs from '../swagger.json';
+import yaml from 'yamljs';
 
+const swaggerDocs = yaml.load('./src/swagger.yaml');
 const server = express();
 
 server
