@@ -6,12 +6,13 @@ export interface IMovie {
     year: number,
     cast: string[],
     genres: string[],
+    score?: number,
     extract?: string,
     thumbnail?: string,
 }
 
 interface IMovieMethods {
-    getScore(): number;
+    updateScore(): number;
 }
 
 type MovieModel = mongoose.Model<IMovie, {}, IMovieMethods>;
@@ -21,16 +22,24 @@ const MovieSchema = new mongoose.Schema<IMovie, MovieModel, IMovieMethods>({
     year: {type: Number, required: true},
     cast: {type: [String], required: true},
     genres: {type: [String], required: true},
+    score: {type: Number, default: 0},	
     extract: {type: String},
     thumbnail: {type: String},
-});
+}, {timestamps: true});
 
-MovieSchema.method('getScore', function getScore() {
+MovieSchema.method('updateScore', async function updateScore() {
     return Review.find({movie: this._id}).then((reviews) => {
         if (reviews.length === 0) return 0;
 
         const total = reviews.reduce((acc, review) => acc + review.rating, 0);
-        return total / reviews.length;
+
+        const score = total / reviews.length;
+
+        this.score = score;
+
+        this.markModified('score');
+        
+        this.save();
     });
 });
 

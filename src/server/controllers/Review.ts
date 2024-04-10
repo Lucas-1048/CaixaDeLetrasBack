@@ -20,6 +20,8 @@ const createReview = async (req: Request, res: Response, next: NextFunction) => 
 
         await review.save();
 
+        await movie.updateScore();
+
         return res.status(StatusCodes.CREATED).json({ review });
     } catch (err) {
         next(err)
