@@ -13,4 +13,4 @@ router.put('/review/:idUser', [checkJwtToken, Checks.checkParamUserId, Checks.ch
 
 router.get('/review/:reviewId', [Checks.checkParamReviewId], reviewHandler.getReview);
 
-export { router as reviewsRouter } // Fix this line
+export { router as reviewsRouter }
