@@ -30,6 +30,7 @@ export const searchMovie = async (req: Request, res: Response) => {
         };
 
         return res.status(StatusCodes.OK).json({ movies, page: resPage });
+
     } catch (err) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
     }
