@@ -9,7 +9,7 @@ const router = Router();
 
 router.get('/genres', genres);
 
-router.get('/searchMovie/:query', searchMovie);
+router.get('/searchMovie', searchMovie);
 
 router.get('/suggestions/:idUser', [ checkJwtToken, Checks.checkParamUserId ], suggestions);
 
