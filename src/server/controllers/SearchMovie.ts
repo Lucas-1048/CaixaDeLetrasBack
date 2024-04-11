@@ -8,10 +8,10 @@ export const searchMovie = async (req: Request, res: Response) => {
         const query = {} as any;
         query.title = { $regex: title, $options: 'iu' };
         if (genres) {
-            query.genres = genres;
+            query.genres = { $all: genres };
         }
         if (cast) {
-            query.cast = cast;
+            query.cast = { $all: cast };
         }
         if (year) {
             query.year = year;
