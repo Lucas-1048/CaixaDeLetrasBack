@@ -4,12 +4,13 @@ import { searchMovie } from '../controllers/SearchMovie';
 import { suggestions } from '../controllers/Suggestions';
 import { checkJwtToken } from '../middleware/JWTAuth';
 import { Checks } from '../middleware/Checks';
+import { bodyValidation } from '../middleware/BodyValidation';
 
 const router = Router();
 
 router.get('/genres', genres);
 
-router.get('/searchMovie', searchMovie);
+router.get('/searchMovie', [ bodyValidation(Checks.searchMovieValidation)], searchMovie);
 
 router.get('/suggestions/:idUser', [ checkJwtToken, Checks.checkParamUserId ], suggestions);
 
