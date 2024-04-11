@@ -14,6 +14,18 @@ const bioValidation: yup.ObjectSchema<IBio> = yup.object().shape({
     biography: yup.string().required(),
 });
 
+interface ISearchUser {
+    username: string;
+    page?: number;
+    limit?: number;
+};
+
+const searchUserValidation: yup.ObjectSchema<ISearchUser> = yup.object().shape({
+    username: yup.string().required(),
+    page: yup.number().integer().min(1),
+    limit: yup.number().integer().min(1)
+});
+
 const checkParamUserId: RequestHandler = async (req, res ,next) => {
     const id = req.params.idUser;
 
@@ -118,6 +130,7 @@ const checkParamReviewId: RequestHandler = async (req, res, next) => {
 }
 
 export const Checks = {
+    searchUserValidation,
     bioValidation,
     checkParamUserId,
     checkQueryUsername,

@@ -8,6 +8,7 @@ import { accountHandler } from '../controllers/Account';
 import { Checks } from '../middleware/Checks';
 import { upload } from '../middleware/FileExtension';
 import { pictureHandler } from '../controllers/Avatar';
+import { searchHandler } from '../controllers/Search';
 
 const router = Router();
 
@@ -40,5 +41,7 @@ router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUser
 
 router.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.removeFavorite);
+
+router.get('/searchUser', [bodyValidation(Checks.searchUserValidation)], searchHandler.searchUser);
 
 export { router as usersRouter };
