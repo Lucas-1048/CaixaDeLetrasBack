@@ -4,7 +4,7 @@ import httpMocks from 'node-mocks-http';
 import { StatusCodes } from "http-status-codes";
 import { searchMovie } from '../../../src/server/controllers/SearchMovie';
 import { movies } from '../../validDocuments';
-import exp from 'constants';
+import exp from 'constants'; // Remover
 
 let dbHandler : any;
 
@@ -83,5 +83,23 @@ describe('SearchMovie Controller', () => {
         expect(res._getJSONData().page.totalPages).toBe(8);
         expect(res._getJSONData().page.size).toBe(4);
         expect(res._getJSONData().page.currentPage).toBe(8);
+    });
+
+    it('should consider filters (such as genres, year and cast)', async () => {
+        const req = httpMocks.createRequest({
+            body: {
+                title: 'The',
+                genres: ['Horror', 'Thriller'],
+                year: 2020,
+                cast: ['Betty Gilpin']
+            }
+        });
+        const res = httpMocks.createResponse();
+
+        await searchMovie(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.OK);
+        expect(res._getJSONData().movies.length).toBe(1);
+        expect(res._getJSONData().movies[0].title).toBe('The Hunt');
     });
 });
