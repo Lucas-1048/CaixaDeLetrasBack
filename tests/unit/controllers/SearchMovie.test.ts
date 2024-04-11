@@ -4,7 +4,6 @@ import httpMocks from 'node-mocks-http';
 import { StatusCodes } from "http-status-codes";
 import { searchMovie } from '../../../src/server/controllers/SearchMovie';
 import { movies } from '../../validDocuments';
-import exp from 'constants'; // Remover
 
 let dbHandler : any;
 
