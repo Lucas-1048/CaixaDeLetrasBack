@@ -16,6 +16,6 @@ router.get('/suggestions/:idUser', [ checkJwtToken, Checks.checkParamUserId ], s
 
 router.get('/movie/:idMovie', [ Checks.checkParamMovieId ], movieHandler.getMovie);
 
-router.get('/movie/review/:idMovie', [ Checks.checkParamMovieId ], movieHandler.getReviews);
+router.get('/movie/review/:idMovie', [ Checks.checkParamMovieId, bodyValidation(Checks.pageValidation) ], movieHandler.getReviews);
 
 export { router as moviesRouter };
