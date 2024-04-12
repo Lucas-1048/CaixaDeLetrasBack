@@ -14,6 +14,34 @@ const bioValidation: yup.ObjectSchema<IBio> = yup.object().shape({
     biography: yup.string().required(),
 });
 
+interface ISearchUser {
+    username: string;
+}
+
+interface ISearchMovie {
+    title: string;
+    genres?: string[];
+    cast?: string[];
+    year?: number;
+    page?: number;
+    limit?: number;
+};
+
+const searchUserValidation: yup.ObjectSchema<ISearchUser> = yup.object().shape({
+    username: yup.string().required(),
+    page: yup.number().integer().min(1),
+    limit: yup.number().integer().min(1)
+});
+
+const searchMovieValidation: yup.ObjectSchema<ISearchMovie> = yup.object().shape({
+    title: yup.string().required(),
+    genres: yup.array().of(yup.string().required()),
+    cast: yup.array().of(yup.string().required()),
+    year: yup.number().integer(),
+    page: yup.number().integer().min(1),
+    limit: yup.number().integer().min(1),
+});
+
 const checkParamUserId: RequestHandler = async (req, res ,next) => {
     const id = req.params.idUser;
 
@@ -118,6 +146,8 @@ const checkParamReviewId: RequestHandler = async (req, res, next) => {
 }
 
 export const Checks = {
+    searchUserValidation,
+    searchMovieValidation,
     bioValidation,
     checkParamUserId,
     checkQueryUsername,

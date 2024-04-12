@@ -65,6 +65,8 @@ describe('User', () => {
 
         const createdUser = await User.create(userData);
 
+        await User.ensureIndexes();
+
         await expect(User.create(duplicateUser)).rejects.toThrow();
     });
 
@@ -94,6 +96,8 @@ describe('User', () => {
         };
 
         const createdUser = await User.create(userData);
+
+        await User.ensureIndexes();
 
         await expect(User.create(duplicateUser)).rejects.toThrow();
     });
