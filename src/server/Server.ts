@@ -8,7 +8,9 @@ import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
 import yaml from 'yamljs';
 
-const swaggerDocs = yaml.load('./src/swagger.yaml');
+const userDocs = yaml.load('./src/Users.yaml');
+const movieDocs = yaml.load('./src/Movies.yaml');
+const reviewDocs = yaml.load('./src/Reviews.yaml')
 const server = express();
 
 server
@@ -19,6 +21,7 @@ server
   .use(reviewsRouter)
   .use(dataBaseErrorHandler)
   .use(fileErrorHandler)
-  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
+  .use('/docs/user', swaggerUi.serve, swaggerUi.setup(userDocs))
+  .use('/docs/movie', swaggerUi.serve, swaggerUi.setup(movieDocs))
+  .use('/docs/review', swaggerUi.serve, swaggerUi.setup(reviewDocs));
 export { server };
