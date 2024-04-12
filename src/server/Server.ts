@@ -6,8 +6,11 @@ import { fileErrorHandler } from './middleware/FileErrorHandler';
 import { dataBaseErrorHandler } from './middleware/DatabaseErrorHandler';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
-import swaggerDocs from '../swagger.json';
+import yaml from 'yamljs';
 
+const userDocs = yaml.load('./src/Users.yaml');
+const movieDocs = yaml.load('./src/Movies.yaml');
+const reviewDocs = yaml.load('./src/Reviews.yaml')
 const server = express();
 
 server
@@ -18,6 +21,8 @@ server
   .use(reviewsRouter)
   .use(dataBaseErrorHandler)
   .use(fileErrorHandler)
-  .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+  .use('/docs/user', swaggerUi.serveFiles(userDocs), swaggerUi.setup(userDocs))
+  .use('/docs/movie', swaggerUi.serveFiles(movieDocs), swaggerUi.setup(movieDocs))
+  .use('/docs/review', swaggerUi.serveFiles(reviewDocs), swaggerUi.setup(reviewDocs));
 
 export { server };

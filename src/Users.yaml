@@ -1,0 +1,522 @@
+openapi: 3.0.0
+info:
+  title: Users Endpoints Documentation
+  description: Doccuments all users endpoints in the routes/Users.ts file
+  version: 1.0.0
+servers:
+  - url: http://144.22.196.74:52368
+    description: Branch developer's server
+paths:
+  /login:
+    post:
+      summary: Logs an user in
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            examples:
+              login:
+                value:
+                  email: fulano@example.com
+                  password: senha123
+      responses:
+        '200':
+          description: User logged in successfully
+        '401':
+          description: Invalid email or password
+        '500':
+          description: Internal server error
+  /signup:
+    post:
+      summary: Registers a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                birthDate:
+                  type: string
+                  format: date
+                gender:
+                  type: string
+                genres:
+                  type: array
+                  items:
+                    type: string
+            examples:
+              signup:
+                value:
+                  username: fulano
+                  email: fulano@example.com
+                  password: senha123
+                  birthDate: '2002-08-17'
+                  gender: Male
+                  genres:
+                    - Action
+                    - Drama
+      responses:
+        '201':
+          description: User created successfully
+        '500':
+          description: Internal server error
+  /avatar/:idUser:
+    put:
+      summary: Updates an user's avatar
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      requestBody:
+        required: true
+        content:
+          multipart/form-data: {}
+      responses:
+        '204':
+          description: Avatar updated successfully
+        '400':
+          description: Invalid id
+        '403':
+          description: User not authorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Deletes an user's avatar
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      responses:
+        '204':
+          description: Avatar deleted successfully
+        '400':
+          description: Invalid id
+        '403':
+          description: User not authorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /avatar/:
+    get:
+      summary: Gets an user's avatar
+      parameters:
+        - name: username
+          in: query
+          description: User's name in the app
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the user's avatar image
+        '404':
+          description: Username not found
+        '500':
+          description: Internal server error
+  /profile/:
+    get:
+      summary: Gets an user's profile by username (public perspective)
+      parameters:
+        - name: username
+          in: query
+          description: User's name in the app
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation. Returns the user details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  gender:
+                    type: string
+                  biography:
+                    type: string
+                  favorites:
+                    type: array
+                    items:
+                      type: objectId
+              examples:
+                profile:
+                  value:
+                    username: fulano
+                    gender: Male
+                    biography: I'm a cool guy
+                    favorites:
+                      - 5f9b3b3b3b3b3b3b3b3b3b3b
+        '404':
+          description: Profile not found
+        '500':
+          description: Internal server error
+  /profile/:idUser:
+    get:
+      summary: Gets an user's profile by ID (private perspective)
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      responses:
+        '200':
+          description: Successful operation. Returns the user details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  birthDate:
+                    type: string
+                    format: date
+                  gender:
+                    type: string
+                  genres:
+                    type: array
+                    items:
+                      type: string
+                  biography:
+                    type: string
+                  profilePicturePath:
+                    type: string
+                  favorites:
+                    type: array
+                    items:
+                      type: objectId
+              examples:
+                profile:
+                  value:
+                    username: fulano
+                    email: fulano@example.com
+                    birthDate: '2002-08-17'
+                    gender: Male
+                    genres:
+                      - Action
+                      - Drama
+                    biography: I'm a cool guy
+                    profilePicturePath: ./uploads/fulano.jpg
+                    favorites:
+                      - 5f9b3b3b3b3b3b3b3b3b3b3b
+        '404':
+          description: Profile not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Deletes an user's profile
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      responses:
+        '204':
+          description: Profile deleted successfully
+        '400':
+          description: Invalid id
+        '403':
+          description: User not authorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /bio/:idUser:
+    put:
+      summary: Updates an user's bio
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                biography:
+                  type: string
+            examples:
+              bio:
+                value:
+                  biography: I'm a cool guy
+      responses:
+        '204':
+          description: Bio updated successfully
+        '400':
+          description: Invalid id
+        '403':
+          description: User not authorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /favorites/:idUser/:idMovie:
+    post:
+      summary: Adds a movie to an user's favorites
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+        - name: idMovie
+          in: path
+          description: Movie's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      responses:
+        '200':
+          description: Movie inserted in favorites successfully
+        '400':
+          description: Invalid id
+        '403':
+          description: User not authorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    put:
+      summary: Changes a movie in user's favorites
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+        - name: idMovie
+          in: path
+          description: Movie's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+        - name: pos
+          in: query
+          required: true
+          description: Favorite's position to be updated in the favorites list (0 >= pos < 4)
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Movie added to favorites successfully
+        '400':
+          description: Invalid id or position
+        '403':
+          description: User not authorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Deletes a movie from an user's favorites
+      parameters:
+        - name: idUser
+          in: path
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+        - name: idMovie
+          in: path
+          description: Movie's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+        - name: pos
+          in: query
+          required: true
+          description: Favorite's position to be removed in the favorites list (0 >= pos < 4)
+          schema:
+            type: number
+      responses:
+        '204':
+          description: Movie deleted from favorites successfully
+        '400':
+          description: Invalid id
+        '403':
+          description: User not authorized
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+  /listReviews:
+    get:
+      summary: Gets an user's reviews
+      parameters:
+          - in: query
+            name: username
+            description: User's name in the app
+            required: true
+            schema:
+              type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                limit:
+                  type: integer
+            examples:
+              pages:
+                value:
+                  page: 1
+                  limit: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviews:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: objectId
+                        movie:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            thumbnail:
+                              type: string
+                        rating:
+                          type: number
+                        createdAt:
+                          type: string
+                  page:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: number
+                      totalPages:
+                        type: number
+                      size:
+                        type: number
+              examples:
+                result:
+                  value:
+                    reviews:
+                    - _id: 6619a06f3afd93c80ee58ddb
+                      movie:
+                        title: The Hunt
+                        thumbnail: https://upload.wikimedia.org/wikipedia/en/a/a9/The_Hunt_2020_poster.png
+                      rating: 4
+                      createdAt: '2024-04-12T20:58:23.966Z'
+                    page:
+                      currentPage: 1
+                      totalPages: 1
+                      size: 1
+        '400':
+          description: Invalid pagination body format/values
+        '404':
+          description: Username not found
+        '500':
+          description: Internal server error
+  
+  /searchUser:
+    get:
+      summary: Searches for an username
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                page:
+                  type: number
+                limit:
+                  type: number
+            example:
+                username: fulano
+                page: 1
+                limit: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        username:
+                          type: string
+                  page:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: number
+                      totalPages:
+                        type: number
+                      size:
+                        type: number
+              examples:
+                response:
+                  value:
+                    users:
+                    - _id: 6601e32c4be11204fb52786a
+                      username: fulano
+                    page:
+                      currentPage: 1
+                      totalPages: 1
+                      size: 1
+        '400':
+          description: Missing username/invalid pagination format
+        '500':
+          description: Internal server error

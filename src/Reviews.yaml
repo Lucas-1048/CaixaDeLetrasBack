@@ -1,0 +1,230 @@
+openapi: 3.0.0
+info:
+  title: Reviews Endpoints Documentation
+  description: Doccuments all reviews endpoints in the routes/Reviews.ts file
+  version: 1.0.0
+servers:
+  - url: http://144.22.196.74:52368
+    description: Branch developer's server
+paths:
+  /review/{idUser}:
+    post:
+      summary: Creates a new user review of a movie
+      parameters:
+        - in: path
+          name: idUser
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                review:
+                  type: string
+                rating:
+                  type: number
+                movieId:
+                  type: objectID
+            examples:
+                request:
+                  value:
+                    review: cool
+                    rating: 4
+                    movieId: 661617255d77b0fba77e6c77
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  review:
+                    type: object
+                    properties:
+                      user:
+                        type: objectId
+                      movie:
+                        type: objectId
+                      review:
+                        type: string
+                      rating:
+                        type: number
+                      _id:
+                        type: objectId
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+              examples:
+                response:
+                  value:
+                    review:
+                      user: 6601e32c4be11204fb52786a
+                      movie: 661617255d77b0fba77e6c77
+                      review: cool
+                      rating: 4
+                      _id: 66199e3e3afd93c80ee58dbd
+                      createdAt: '2024-04-12T20:49:02.337Z'
+                      updatedAt: '2024-04-12T20:49:02.337Z'
+
+        '400':
+          description: Invalid user/movie ID format
+        '403': 
+          description: User not authorized
+        '404':
+          description: User/movie not found
+        '409':
+          description: Review attributed to movie and user already exists
+        '500':
+          description: Internal server error
+    put:
+      summary: Creates or updates a user review of a movie
+      parameters:
+        - in: path
+          name: idUser
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                review:
+                  type: string
+                rating:
+                  type: number
+                movieId:
+                  type: objectID
+            examples:
+                request:
+                  value:
+                    review: cool
+                    rating: 4
+                    movieId: 661617255d77b0fba77e6c77
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  review:
+                    type: object
+                    properties:
+                      user:
+                        type: objectId
+                      movie:
+                        type: objectId
+                      review:
+                        type: string
+                      rating:
+                        type: number
+                      _id:
+                        type: objectId
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+              examples:
+                response:
+                  value:
+                    review:
+                      user: 6601e32c4be11204fb52786a
+                      movie: 661617255d77b0fba77e6c77
+                      review: cool
+                      rating: 4
+                      _id: 66199e3e3afd93c80ee58dbd
+                      createdAt: '2024-04-12T20:49:02.337Z'
+                      updatedAt: '2024-04-12T20:49:02.337Z'
+
+        '400':
+          description: Invalid user/movie ID format
+        '403': 
+          description: User not authorized
+        '404':
+          description: User/movie not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Deletes user review of movie
+      parameters:
+        - in: path
+          name: idUser
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                movieId:
+                  type: objectID
+            examples:
+                request:
+                  value:
+                    movieId: 661617255d77b0fba77e6c77
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Invalid user/movie ID format
+        '403': 
+          description: User not authorized
+        '404':
+          description: User/movie/review not found
+        '500':
+          description: Internal server error
+  /review/{idReview}:
+    get:
+      summary: Gets a review based on ID
+      parameters:
+          - in: path
+            name: idReview
+            description: Review's ID (must be a Types.ObjectId)
+            required: true
+            schema:
+              type: objectId
+      responses:
+        '204':
+            description: Successful operation
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user:
+                      type: string
+                    movieId:
+                      type: objectId
+                    review:
+                      type: string
+                    rating:
+                      type: number
+                examples:
+                  response:
+                    value:
+                      user: fulano
+                      movieId: 661617255d77b0fba77e6c77
+                      review: cool
+                      rating: 4
+        '400':
+          description: Invalid review ID format
+        '404':
+          description: Review not found
+        '500':
+          description: Internal server error

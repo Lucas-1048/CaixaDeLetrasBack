@@ -148,10 +148,8 @@ describe ("Get methods", () => {
         
         expect(res.statusCode).toBe(StatusCodes.OK);
 
-        for (let i = 9; i <= 0; i++) {
-            expect(data.reviews[i].movie.thumbnail).toBe(dbMovies[i].thumbnail);
-            expect(data.reviews[i].movie.title).toBe(String(dbMovies[i].title));
-        }
+        expect(data.reviews[0].movie.thumbnail).toBe(dbMovies[19].thumbnail);
+        expect(data.reviews[0].movie.title).toBe(String(dbMovies[19].title));
 
         expect(data.reviews.length).toBe(10);
         expect(data.page.currentPage).toBe(1);
@@ -163,8 +161,8 @@ describe ("Get methods", () => {
                 idUser: user._id,
             },
             body: {
-                page: 9,
-                limit: 2
+                page: 7,
+                limit: 3
             }
         });
         res = httpMocks.createResponse();
@@ -174,8 +172,8 @@ describe ("Get methods", () => {
         
         data = res._getJSONData();
 
-        expect(data.page.currentPage).toBe(9);
-        expect(data.page.totalPages).toBe(10);
+        expect(data.page.currentPage).toBe(7);
+        expect(data.page.totalPages).toBe(7);
         expect(data.page.size).toBe(2);
     });
 });

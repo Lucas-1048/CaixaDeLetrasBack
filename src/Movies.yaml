@@ -1,0 +1,322 @@
+openapi: 3.0.0
+info:
+  title: Movies Endpoints Documentation
+  description: Doccuments all reviews endpoints in the routes/Movies.ts file
+  version: 1.0.0
+servers:
+  - url: http://144.22.196.74:52368
+    description: Branch developer's server
+paths:
+  /genres:
+    get:
+      summary: Get all movie genres
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  genres:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                genres:
+                  value:
+                    genres:
+                      - "Action"
+                      - "Adventure"
+        '500':
+          description: Internal Server Error
+  /movie/{idMovie}:
+    get:
+      summary: Get movie by movieID
+      parameters:
+        - in: path
+          name: idMovie
+          description: Movie's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+            
+      responses:
+        '200':
+          description: Successful operation. Returns movie details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: objectId
+                  title:
+                    type: string
+                  year:
+                    type: integer
+                  cast:
+                    type: array
+                    items:
+                      type: string
+                  genres:
+                    type: array
+                    items:
+                      type: string
+                  score:
+                    type: number
+                  extract:
+                    type: string
+                  thumbnail:
+                    type: string
+              examples:
+                movie:
+                  value:
+                    _id: 661617255d77b0fba77e6c59
+                    title: The Assistant
+                    year: 2020
+                    cast:
+                    - Julia Garner
+                    - Matthew Macfadyen
+                    genres:
+                    - Drama
+                    score: 0
+                    extract: The Assistant is a 2019 American drama film written, directed, produced,
+                      and edited by Kitty Green. The film stars Julia Garner as a junior assistant at
+                      a film production company. Matthew Macfadyen, Makenzie Leigh, Kristine Froseth,
+                      Jon Orsini, and Noah Robbins also star.
+                    thumbnail: https://upload.wikimedia.org/wikipedia/en/9/9b/The_Assistant_poster.jpeg
+        '400':
+          description: Invalid ObjectID type
+        '404':
+          description: Movie ID not found
+        '500':
+          description: Internal server error
+  /suggestions/{idUser}:
+    get:
+      summary: Get movies recommendations for user
+      parameters:
+        - in: path
+          name: idUser
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  suggestions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        genreName:
+                          type: string
+                        movies:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              _id:
+                                type: objectId
+                              title:
+                                type: string
+                              score:
+                                type: number
+                              thumbnail:
+                                type: string
+              examples:
+                suggestions:
+                  value:
+                    suggestions:
+                    - genreName: Action
+                      movies:
+                      - _id: 661617255d77b0fba77e6c82
+                        title: Coffee & Kareem
+                        score: 0
+                        thumbnail: https://upload.wikimedia.org/wikipedia/en/0/03/Coffee_%26_Kareem_poster.jpeg
+                      - _id: 661617255d77b0fba77e6c8b
+                        title: Extraction
+                        score: 0
+                        thumbnail: https://upload.wikimedia.org/wikipedia/en/8/89/Extraction_%282020_film%29.png
+
+        '403':
+          description: User not authorized
+        '400':
+          description: Invalid Object ID
+        '404':
+          description: User ID not found
+        '500':
+          description: Internal server error
+  /searchMovie:
+    get:
+      summary: Search for a movie, with pagination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                genres:
+                  type: array
+                  items:
+                    type: string
+                cast:
+                  type: array
+                  items:
+                    type: string
+                year:
+                  type: integer
+                page:
+                  type: integer
+                limit:
+                  type: integer
+              required: 
+                - "title"
+                - "page"
+                - "limit"
+            examples:
+                search:
+                  value:
+                    title: The
+                    genres:
+                    - Horror
+                    - Thriller
+                    cast:
+                    - Betty Gilpin
+                    year: 2020
+                    page: 1
+                    limit: 10
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  movies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: objectID
+                        title:
+                          type: string
+                        score:
+                          type: number
+                        thumbnail:
+                          type: string
+                  page:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: integer
+                      totalPages:
+                        type: integer
+                      size:
+                        type: integer
+              examples:
+                result:
+                  value:
+                    movies:
+                    - _id: 661617255d77b0fba77e6c77
+                      title: The Hunt
+                      score: 0
+                      thumbnail: https://upload.wikimedia.org/wikipedia/en/a/a9/The_Hunt_2020_poster.png
+                    page:
+                      currentPage: 1
+                      totalPages: 1
+                      size: 1
+        '400':
+          description: Incorrect search format/parameters
+        '500':
+          description: Internal server error
+  /movie/review/{idMovie}:
+    get:
+      summary: Gets reviews of a movie
+      parameters:
+        - in: path
+          name: idUser
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                limit:
+                  type: integer
+            examples:
+                search:
+                  value:
+                    page: 1
+                    limit: 10
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviews:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        review:
+                          type: string
+                        rating:
+                          type: number
+                        createdAt:
+                          type: string
+                        username:
+                          type: string
+                  page:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: number
+                      totalPages:
+                        type: number
+                      size:
+                        type: number
+              examples:
+                result:
+                  value:
+                    reviews:
+                    - _id: 6619a06f3afd93c80ee58ddb
+                      review: cool
+                      rating: 4
+                      createdAt: '2024-04-12T20:58:23.966Z'
+                      username: fulano
+                    page:
+                      currentPage: 1
+                      totalPages: 1
+                      size: 1
+
+        '400':
+          description: Invalid movie ID format or invalid request body
+        '404': 
+          description: Movie ID not found
+        '500':
+          description: Internal server error
