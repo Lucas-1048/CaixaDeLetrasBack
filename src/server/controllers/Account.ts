@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
+import { Review } from "../models/Review";
 
 const getPrivateAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
@@ -132,7 +133,34 @@ const removeFavorite = async (req: Request, res: Response) => {
 
 }
 
+const getReviews = async (req: Request, res: Response) => {
+    try {
+        const user = res.locals.user;
+        const { page = 1, limit = 10 } = req.body;
+
+        const data = await Review.aggregate([
+            { $match: { user: user._id } },
+            { $lookup: { from: 'movies', localField: 'movie', foreignField: '_id', as: 'movie' } },
+            { $unwind: '$movie' },
+            { $project: { _id: 1, movie: { title: 1, thumbnail: 1 }, rating: 1 } },
+            { $skip: (Number(page) - 1) * Number(limit) },
+            { $limit: Number(limit) },
+        ]);
+
+        const resPage = { 
+            currentPage: Number(page),
+            totalPages: Math.ceil((await Review.find({user: user._id}).countDocuments()) / Number(limit)),
+            size: Number(data.length),
+        };
+
+        return res.status(StatusCodes.OK).json({ reviews: data, page: resPage });
+    } catch (err) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
+    }
+}
+
 export const accountHandler = {
+    getReviews,
     getPrivateAccount,
     getPublicAccount,
     deleteAccount,

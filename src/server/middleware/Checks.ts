@@ -6,6 +6,16 @@ import { Review } from "../models/Review";
 import mongoose from "mongoose";
 import * as yup from 'yup';
 
+interface IPage {
+    page?: number;
+    limit?: number;
+};
+
+const pageValidation: yup.ObjectSchema<IPage> = yup.object().shape({
+    page: yup.number().integer(),
+    limit: yup.number().integer()
+});
+
 interface IBio {
     biography: string;
 }
@@ -146,6 +156,7 @@ const checkParamReviewId: RequestHandler = async (req, res, next) => {
 }
 
 export const Checks = {
+    pageValidation,
     searchUserValidation,
     searchMovieValidation,
     bioValidation,

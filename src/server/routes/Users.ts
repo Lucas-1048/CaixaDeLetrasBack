@@ -42,6 +42,9 @@ router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUser
 router.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.removeFavorite);
 
+router.get('/profile/:idUser/reviews', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.pageValidation) ], 
+    accountHandler.getReviews);
+    
 router.get('/searchUser', [bodyValidation(Checks.searchUserValidation)], searchHandler.searchUser);
 
 export { router as usersRouter };
