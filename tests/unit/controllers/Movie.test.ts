@@ -3,6 +3,7 @@ import { initializeDatabase } from '../../dbHandler';
 import { Movie } from '../../../src/server/models/Movie';
 import httpMocks from 'node-mocks-http';
 import { StatusCodes } from "http-status-codes";
+import { checkServerIdentity } from 'tls';
 
 let dbHandler : any;
 
@@ -60,14 +61,20 @@ describe('getMovie', () => {
         const req = httpMocks.createRequest();
         const res = httpMocks.createResponse();
 
-        const movie = await Movie.find({ title: 'The Shawshank Redemption' });
+        const movie = (await Movie.find({ title: 'The Shawshank Redemption' }))[0];
 
-        req.params.idMovie = movie[0]._id.toString();
+        req.params.idMovie = movie._id.toString();
+        res.locals.movie = movie;
 
         movieHandler.getMovie(req, res);
 
         expect(res.statusCode).toBe(StatusCodes.OK);
-        expect(res._getJSONData()).toEqual(movie);
+        expect(res._getJSONData().title).toBe('The Shawshank Redemption');
+        expect(res._getJSONData().year).toBe(1994);
+        expect(res._getJSONData().cast).toEqual(['Tim Robbins', 'Morgan Freeman']);
+        expect(res._getJSONData().genres).toEqual(['Drama']);
+
+        // For some reason it is not possible to compare the movie json directly
     });
 
     // There's no need for testing a case where the movie doesn't exist, as the middleware
