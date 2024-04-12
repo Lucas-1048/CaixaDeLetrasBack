@@ -148,7 +148,7 @@ describe ("Get methods", () => {
         
         expect(res.statusCode).toBe(StatusCodes.OK);
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 9; i <= 0; i++) {
             expect(data.reviews[i].movie.thumbnail).toBe(dbMovies[i].thumbnail);
             expect(data.reviews[i].movie.title).toBe(String(dbMovies[i].title));
         }
