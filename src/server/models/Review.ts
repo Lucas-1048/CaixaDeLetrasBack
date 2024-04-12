@@ -6,8 +6,8 @@ export interface IReview {
     movie: mongoose.Types.ObjectId;
     review: string;
     rating: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 const ReviewSchema = new mongoose.Schema({
