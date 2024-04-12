@@ -241,3 +241,82 @@ paths:
           description: Incorrect search format/parameters
         '500':
           description: Internal server error
+  /movie/review/{idMovie}:
+    get:
+      summary: Gets reviews of a movie
+      parameters:
+        - in: path
+          name: idUser
+          description: User's ID (must be a Types.ObjectId)
+          required: true
+          schema:
+            type: objectId
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                limit:
+                  type: integer
+            examples:
+                search:
+                  value:
+                    page: 1
+                    limit: 10
+
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviews:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        review:
+                          type: string
+                        rating:
+                          type: number
+                        createdAt:
+                          type: string
+                        username:
+                          type: string
+                  page:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: number
+                      totalPages:
+                        type: number
+                      size:
+                        type: number
+              examples:
+                result:
+                  value:
+                    reviews:
+                    - _id: 6619a06f3afd93c80ee58ddb
+                      review: cool
+                      rating: 4
+                      createdAt: '2024-04-12T20:58:23.966Z'
+                      username: fulano
+                    page:
+                      currentPage: 1
+                      totalPages: 1
+                      size: 1
+
+        '400':
+          description: Invalid movie ID format or invalid request body
+        '404': 
+          description: Movie ID not found
+        '500':
+          description: Internal server error

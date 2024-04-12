@@ -378,9 +378,91 @@ paths:
           description: User not found
         '500':
           description: Internal server error
-  /profile/:idUser/reviews:
-    post:
-      summary: Gets an user's review
+  /listReviews:
+    get:
+      summary: Gets an user's reviews
+      parameters:
+          - in: query
+            name: username
+            description: User's name in the app
+            required: true
+            schema:
+              type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                page:
+                  type: integer
+                limit:
+                  type: integer
+            examples:
+              pages:
+                value:
+                  page: 1
+                  limit: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reviews:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: objectId
+                        movie:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                            thumbnail:
+                              type: string
+                        rating:
+                          type: number
+                        createdAt:
+                          type: string
+                  page:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: number
+                      totalPages:
+                        type: number
+                      size:
+                        type: number
+              examples:
+                result:
+                  value:
+                    reviews:
+                    - _id: 6619a06f3afd93c80ee58ddb
+                      movie:
+                        title: The Hunt
+                        thumbnail: https://upload.wikimedia.org/wikipedia/en/a/a9/The_Hunt_2020_poster.png
+                      rating: 4
+                      createdAt: '2024-04-12T20:58:23.966Z'
+                    page:
+                      currentPage: 1
+                      totalPages: 1
+                      size: 1
+        '400':
+          description: Invalid pagination body format/values
+        '404':
+          description: Username not found
+        '500':
+          description: Internal server error
+  
+  /searchUser:
+    get:
+      summary: Searches for an username
       requestBody:
         required: true
         content:
@@ -388,19 +470,53 @@ paths:
             schema:
               type: object
               properties:
-                email:
+                username:
                   type: string
-                password:
-                  type: string
-            examples:
-              login:
-                value:
-                  email: fulano@example.com
-                  password: senha123
+                page:
+                  type: number
+                limit:
+                  type: number
+            example:
+                username: fulano
+                page: 1
+                limit: 10
       responses:
         '200':
-          description: User logged in successfully
-        '401':
-          description: Invalid email or password
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        username:
+                          type: string
+                  page:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: number
+                      totalPages:
+                        type: number
+                      size:
+                        type: number
+              examples:
+                response:
+                  value:
+                    users:
+                    - _id: 6601e32c4be11204fb52786a
+                      username: fulano
+                    page:
+                      currentPage: 1
+                      totalPages: 1
+                      size: 1
+        '400':
+          description: Missing username/invalid pagination format
         '500':
           description: Internal server error

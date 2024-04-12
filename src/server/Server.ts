@@ -21,7 +21,8 @@ server
   .use(reviewsRouter)
   .use(dataBaseErrorHandler)
   .use(fileErrorHandler)
-  .use('/docs/user', swaggerUi.serve, swaggerUi.setup(userDocs))
-  .use('/docs/movie', swaggerUi.serve, swaggerUi.setup(movieDocs))
-  .use('/docs/review', swaggerUi.serve, swaggerUi.setup(reviewDocs));
+  .use('/docs/user', swaggerUi.serveFiles(userDocs), swaggerUi.setup(userDocs))
+  .use('/docs/movie', swaggerUi.serveFiles(movieDocs), swaggerUi.setup(movieDocs))
+  .use('/docs/review', swaggerUi.serveFiles(reviewDocs), swaggerUi.setup(reviewDocs));
+
 export { server };

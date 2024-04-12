@@ -48,15 +48,19 @@ paths:
                     type: object
                     properties:
                       user:
-                        type: objectID
+                        type: objectId
                       movie:
-                        type: objectID
+                        type: objectId
                       review:
                         type: string
                       rating:
                         type: number
                       _id:
-                        type: objectID
+                        type: objectId
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
               examples:
                 response:
                   value:
@@ -65,7 +69,9 @@ paths:
                       movie: 661617255d77b0fba77e6c77
                       review: cool
                       rating: 4
-                      _id: 66199244abfac0271bae18c7
+                      _id: 66199e3e3afd93c80ee58dbd
+                      createdAt: '2024-04-12T20:49:02.337Z'
+                      updatedAt: '2024-04-12T20:49:02.337Z'
 
         '400':
           description: Invalid user/movie ID format
@@ -117,15 +123,19 @@ paths:
                     type: object
                     properties:
                       user:
-                        type: objectID
+                        type: objectId
                       movie:
-                        type: objectID
+                        type: objectId
                       review:
                         type: string
                       rating:
                         type: number
                       _id:
-                        type: objectID
+                        type: objectId
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
               examples:
                 response:
                   value:
@@ -134,7 +144,9 @@ paths:
                       movie: 661617255d77b0fba77e6c77
                       review: cool
                       rating: 4
-                      _id: 66199244abfac0271bae18c7
+                      _id: 66199e3e3afd93c80ee58dbd
+                      createdAt: '2024-04-12T20:49:02.337Z'
+                      updatedAt: '2024-04-12T20:49:02.337Z'
 
         '400':
           description: Invalid user/movie ID format
