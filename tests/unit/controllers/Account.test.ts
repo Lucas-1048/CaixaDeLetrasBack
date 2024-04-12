@@ -5,6 +5,9 @@ import { IUser, User } from "../../../src/server/models/User";
 import { Movie } from '../../../src/server/models/Movie';
 import httpMocks from "node-mocks-http";
 import { pictureHandler } from '../../../src/server/controllers/Avatar';
+import { movies } from '../../validDocuments';
+import { Review } from '../../../src/server/models/Review';
+import { randomInt } from 'crypto';
 
 let dbHandler : any;
 let next : any;
@@ -107,6 +110,73 @@ describe ("Get methods", () => {
             biography: user.biography,
             favorites: user.favorites
         })
+    });
+
+    it('should get user reviews', async () => {
+        await Movie.insertMany(movies);
+        const dbMovies = await Movie.find();
+
+        const user = new User (validUser);
+        await user.save();
+
+        await Movie.ensureIndexes();
+        await User.ensureIndexes();
+        
+        for (let i = 0; i < 20; i++) {
+            const validReview = new Review({
+                user: user._id,
+                movie: dbMovies[i]._id,
+                review: 'It surely is one of the movies ever.',
+                rating: randomInt(0, 5)
+            });
+
+            await validReview.save();
+        }
+
+        await Review.ensureIndexes();
+
+        let req = httpMocks.createRequest({
+            params: {
+                idUser: user._id,
+            }
+        });
+        res.locals.user = user;
+
+        await accountHandler.getReviews(req, res);
+        
+        let data = res._getJSONData();
+        
+        expect(res.statusCode).toBe(StatusCodes.OK);
+
+        for (let i = 0; i < 10; i++) {
+            expect(data.reviews[i].movie.thumbnail).toBe(dbMovies[i].thumbnail);
+            expect(data.reviews[i].movie.title).toBe(String(dbMovies[i].title));
+        }
+
+        expect(data.reviews.length).toBe(10);
+        expect(data.page.currentPage).toBe(1);
+        expect(data.page.totalPages).toBe(2);
+        expect(data.page.size).toBe(10);
+
+        req = httpMocks.createRequest({
+            params: {
+                idUser: user._id,
+            },
+            body: {
+                page: 9,
+                limit: 2
+            }
+        });
+        res = httpMocks.createResponse();
+        res.locals.user = user;
+
+        await accountHandler.getReviews(req, res);
+        
+        data = res._getJSONData();
+
+        expect(data.page.currentPage).toBe(9);
+        expect(data.page.totalPages).toBe(10);
+        expect(data.page.size).toBe(2);
     });
 });
 
