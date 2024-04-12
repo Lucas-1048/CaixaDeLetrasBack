@@ -3582,15 +3582,6 @@ export const users = [
     favorites: [],
   },
   {
-    username: 'avaDavis',
-    email: 'ava@gmail.com',
-    password: 'password123456',
-    birthDate: new Date("1994-04-02"),
-    gender: 'Female',
-    genres: ['Action', 'Sci-Fi'],
-    favorites: [],
-  },
-  {
     username: 'noahSmith',
     email: 'noah@gmail.com',
     password: 'securePassword789',
