@@ -4,12 +4,22 @@ import { Movie } from '../../../src/server/models/Movie';
 import httpMocks from 'node-mocks-http';
 import { StatusCodes } from "http-status-codes";
 import { checkServerIdentity } from 'tls';
+import { movie, users } from '../../validDocuments';
+import { User } from '../../../src/server/models/User';
+import { Review } from '../../../src/server/models/Review';
+import { randomInt } from 'crypto';
 
 let dbHandler : any;
+
+let req: any;
+let res: any;
 
 beforeAll(async () => {
     dbHandler = await initializeDatabase();
     dbHandler.connect();
+
+    req = httpMocks.createRequest();
+    res = httpMocks.createResponse();
 
     await Movie.insertMany(validMovies);
     await Movie.ensureIndexes();
@@ -75,6 +85,98 @@ describe('getMovie', () => {
         expect(res._getJSONData().genres).toEqual(['Drama']);
 
         // For some reason it is not possible to compare the movie json directly
+    });
+
+    // There's no need for testing a case where the movie doesn't exist, as the middleware
+    // checkParamMovieId already covers this case and is the only responsible for 
+    // returning a 404 status.
+});
+
+describe('getReviews', () => {
+    it('should return the reviews', async () => {
+
+        await User.insertMany(users);
+        
+        const dbMovie = new Movie(movie);
+
+        await Movie.ensureIndexes();
+        await User.ensureIndexes();
+
+        const dbUsers = await User.find({});
+        
+        for (let i = 0; i < 20; i++) {
+            const validReview = new Review({
+                user: dbUsers[i]._id,
+                movie: dbMovie._id,
+                review: 'It surely is one of the movies ever.',
+                rating: randomInt(1, 5),
+            });
+
+            await validReview.save();
+        }
+
+        await Review.ensureIndexes();
+
+        let req = httpMocks.createRequest({
+            params: {
+                idMovie: dbMovie._id,
+            }
+        });
+        res.locals.movie = dbMovie;
+
+        await movieHandler.getReviews(req, res);
+
+        let data = res._getJSONData();
+
+        expect(res.statusCode).toBe(StatusCodes.OK);
+        expect(data.reviews.length).toBe(10);
+        expect(data.page.currentPage).toBe(1);
+        
+        for (let i = 9; i <= 0; i--) {
+            expect(data.reviews[i].username).toBe(dbUsers[i].username);
+            expect(data.reviews[i].review).toBe('It surely is one of the movies ever.');
+        }
+
+        req = httpMocks.createRequest({
+            params: {
+                idMovie: dbMovie._id,
+            },
+            body: {
+                page: 2,
+                limit: 5,
+            }
+        });
+        res = httpMocks.createResponse();
+        res.locals.movie = dbMovie;
+
+        await movieHandler.getReviews(req, res);
+
+        data = res._getJSONData();
+
+        expect(res.statusCode).toBe(StatusCodes.OK);
+        expect(data.reviews.length).toBe(5);
+        expect(data.page.currentPage).toBe(2);
+        expect(data.page.totalPages).toBe(4);
+        expect(data.page.size).toBe(5);
+    });
+
+    it('should return an empty array if there are no reviews', async () => {
+        const req = httpMocks.createRequest();
+        const res = httpMocks.createResponse();
+
+        const movie = (await Movie.find({ title: 'The Godfather' }))[0];
+
+        req.params.idMovie = movie._id.toString();
+        res.locals.movie = movie;
+        req.body = { page: 1 };
+
+        await movieHandler.getReviews(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.OK);
+        expect(res._getJSONData().reviews.length).toBe(0);
+        expect(res._getJSONData().page.currentPage).toBe(1);
+        expect(res._getJSONData().page.totalPages).toBe(0);
+        expect(res._getJSONData().page.size).toBe(0);
     });
 
     // There's no need for testing a case where the movie doesn't exist, as the middleware
