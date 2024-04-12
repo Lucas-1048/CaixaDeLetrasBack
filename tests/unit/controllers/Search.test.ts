@@ -13,7 +13,7 @@ beforeAll(async () => {
     dbHandler.connect();
 
     await User.insertMany(users);
-    Movie.insertMany(movies);
+    await Movie.insertMany(movies);
 });
 
 afterAll(async () => await dbHandler.closeDatabase());
