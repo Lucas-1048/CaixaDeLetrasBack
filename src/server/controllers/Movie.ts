@@ -32,7 +32,7 @@ const getReviews = async (req: Request, res: Response) => {
         const reviews = await Review.aggregate([
             { $match: { movie: res.locals.movie._id } },
             { $sort: { createdAt: -1 } },
-            { $skip: Number(page) * Number(limit) },
+            { $skip: (Number(page) - 1) * Number(limit) },
             { $limit: Number(limit) },
             { $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
             { $unwind: '$user' },
