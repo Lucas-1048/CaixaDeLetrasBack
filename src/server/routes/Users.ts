@@ -42,7 +42,7 @@ router.put('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUser
 router.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId ],
     accountHandler.removeFavorite);
 
-router.get('/profile/:idUser/reviews', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.pageValidation) ], 
+router.get('/profile/reviews', [ checkJwtToken, Checks.checkQueryUsername, bodyValidation(Checks.pageValidation) ], 
     accountHandler.getReviews);
     
 router.get('/searchUser', [bodyValidation(Checks.searchUserValidation)], searchHandler.searchUser);
