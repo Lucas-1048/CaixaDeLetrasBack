@@ -378,3 +378,29 @@ paths:
           description: User not found
         '500':
           description: Internal server error
+  /profile/:idUser/reviews:
+    post:
+      summary: Gets an user's review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            examples:
+              login:
+                value:
+                  email: fulano@example.com
+                  password: senha123
+      responses:
+        '200':
+          description: User logged in successfully
+        '401':
+          description: Invalid email or password
+        '500':
+          description: Internal server error
