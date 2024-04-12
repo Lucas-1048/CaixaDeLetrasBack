@@ -1,4 +1,3 @@
-import { genres } from './../controllers/Genres';
 import { StatusCodes } from "http-status-codes";
 import { IUser, User } from '../models/User'
 import { RequestHandler } from "express";
