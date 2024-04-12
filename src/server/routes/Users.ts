@@ -8,6 +8,7 @@ import { accountHandler } from '../controllers/Account';
 import { Checks } from '../middleware/Checks';
 import { upload } from '../middleware/FileExtension';
 import { pictureHandler } from '../controllers/Avatar';
+import { searchHandler } from '../controllers/Search';
 
 const router = Router();
 
@@ -43,5 +44,7 @@ router.delete('/favorites/:idUser/:idMovie', [ checkJwtToken, Checks.checkParamU
 
 router.get('/profile/:idUser/reviews', [ checkJwtToken, Checks.checkParamUserId, bodyValidation(Checks.pageValidation) ], 
     accountHandler.getReviews);
+    
+router.get('/searchUser', [bodyValidation(Checks.searchUserValidation)], searchHandler.searchUser);
 
 export { router as usersRouter };

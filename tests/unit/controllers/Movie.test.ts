@@ -1,8 +1,9 @@
-import { genres } from '../../../src/server/controllers/Genres';
+import { movieHandler } from '../../../src/server/controllers/Movie';
 import { initializeDatabase } from '../../dbHandler';
 import { Movie } from '../../../src/server/models/Movie';
 import httpMocks from 'node-mocks-http';
 import { StatusCodes } from "http-status-codes";
+import { checkServerIdentity } from 'tls';
 
 let dbHandler : any;
 
@@ -11,6 +12,7 @@ beforeAll(async () => {
     dbHandler.connect();
 
     await Movie.insertMany(validMovies);
+    await Movie.ensureIndexes();
 });
 
 afterAll(async () => await dbHandler.closeDatabase());
@@ -42,15 +44,41 @@ const validMovies = [
     }
 ]
 
-describe('Genres Controller', () => {
+describe('genres', () => {
     it('should return all genres', async () => {
         const req = httpMocks.createRequest();
         const res = httpMocks.createResponse();
 
-        await genres(req, res);
+        await movieHandler.genres(req, res);
 
         expect(res.statusCode).toBe(StatusCodes.OK);
         expect(res._getJSONData().genres.sort()).toEqual(['Drama', 'Crime', 'Action', 'Sci-Fi'].sort());
     });
+});
+
+describe('getMovie', () => {
+    it('should return the movie', async () => {
+        const req = httpMocks.createRequest();
+        const res = httpMocks.createResponse();
+
+        const movie = (await Movie.find({ title: 'The Shawshank Redemption' }))[0];
+
+        req.params.idMovie = movie._id.toString();
+        res.locals.movie = movie;
+
+        movieHandler.getMovie(req, res);
+
+        expect(res.statusCode).toBe(StatusCodes.OK);
+        expect(res._getJSONData().title).toBe('The Shawshank Redemption');
+        expect(res._getJSONData().year).toBe(1994);
+        expect(res._getJSONData().cast).toEqual(['Tim Robbins', 'Morgan Freeman']);
+        expect(res._getJSONData().genres).toEqual(['Drama']);
+
+        // For some reason it is not possible to compare the movie json directly
+    });
+
+    // There's no need for testing a case where the movie doesn't exist, as the middleware
+    // checkParamMovieId already covers this case and is the only responsible for 
+    // returning a 404 status.
 });
 
