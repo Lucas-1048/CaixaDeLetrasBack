@@ -141,7 +141,7 @@ describe('SearchUser Controller', () => {
         const req = httpMocks.createRequest({
             body: {
                 username: 'john',
-                limit: 2
+                limit: 4
             }
         });
         const res = httpMocks.createResponse();
@@ -149,9 +149,9 @@ describe('SearchUser Controller', () => {
         await searchHandler.searchUser(req, res);
 
         expect(res.statusCode).toBe(StatusCodes.OK);
-        expect(res._getJSONData().users.length).toBe(2);
-        expect(res._getJSONData().page.totalPages).toBe(3);
-        expect(res._getJSONData().page.size).toBe(2);
+        expect(res._getJSONData().users.length).toBe(4);
+        expect(res._getJSONData().page.totalPages).toBe(2);
+        expect(res._getJSONData().page.size).toBe(4);
     });
 
     it('should return the specified page of users', async () => {

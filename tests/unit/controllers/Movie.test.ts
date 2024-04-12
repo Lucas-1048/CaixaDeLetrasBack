@@ -131,11 +131,8 @@ describe('getReviews', () => {
         expect(res.statusCode).toBe(StatusCodes.OK);
         expect(data.reviews.length).toBe(10);
         expect(data.page.currentPage).toBe(1);
-        
-        for (let i = 9; i <= 0; i--) {
-            expect(data.reviews[i].username).toBe(dbUsers[i].username);
-            expect(data.reviews[i].review).toBe('It surely is one of the movies ever.');
-        }
+
+        expect(data.reviews[0].username).toBe(dbUsers[19].username);
 
         req = httpMocks.createRequest({
             params: {
@@ -143,7 +140,7 @@ describe('getReviews', () => {
             },
             body: {
                 page: 2,
-                limit: 5,
+                limit: 3,
             }
         });
         res = httpMocks.createResponse();
@@ -154,10 +151,10 @@ describe('getReviews', () => {
         data = res._getJSONData();
 
         expect(res.statusCode).toBe(StatusCodes.OK);
-        expect(data.reviews.length).toBe(5);
+        expect(data.reviews.length).toBe(3);
         expect(data.page.currentPage).toBe(2);
-        expect(data.page.totalPages).toBe(4);
-        expect(data.page.size).toBe(5);
+        expect(data.page.totalPages).toBe(7);
+        expect(data.page.size).toBe(3);
     });
 
     it('should return an empty array if there are no reviews', async () => {
