@@ -41,7 +41,7 @@ const getReviews = async (req: Request, res: Response) => {
 
         const resPage = {
             currentPage: Number(page),
-            totalPages: Math.ceil(await Review.find({ movie: res.locals.movie._id }).countDocuments()) / Number(limit),
+            totalPages: Math.ceil(await Review.find({ movie: res.locals.movie._id }).countDocuments() / Number(limit)),
             size: Number(reviews.length),
         };
         return res.status(StatusCodes.OK).json({ reviews, page: resPage });
