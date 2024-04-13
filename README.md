@@ -1,5 +1,7 @@
 # CaixaDeLetrasBack
 
+![CDLline](https://github.com/Lucas-1048/CaixaDeLetrasBack/assets/108113333/0f6d160a-cdf4-4465-8313-29a1be8d207f)
+
 ## Membros e papéis:
 
 * Ramiro Noronha (Front-End)
