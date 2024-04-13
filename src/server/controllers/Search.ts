@@ -43,7 +43,7 @@ export const searchMovie = async (req: Request, res: Response) => {
 
         const movies = await Movie.find(query)
             .sort({ score: -1 })
-            .select('title thumbnail score _id')
+            .select('title thumbnail score _id year')
             .skip((Number(page) - 1) * Number(limit))
             .limit(Number(limit));
 
