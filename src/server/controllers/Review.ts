@@ -33,6 +33,7 @@ const removeReview = async (req: Request, res: Response, next: NextFunction) => 
     const movie = res.locals.movie;
 
     await Review.findOneAndDelete({ user: user._id, movie: movie._id });
+    await movie.updateScore();
 
     return res.status(StatusCodes.NO_CONTENT).send()
 }
@@ -60,6 +61,7 @@ const putReview = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         await review.save();
+        await movie.updateScore();
 
         return res.status(StatusCodes.CREATED).json({ review });
     } catch (err) {
