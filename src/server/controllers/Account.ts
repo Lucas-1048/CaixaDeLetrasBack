@@ -104,17 +104,19 @@ const updateFavorite = async (req: Request, res: Response) => {
 
 const removeFavorite = async (req: Request, res: Response) => {
     const user = res.locals.user;
-    const pos = parseInt(req.query.pos as string);
+    const movie = res.locals.movie;
 
-    if(pos >= 4 || pos < 0) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ 
-            error: "Number must be an integer from 0 to 3" 
-        })
+    let pos = -1;
+
+    for (let i = 0; i < 4; i++) {
+        if (user.favorites[i] === movie._id) {
+            pos = i;
+        }
     }
 
-    if(user.favorites[pos] === undefined) {
+    if (pos === -1) {
         return res.status(StatusCodes.BAD_REQUEST).json({
-            error: "Favorite does not exist"
+            error: "Movie is not a favorite"
         });
     }
 
