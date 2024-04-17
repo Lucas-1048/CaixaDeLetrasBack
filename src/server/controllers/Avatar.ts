@@ -47,11 +47,13 @@ const getAvatar = async(_req: Request, res: Response) => {
     const user = res.locals.user;
 
     const file = path.resolve(process.env.PROFILE_DEST!, user.profilePicturePath);
-    if (fs.existsSync(file)) {
-        res.status(StatusCodes.OK).send(file);
-    } else {
-        res.status(StatusCodes.NOT_FOUND).json({ error: 'Arquivo não encontrado' });
-    }
+    res.status(StatusCodes.OK).sendFile(file, err => {
+        if (err) {
+            return res.status(StatusCodes.NOT_FOUND).json({ 
+                error: 'User does not have an avatar' 
+            })
+        }
+    });
 }
 
 export const pictureHandler = {
