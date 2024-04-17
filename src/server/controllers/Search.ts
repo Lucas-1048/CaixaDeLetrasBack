@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { User } from '../models/User';
 import { Movie } from '../models/Movie';
 import 'dotenv/config';
-const ip = require("ip");
 
 const searchUser = async (req: Request, res: Response) => {
     try {
@@ -22,7 +21,7 @@ const searchUser = async (req: Request, res: Response) => {
         };
 
         users = users.map((user) => {
-            user.profilePicturePath = ip.address() + ":" + process.env.PORT + "/avatar?username=" + user.username;
+            user.profilePicturePath = process.env.SERVER_IP + ":" + process.env.PORT + "/avatar?username=" + user.username;
             return user;
         })
 
