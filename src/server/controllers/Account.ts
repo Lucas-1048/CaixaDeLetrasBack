@@ -109,7 +109,8 @@ const removeFavorite = async (req: Request, res: Response) => {
     let pos = -1;
 
     for (let i = 0; i < 4; i++) {
-        if (user.favorites[i] === movie._id) {
+        console.log(user.favorites[i], " ", movie._id);
+        if (movie._id.equals(user.favorites[i])) {
             pos = i;
         }
     }
