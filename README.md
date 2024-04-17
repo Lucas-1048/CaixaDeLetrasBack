@@ -208,7 +208,7 @@ Diagrama de atividades para lógica de sugestões de filme:
 
 Diagrama de pacotes geral do backend:
 
-![UML atividades](UMLPackage.png)
+![UML atividades](UMLPackage.jpg)
 
 ## Frontend
 [Frontend Flutter](https://github.com/Lucas-1048/CaixaDeLetrasFront)
