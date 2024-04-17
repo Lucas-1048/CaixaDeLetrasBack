@@ -132,6 +132,75 @@ Task: Criar tela de histórico de avaliações. (Lucas)
 
 Task: Criar endpoint para o histórico de avaliações do usuário. (Luiz)
 
+## Versão revisada da backlog do sprint
+
+### História 1:
+
+Task: Instalar e configurar dependências do backend. (Lucas)
+
+Task: Instalar e configurar dependências do frontend. (Ramiro)
+
+Task: Criar banco de dados. (Vinicius)
+
+Task: Criar tabela de usuário. (Luiz)
+
+Task: Alterar usuário no BD para aceitar lista de 4 filmes favoritos, foto e biografia. (Vinicius)
+
+Task: Criar tela de perfil. (Lucas)
+
+Task: Criar tela de login. (Ramiro)
+
+Task: Criar tela de cadastro. (Ramiro)
+
+Task: Criar endpoints para login. (Lucas)
+
+Task: Criar endpoints para cadastro. (Vinicius)
+
+Task: Criar endpoint para o perfil público. (Vinicius)
+
+Task: Documentar endpoints relacionadas ao perfil. (Lucas)
+
+### História 2:
+
+Task: Criar endpoint para a busca de filmes com possibilidade de filtros. (Luiz)
+
+Task: Criar tabela de filmes. (Luiz)
+
+Task: Popular tabela de filmes. (Luiz)
+
+Task: Criar tela de pesquisa de filmes. (Ramiro)
+
+Task: Criar tela de sugestões de filme. (Ramiro)
+
+Task: Documentar endpoints para filmes. (Vinicius)
+
+### História 3:
+
+Task: Criar tabela para avaliação de filme. (Luiz)
+
+Task: Popular tabelas de avaliações de filme. (Vinicius)
+
+Task: Criar endpoint para receber avaliação de filme. (Vinicius)
+
+Task: Criar endpoint para retornar avaliações de um filme. (Luiz)
+
+Task: Criar endpoint para retornar prévia da avaliação de um filme. (Luiz)
+
+Task: Configurar tela de pesquisa de filmes para exibir prévia da avaliação dos filmes. (Lucas)
+
+Task: Criar tela para exibir avaliações e comentários de um filme. (Ramiro)
+
+Task: Documentar endpoints para avaliações. (Vinicius)
+
+### História 4:
+
+Task: Criar tela de histórico de avaliações. (Ramiro)
+
+Task: Criar tela de pesquisa de usuário. (Ramiro)
+
+Task: Criar endpoint para o histórico de avaliações do usuário. (Luiz)
+
+## Diagramas UML
 
 ## Frontend
 [Frontend Flutter](https://github.com/Lucas-1048/CaixaDeLetrasFront)
