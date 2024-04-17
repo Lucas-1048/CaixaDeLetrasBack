@@ -58,7 +58,7 @@ const setFavorite = async (_req: Request, res: Response) => {
     const movie = res.locals.movie;
 
     for(let i = 0; i < 4; i++) {
-        if(user.favorites[i] === undefined) {
+        if(user.favorites[i] == undefined) {
             user.favorites[i] = movie._id;
             user.markModified('favorites');
             break;
