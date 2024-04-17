@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 import { Review } from "../models/Review";
+import 'dotenv/config';
 
 const getPrivateAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
@@ -29,6 +30,7 @@ const getPublicAccount = async (_req: Request, res: Response) => {
         gender: user.gender,
         biography: user.biography,
         favorites: user.favorites,
+        profilePicturePath: process.env.SERVER_IP + ":" + process.env.PORT + "/avatar?username=" + user.username
     });
 }
 
