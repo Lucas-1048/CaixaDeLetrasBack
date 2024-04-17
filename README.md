@@ -56,7 +56,7 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 
 1. Como usuário, quero ter a capacidade de criar e personalizar meu perfil para compartilhar minha identidade dentro da plataforma, incluindo a adição de uma foto, biografia e lista dos meus filmes favoritos.
 
-2. Como usuário, quero ser capaz de descobrir filmes usando diferentes filtros, como título, gênero, ano de lançamento e outros, para encontrar facilmente o conteúdo que desejo assistir.
+2. Como usuário, quero ser capaz de descobrir filmes fazendo buscas através do seu nome, para encontrar facilmente o conteúdo que desejo assistir.
 
 3. Como usuário, quero poder avaliar e comentar sobre os filmes que assisti, fornecendo minha opinião e críticas completas, e também ter acesso às avaliações de outros usuários para tomar decisões informadas sobre o que assistir em seguida.
 
@@ -104,7 +104,7 @@ Task: Instalar e configurar dependências do frontend. (Ramiro)
 
 ### História 2:
 
-Task: Criar endpoint para a busca de filmes com possibilidade de filtros. (Luiz)
+Task: Criar endpoint para a busca de filmes a partir do nome. (Luiz)
 
 Task: Criar tabela de filmes. (Luiz)
 
