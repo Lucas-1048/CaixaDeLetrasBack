@@ -29,7 +29,7 @@ const getReviews = async (req: Request, res: Response) => {
 
         const { limit = 10, page = 1 } = req.body;
 
-        const reviews = await Review.aggregate([
+        let reviews = await Review.aggregate([
             { $match: { movie: res.locals.movie._id } },
             { $sort: { createdAt: -1 } },
             { $skip: (Number(page) - 1) * Number(limit) },
@@ -38,6 +38,11 @@ const getReviews = async (req: Request, res: Response) => {
             { $unwind: '$user' },
             { $project: { _id: 1, username: '$user.username', review: 1, rating: 1, createdAt: 1 } }
         ]);
+
+        reviews = reviews.map((review) => {
+            review.userProfilePicturePath = process.env.SERVER_IP + ":" + process.env.PORT + "/avatar?username=" + review.username;
+            return review;
+        })
 
         const resPage = {
             currentPage: Number(page),
