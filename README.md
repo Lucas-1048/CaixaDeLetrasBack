@@ -1,5 +1,7 @@
 # CaixaDeLetrasBack
 
+![CDLline](https://github.com/Lucas-1048/CaixaDeLetrasBack/assets/108113333/0f6d160a-cdf4-4465-8313-29a1be8d207f)
+
 ## Membros e papéis:
 
 * Ramiro Noronha (Front-End)
@@ -50,11 +52,11 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 
 * MongoDB
 
-## Backlog
+## Backlog do Produto
 
 1. Como usuário, quero ter a capacidade de criar e personalizar meu perfil para compartilhar minha identidade dentro da plataforma, incluindo a adição de uma foto, biografia e lista dos meus filmes favoritos.
 
-2. Como usuário, quero ser capaz de descobrir filmes usando diferentes filtros, como título, gênero, ano de lançamento e outros, para encontrar facilmente o conteúdo que desejo assistir.
+2. Como usuário, quero ser capaz de descobrir filmes fazendo buscas através do seu nome, para encontrar facilmente o conteúdo que desejo assistir.
 
 3. Como usuário, quero poder avaliar e comentar sobre os filmes que assisti, fornecendo minha opinião e críticas completas, e também ter acesso às avaliações de outros usuários para tomar decisões informadas sobre o que assistir em seguida.
 
@@ -73,6 +75,140 @@ O Caixa de Letras é uma plataforma vibrante para amantes de cinema se conectare
 10. Como usuário, quero compartilhar minha paixão pelo cinema, expressar minhas opiniões e participar de debates animados com outros amantes de filmes na plataforma.
 
 11. Como usuário, quero poder construir minha reputação na comunidade, recebendo reconhecimento por minhas avaliações e contribuições, e tornar-me um membro influente dentro da plataforma de filmes.
+
+## Backlog da Sprint
+
+### História 1:
+
+Task: Criar endpoint para o perfil público. (Vinicius)
+
+Task: Alterar usuário no BD para aceitar lista de 4 filmes favoritos, foto e biografia. (Vinicius)
+
+Task: Criar tela de perfil. (Lucas)
+
+Task: Criar tela de login. (Ramiro)
+
+Task: Criar tela de cadastro. (Ramiro)
+
+Task: Criar endpoints para login. (Lucas)
+
+Task: Criar endpoints para cadastro. (Vinicius)
+
+Task: Criar banco de dados. (Vinicius)
+
+Task: Criar tabela de usuário. (Luiz)
+
+Task: Instalar e configurar dependências do backend. (Lucas)
+
+Task: Instalar e configurar dependências do frontend. (Ramiro)
+
+### História 2:
+
+Task: Criar endpoint para a busca de filmes a partir do nome. (Luiz)
+
+Task: Criar tabela de filmes. (Luiz)
+
+Task: Popular tabela de filmes. (Luiz)
+
+Task: Criar tela de pesquisa de filmes. (Ramiro)
+
+### História 3:
+
+Task: Criar tabela para avaliação de filme. (Luiz)
+
+Task: Criar endpoint para receber avaliação de filme. (Vinicius)
+
+Task: Criar endpoint para retornar avaliações de um filme. (Luiz)
+
+Task: Criar endpoint para retornar prévia da avaliação de um filme. (Luiz)
+
+Task: Configurar tela de pesquisa de filmes para exibir prévia da avaliação dos filmes. (Lucas)
+
+Task: Criar tela para exibir avaliações e comentários de um filme. (Ramiro)
+
+### História 4:
+
+Task: Criar tela de histórico de avaliações. (Lucas)
+
+Task: Criar endpoint para o histórico de avaliações do usuário. (Luiz)
+
+## Versão revisada da backlog do sprint
+
+### História 1:
+
+Task: Instalar e configurar dependências do backend. (Lucas)
+
+Task: Instalar e configurar dependências do frontend. (Ramiro)
+
+Task: Criar banco de dados. (Vinicius)
+
+Task: Criar tabela de usuário. (Luiz)
+
+Task: Alterar usuário no BD para aceitar lista de 4 filmes favoritos, foto e biografia. (Vinicius)
+
+Task: Criar tela de perfil. (Lucas)
+
+Task: Criar tela de login. (Ramiro)
+
+Task: Criar tela de cadastro. (Ramiro)
+
+Task: Criar endpoints para login. (Lucas)
+
+Task: Criar endpoints para cadastro. (Vinicius)
+
+Task: Criar endpoint para o perfil público. (Vinicius)
+
+Task: Documentar endpoints relacionadas ao perfil. (Lucas)
+
+### História 2:
+
+Task: Criar endpoint para a busca de filmes com possibilidade de filtros. (Luiz)
+
+Task: Criar tabela de filmes. (Luiz)
+
+Task: Popular tabela de filmes. (Luiz)
+
+Task: Criar tela de pesquisa de filmes. (Ramiro)
+
+Task: Criar tela de sugestões de filme. (Ramiro)
+
+Task: Documentar endpoints para filmes. (Vinicius)
+
+### História 3:
+
+Task: Criar tabela para avaliação de filme. (Luiz)
+
+Task: Popular tabelas de avaliações de filme. (Vinicius)
+
+Task: Criar endpoint para receber avaliação de filme. (Vinicius)
+
+Task: Criar endpoint para retornar avaliações de um filme. (Luiz)
+
+Task: Criar endpoint para retornar prévia da avaliação de um filme. (Luiz)
+
+Task: Configurar tela de pesquisa de filmes para exibir prévia da avaliação dos filmes. (Lucas)
+
+Task: Criar tela para exibir avaliações e comentários de um filme. (Ramiro)
+
+Task: Documentar endpoints para avaliações. (Vinicius)
+
+### História 4:
+
+Task: Criar tela de histórico de avaliações. (Ramiro)
+
+Task: Criar tela de pesquisa de usuário. (Ramiro)
+
+Task: Criar endpoint para o histórico de avaliações do usuário. (Luiz)
+
+## Diagramas UML
+
+Diagrama de atividades para lógica de sugestões de filme:
+
+![UML atividades](UMLAtividadesSuggestion.png)
+
+Diagrama de pacotes geral do backend:
+
+![UML atividades](UMLPackage.jpg)
 
 ## Frontend
 [Frontend Flutter](https://github.com/Lucas-1048/CaixaDeLetrasFront)
