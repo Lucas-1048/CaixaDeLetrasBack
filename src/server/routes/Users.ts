@@ -47,4 +47,6 @@ router.get('/listReviews', [ Checks.checkQueryUsername, bodyValidation(Checks.pa
     
 router.get('/searchUser', [bodyValidation(Checks.searchUserValidation)], searchHandler.searchUser);
 
+router.get('/isFavorite/:idUser/:idMovie', [checkJwtToken, Checks.checkParamUserId, Checks.checkParamMovieId], accountHandler.isFavorite);
+
 export { router as usersRouter };

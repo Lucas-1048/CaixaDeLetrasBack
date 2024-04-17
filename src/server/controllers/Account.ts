@@ -167,8 +167,20 @@ const getReviews = async (req: Request, res: Response) => {
     }
 }
 
+const isFavorite = async (req: Request, res: Response) => {
+    const user = res.locals.user;
+    const movie = res.locals.movie;
+
+    if(user.favorites.includes(movie._id)) {
+        return res.status(StatusCodes.OK).json({ isFavorite: true });
+    }
+
+    return res.status(StatusCodes.OK).json({ isFavorite: false });
+}
+
 export const accountHandler = {
     getReviews,
+    isFavorite,
     getPrivateAccount,
     getPublicAccount,
     deleteAccount,
