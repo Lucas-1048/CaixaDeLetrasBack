@@ -210,6 +210,7 @@ describe("Delete methods", () => {
 
         res = httpMocks.createResponse();
         res.locals.user = user;
+        res.locals.movie = movie;
 
         const req2 = httpMocks.createRequest({
             query: {
