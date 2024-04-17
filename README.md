@@ -202,6 +202,14 @@ Task: Criar endpoint para o histórico de avaliações do usuário. (Luiz)
 
 ## Diagramas UML
 
+Diagrama de atividades para lógica de sugestões de filme:
+
+![UML atividades](UMLAtividadesSuggestion.png)
+
+Diagrama de pacotes geral do backend:
+
+![UML atividades](UMLPackage.png)
+
 ## Frontend
 [Frontend Flutter](https://github.com/Lucas-1048/CaixaDeLetrasFront)
 
