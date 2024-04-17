@@ -147,7 +147,7 @@ const getReviews = async (req: Request, res: Response) => {
             { $limit: Number(limit) },
             { $lookup: { from: 'movies', localField: 'movie', foreignField: '_id', as: 'movie' } },
             { $unwind: '$movie' },
-            { $project: { _id: 1, movie: { title: 1, thumbnail: 1 }, rating: 1, createdAt: 1 } }
+            { $project: { _id: 1, movie: { title: 1, thumbnail: 1 }, rating: 1, createdAt: 1, review: 1 } }
         ]);
 
         const resPage = { 
