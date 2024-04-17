@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { Request, Response } from "express";
 import { Review } from "../models/Review";
+import 'dotenv/config';
 
 const getPrivateAccount = async (_req: Request, res: Response) => {
     const user = res.locals.user;
@@ -29,6 +30,7 @@ const getPublicAccount = async (_req: Request, res: Response) => {
         gender: user.gender,
         biography: user.biography,
         favorites: user.favorites,
+        profilePicturePath: process.env.SERVER_IP + ":" + process.env.PORT + "/avatar?username=" + user.username
     });
 }
 
@@ -56,7 +58,7 @@ const setFavorite = async (_req: Request, res: Response) => {
     const movie = res.locals.movie;
 
     for(let i = 0; i < 4; i++) {
-        if(user.favorites[i] === undefined) {
+        if(user.favorites[i] == undefined) {
             user.favorites[i] = movie._id;
             user.markModified('favorites');
             break;
@@ -102,17 +104,19 @@ const updateFavorite = async (req: Request, res: Response) => {
 
 const removeFavorite = async (req: Request, res: Response) => {
     const user = res.locals.user;
-    const pos = parseInt(req.query.pos as string);
+    const movie = res.locals.movie;
 
-    if(pos >= 4 || pos < 0) {
-        return res.status(StatusCodes.BAD_REQUEST).json({ 
-            error: "Number must be an integer from 0 to 3" 
-        })
+    let pos = -1;
+
+    for (let i = 0; i < 4; i++) {
+        if (movie._id.equals(user.favorites[i])) {
+            pos = i;
+        }
     }
 
-    if(user.favorites[pos] === undefined) {
+    if (pos === -1) {
         return res.status(StatusCodes.BAD_REQUEST).json({
-            error: "Favorite does not exist"
+            error: "Movie is not a favorite"
         });
     }
 
@@ -138,15 +142,20 @@ const getReviews = async (req: Request, res: Response) => {
         const user = res.locals.user;
         const { page = 1, limit = 10 } = req.body;
 
-        const data = await Review.aggregate([
+        let data = await Review.aggregate([
             { $match: { user: user._id } },
             { $sort: { createdAt: -1 } },
             { $skip: (Number(page) - 1) * Number(limit) },
             { $limit: Number(limit) },
             { $lookup: { from: 'movies', localField: 'movie', foreignField: '_id', as: 'movie' } },
             { $unwind: '$movie' },
-            { $project: { _id: 1, movie: { title: 1, thumbnail: 1 }, rating: 1, createdAt: 1 } }
+            { $project: { _id: 1, movie: { title: 1, thumbnail: 1 }, rating: 1, createdAt: 1, review: 1 } }
         ]);
+
+        data = data.map((data) => {
+            data.profilePicturePath = process.env.SERVER_IP + ":" + process.env.PORT + "/avatar?username=" + data.username;
+            return data;
+        })
 
         const resPage = { 
             currentPage: Number(page),
@@ -160,8 +169,20 @@ const getReviews = async (req: Request, res: Response) => {
     }
 }
 
+const isFavorite = async (req: Request, res: Response) => {
+    const user = res.locals.user;
+    const movie = res.locals.movie;
+
+    if(user.favorites.includes(movie._id)) {
+        return res.status(StatusCodes.OK).json({ isFavorite: true });
+    }
+
+    return res.status(StatusCodes.OK).json({ isFavorite: false });
+}
+
 export const accountHandler = {
     getReviews,
+    isFavorite,
     getPrivateAccount,
     getPublicAccount,
     deleteAccount,

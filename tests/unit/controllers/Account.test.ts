@@ -8,6 +8,7 @@ import { pictureHandler } from '../../../src/server/controllers/Avatar';
 import { movies } from '../../validDocuments';
 import { Review } from '../../../src/server/models/Review';
 import { randomInt } from 'crypto';
+import 'dotenv/config';
 
 let dbHandler : any;
 let next : any;
@@ -108,7 +109,8 @@ describe ("Get methods", () => {
             username: user.username,
             gender: user.gender,
             biography: user.biography,
-            favorites: user.favorites
+            favorites: user.favorites,
+            profilePicturePath: process.env.SERVER_IP + ":" + process.env.PORT + "/avatar?username=" + user.username
         })
     });
 
@@ -208,6 +210,7 @@ describe("Delete methods", () => {
 
         res = httpMocks.createResponse();
         res.locals.user = user;
+        res.locals.movie = movie;
 
         const req2 = httpMocks.createRequest({
             query: {
