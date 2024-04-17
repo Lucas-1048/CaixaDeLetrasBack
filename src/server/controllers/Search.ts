@@ -2,14 +2,16 @@ import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { User } from '../models/User';
 import { Movie } from '../models/Movie';
+import 'dotenv/config';
+const ip = require("ip");
 
 const searchUser = async (req: Request, res: Response) => {
     try {
         const { username, page = 1, limit = 10 } = req.body;
         const query = { username: { $regex: username, $options: "iu" } };
 
-        const users = await User.find(query)
-            .select('_id username')
+        let users = await User.find(query)
+            .select('_id username profilePicturePath')
             .skip((Number(page) - 1) * Number(limit))
             .limit(Number(limit));
 
@@ -18,6 +20,11 @@ const searchUser = async (req: Request, res: Response) => {
             totalPages: Math.ceil((await User.find(query).countDocuments()) / Number(limit)),
             size: Number(users.length),
         };
+
+        users = users.map((user) => {
+            user.profilePicturePath = ip.address() + ":" + process.env.PORT + "/avatar?username=" + user.username;
+            return user;
+        })
 
         return res.status(StatusCodes.OK).json({ users, page: resPage });
 
